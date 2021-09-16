@@ -3,3 +3,13 @@
 **/~$*.pptx
 figures/*
 tables/*
+**/.DS_Store
+**/.Rhistory
+**/~$*.pptx
+figures/*
+tables/*
+html/data/
+html/figures/
+html/rdata/
+html/server_setup/
+**/*.RData
