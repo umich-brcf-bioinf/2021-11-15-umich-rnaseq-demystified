@@ -33,7 +33,7 @@
 <td></td>
 </tr>
 <tr>
-<td></td><td rowspan="2"><img src="./schedule_files/wayfinder-04.png" width="200"></td>
+<td></td><td rowspan="2"><img src="/images/wayfinder/wayfinder-04.png" width="200"></td>
 <td><a href="/html/Module02_QC.html">Quality Control</a></td>
 <td></td>
 </tr>
@@ -48,7 +48,7 @@
 <td></td>
 </tr>
 <tr>
-<td></td><td rowspan="2"><img src="./schedule_files/wayfinder-05.png" width="200"></td>
+<td></td><td rowspan="2"><img src="/images/wayfinder/wayfinder-05.png" width="200"></td>
 <td><a href="/html/Module03_Reference_Genomes.html">Reference Genomes</a></td>
 <td></td>
 </tr>
@@ -58,7 +58,7 @@
 <td></td>
 </tr>
 <tr>
-<td></td><td rowspan="2"><img src="./schedule_files/wayfinder-06.png" width="200"></td>
+<td></td><td rowspan="2"><img src="/images/wayfinder/wayfinder-06.png" width="200"></td>
 <td><a href="/html/Module05_MultiQC_and_Count_Matrix.html">MultiQC and Count Matrix</a></td>
 <td></td>
 </tr>
@@ -88,7 +88,7 @@
 <td></td>
 </tr>
 <tr>
-<td></td><td rowspan="3"><img src="./schedule_files/wayfinder-07.png" width="200"></td>
+<td></td><td rowspan="3"><img src="/images/wayfinder/wayfinder-07.png" width="200"></td>
 <td><a href="/html/Module06_DEAnalysisSetup.html">Introduction to DESeq2</a></td>
 <td></td>
 </tr>
@@ -109,11 +109,11 @@
 </tr>
 <tr>
 <td></td>
-<td><img src="./schedule_files/wayfinder-08.png" width="200"></td>
+<td><img src="/images/wayfinder/wayfinder-08.png" width="200"></td>
 <td><a href="/html/Module09_SampleQCViz.html">Sample Visualizations for QC</a></td>
 </tr>
 <tr>
-<td></td><td rowspan="2"><img src="./schedule_files/wayfinder-09.png" width="200"></td>
+<td></td><td rowspan="2"><img src="/images/wayfinder/wayfinder-09.png" width="200"></td>
 <td><a href="/html/Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a></td>
 <td></td>
 </tr>
