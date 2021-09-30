@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>index</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MultiQC.html">Optional: Cutadapt/MultiQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="rna-seq-demystified" class="section level1">
+<h1>RNA-seq Demystified</h1>
+<div id="setup-instructions" class="section level2">
+<h2><a href="setup_instructions">Setup instructions</a></h2>
+</div>
+<div id="slack-workspace" class="section level2">
+<h2><a href="https://umcoderspaces.slack.com">Slack workspace</a></h2>
+</div>
+<div id="schedule" class="section level2">
+<h2>Schedule</h2>
+<table>
+<thead>
+<tr>
+<th>
+Time
+</th>
+<th>
+Topic
+</th>
+<th>
+Details
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Day 1 : Travis (&amp; Chris)</strong>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+9:00
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module00_Introduction.html">Workshop Introduction</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+9:20
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module01_Warming_Up.html">Warming Up</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td rowspan="2">
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-04.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module02_QC.html">Quality Control</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module02optional_Cutadapt_MultiQC.html">Optional - Trimming and MultiQC</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+10:30
+</td>
+<td>
+<strong>Break</strong>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td rowspan="2">
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-05.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module03_Reference_Genomes.html">Reference Genomes</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module04_Alignment.html">Sequence Alignment and Gene Quantification with STAR/RSEM</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td rowspan="2">
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-06.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module05_MultiQC_and_Count_Matrix.html">MultiQC and Count Matrix</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module05optional_Additional_Details.html">Optional - Additional Information</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+1:00
+</td>
+<td>
+<strong>Day 1 concludes</strong>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+<strong>Day 2 : Dana (&amp; Chris)</strong>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+9:00
+</td>
+<td>
+Intro Day 2
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+9:10
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td rowspan="3">
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-07.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module07_DESeq2Init.html">DESeq2 Initialization</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+10:30
+</td>
+<td>
+<strong>Break</strong>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-08.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td rowspan="2">
+<img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-09.png" width="200">
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module11_DEVisualizations.html">DE Visualizations and output files</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module11X_BonusContent.html">Optional - Additional QC Visualizations</a>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td>
+12:45
+</td>
+<td>
+<a href="/2021-fall-umich-rnaseq-demystified/html/Module99_Wrap_up.html">Wrap-up</a>
+</td>
+<td>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
