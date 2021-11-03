@@ -38,7 +38,7 @@ Today we will proceed through key steps in a differential expression analysis, s
 
 To get started, let's get a sense of what approaches you already use to compare gene expression:    
 
-* If you've run a qPCR assay and enjoyed all the pippeting, put up a green 'check'. If you've run a qPCR assay and needed some time away from the multichannels, put up a red 'x' from the reaction panel. 
+* If you've run a qPCR assay and enjoyed all the pippeting, put up a green 'check'. If you've run a qPCR assay and needed some time away from the multichannels, put up a red 'x' from the reaction panel.
 * If cloning a gene reporter (ie: promoter + GFP), worked for you the first time, put up a green check. If you have a freezer box full of cloning attempts, put up a red 'x'.  
 * If you are ready to learn about bioinformatic tools for comparing gene expression, put up a green check. If you have some questions about the materials covered yesterday or covered in the webinar, put a red 'x'.  
 
@@ -75,12 +75,12 @@ A question we are frequently asked is "How many replicates do I need?" As mentio
 
 ![Image of technical, biological, and experimental contributors to gene expression, from HBC training materials](./images/de_variation.png)
 
-   
-The general goal of differential expression analysis to seperate the “interesting” biological contributions from the “uninteresting” technical or extraneous contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.  
+
+The general goal of differential expression analysis to separate the “interesting” biological contributions from the “uninteresting” technical or extraneous contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.  
 
 For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please review [A Beginner’s Guide to Analysis of RNA Sequencing Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and papers like this one by [Hart et al](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
 
-#### Sequencing depth recommendations 
+#### Sequencing depth recommendations
 
 
 A related aspect to consider for experimental design is how much sequencing depth should be generated per sample. This figure shared by Illumina in their technical talks is helpful to understand the relative importance of sequencing depth versus number of replicates.
@@ -92,8 +92,8 @@ Generally, for the human and mouse genomes, the general recommendation is 30-40 
 
 #### [Exercise]
 
-1) Post a question about differential expression analysis that we haven't addressed
-2) OR Add a reaction to your favorite question(s)
+1) Post a question to slack about differential expression analysis that we haven't addressed OR
+2) Add a reaction to your favorite question(s)
 
 ----
 
@@ -116,7 +116,7 @@ Next, use your unique name and the same password used yesterday to log-in to the
 
 ## Best practices for file organization
 
-As discussed in [Software Carpentry](https://umcarpentries.org/intro-curriculum-r/) and other forums, including a review by [Nobel, 2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424), file organization is an important part of reproducible research. 
+As discussed in [Software Carpentry](https://umcarpentries.org/intro-curriculum-r/) and other forums, including a review by [Nobel, 2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424), file organization is an important part of reproducible research.
 
 To follow best practices for file organization for bioinformatics/computational projects, we will need to make sure there are separate locations for:
 
@@ -128,10 +128,12 @@ Such as illustrated in this figure from the Noble review:
 
 ![](./images/Noble2009_dataprojects.png){width=75%}
 
-To organize our files for our analysis today we'll create a new folder, ideally in our home directory, using the 'New Folder' button on the right side of our screen & naming it `2021-08-09-umich-rnaseq-demystified`. Then we'll click to navigate into our new folder, and set our working directory using the drop down menu under the `More` icon. This can also be accomplished as code:
-
-```{r SetupDirectories, eval=FALSE, echo=TRUE}
+To organize our files for our analysis today, we'll create a new folder in our home directory and name it `2021-Nov-umich-rnaseq-demystified`:
+```{r SetupDirectories, echo=TRUE}
 dir.create("~/2021-08-09-umich-rnaseq-demystified", showWarnings = FALSE)
+```
+Then we'll set this our working directory:
+```{r SetWorkingDir, echo = TRUE}
 setwd("~/2021-08-09-umich-rnaseq-demystified")
 ```
 
@@ -139,20 +141,20 @@ Before moving forward, let's double check that we're in the right place.
 ```{r CheckDirectories, eval=FALSE}
 getwd()
 ```
-**Checkpoint**: *Please use the red 'x' button in your zoom reaction panel if you are not in your own '2021-08-09-umich-rnaseq-demystified' directory after executing the `getwd()` commands and the green 'check' if you see a similar path as I do*
+**Checkpoint**: *Please use the red 'x' button in your zoom reaction panel if you are not in your own '2021-Nov-umich-rnaseq-demystified' directory after executing the `getwd()` commands and the green 'check' if you see a similar path as I do*
 
 
 ## Creating our code file
 
-Next, we'll create a new code file, use the toolbar at the top of our window and click the icon that looks like white square with a small green plus symbol. From the drop down menu, select the first option named 'R Script'. 
+Next, we'll create a new code file, use the toolbar at the top of our window and click the icon that looks like white square with a small green plus symbol. From the drop down menu, select the first option named 'R Script'.
 
 **TODO: Add screen shot highlighting 'new file' button**
 
-A new window should pop up in your console. We'll then use the blue floppy disc icon save our 'Untitled1' file as "RNASeqAnalysis". 
+A new window should pop up in your console. We'll then use the blue floppy disc icon save our 'Untitled1' file as "RNASeqAnalysis.R".
 
 **TODO: Add screen shot highlighting 'save' button**
 
-This new "RNASeqAnalysis.R" will serve as a record of our analysis and should be saved in a separate location from our raw data, such as our current working directory of `2021-08-09-umich-rnaseq-demystified`. 
+This new "RNASeqAnalysis.R" will serve as a record of our analysis and should be saved in a separate location from our raw data, such as our current working directory of `2021-08-09-umich-rnaseq-demystified`.
 
 
 *Note: This code file can also serve as a starting point for working through differential expression comparisons with other example datasets or your own data in the future.*
@@ -246,9 +248,9 @@ Now that the file is read into R, note that we've created a data frame that incl
 
 #### [Exercise]
 
-If we think back to the RSEM outputs, the 'expected_counts' table may include fractions due to how the alignment tool resolves reads that map to multiple locuses). Since DESeq2 requires whole numbers, if we try to use the RSEM ouputs directly, DESeq2 will give us an error. 
+If we think back to the RSEM outputs, the 'expected_counts' table may include fractions due to how the alignment tool resolves reads that map to multiple locuses). Since DESeq2 requires whole numbers, if we try to use the RSEM ouputs directly, DESeq2 will give us an error.
 
-First let's check the count table in a different way, to see if our table includes fractions. 
+First let's check the count table in a different way, to see if our table includes fractions.
 ```{r RSEMoutput}
 tail(CountTable, n=2)
 ```
@@ -293,7 +295,7 @@ sessionInfo()
 ```
 
 
-Highly recommend using resources like [Bioconductor Support](https://support.bioconductor.org/), [Biostars](https://www.biostars.org/), and [Stack Overflow](https://stackoverflow.com/questions/tagged/r), including threads on specific packages or common bioinformatic tasks. 
+Highly recommend using resources like [Bioconductor Support](https://support.bioconductor.org/), [Biostars](https://www.biostars.org/), and [Stack Overflow](https://stackoverflow.com/questions/tagged/r), including threads on specific packages or common bioinformatic tasks.
 
 I personally use one or more of these resources **every day**.
 
