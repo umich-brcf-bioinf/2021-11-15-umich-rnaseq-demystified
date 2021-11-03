@@ -30,7 +30,7 @@ output:
 
 # Differential Expression Workflow
 
-Today we will proceed through key steps in a differential expression analysis, starting from a count table that's similar to what would have been generated on Day 1.
+Today we will proceed through key steps in a differential expression analysis, starting from a count table that's similar to what you generated in the first half of the workshop and similar to the one of the outputs included in the [data that the Advanced Genomics Core delivers](https://brcf.medicine.umich.edu/cores/advanced-genomics/data-delivery/) for RNA-seq libraries.
 
 ![](./images/wayfinder_00-0.png){width=95%}
 
@@ -38,19 +38,19 @@ Today we will proceed through key steps in a differential expression analysis, s
 
 To get started, let's get a sense of what approaches you already use to compare gene expression:    
 
-* If you've run a qPCR assay and enjoyed all the pippeting, put up a green 'check'. If you've run a qPCR assay and needed some time away from the multichannels, put up a red 'x' from the reaction panel.
-* If cloning a gene reporter (ie: promoter + GFP), worked for you the first time, put up a green check. If you have a freezer box full of cloning attempts, put up a red 'x'.  
-* If you are ready to learn about bioinformatic tools for comparing gene expression, put up a green check. If you have some questions about the materials covered yesterday or covered in the webinar, put a red 'x'.  
+* If you've run a qPCR assay and enjoyed all the pipetting, put up a green 'check'. If you've run a qPCR assay and needed some time away from the multichannels, put up a red 'x' from the reaction panel.    
+* If cloning a gene reporter construct (ie: promoter + GFP), worked for you the first time, put up a green check. If you have a freezer box full of cloning attempts, put up a red 'x'.    
+* If you are ready to learn about bioinformatic tools for comparing gene expression, put up a green check. If you have some questions that should be addressed before we get started, use the 'raise hand' reaction.    
 
 
 # Tools for Differential Gene Expression analysis
 
 As discussed during the webinar, a common application for bulk RNA-seq is to test for differential expression between conditions or treatments, using statistical approaches that are appropriate for biological data.
 
-While there are several tools that can be used for differential expression comparisons, we use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) in our analysis today. DESeq2 is one of two tools, along with [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression, as both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives.
+While there are several tools that can be used for differential expression comparisons, we will use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) in our analysis today. DESeq2 is one of two tools, along with [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression, as both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives.
 
 Additionally, `DESeq2` also has an
-[this excellent vignette](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) *click to open*
+[this excellent vignette](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) *click link to open*
 from Love, Anders, and Huber from which our workflow is partially adapted and is a good resource when analyzing your own data
 (see also: [Love, Anders, and Huber. _Genome Biology_. 2014.](https://doi.org/10.1186/s13059-014-0550-8)).
 
