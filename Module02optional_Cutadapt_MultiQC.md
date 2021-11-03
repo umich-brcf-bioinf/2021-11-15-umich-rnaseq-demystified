@@ -20,8 +20,6 @@ In this module we will learn:
 * about the cutadapt software and its uses
 * how to use the cutadapt tool for trimming adapters
 * how to trim all of our samples in a for-loop
-* about the MultiQC tool and its capabilities
-* how to run multiQC on a remote system
 
 # Differential Expression Workflow
 
@@ -46,7 +44,7 @@ Notably, cutadapt's error-tolerant adapter trimming likely contributed greatly t
 
 ## Cutadapt details
 
-Cutadapt's input and output files are simple to understand given its stated purpose. Both input and output are fastq files - the input being the fastq files that need processing, and output being the fastq files after they've been processed. Depending on the parameters chosen outputs will often have shorter read lengths due to trimming processes and fewer reads included in the file due to filtering.
+Cutadapt's input and output files are simple to understand given its stated purpose. Both input and output are fastq files - the input being the fastq files that need processing, and output being the fastq files after they've been processed. Depending on the parameters, chosen outputs often have shorter read lengths due to trimming processes and fewer total reads due to filtering.
 
 
     # Given the paired-end input files:
@@ -74,6 +72,27 @@ cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/sample_01_R1.trimmed.fas
 # View the output of cutadapt, (verify presence of output files and peek into the files)
 ```
 
+At this point, we've run cutadapt on one of our samples. We could construct a series of similar commands by altering the sample names. However, there's an easier way. For this, we'll use a bash variable.
+
+## Bash Variable Exercise
+
+1. Use a bash variable to echo "Hello, World!"
+2. Use a bash variable to echo "Hello, <Your Name>!"
+
+```
+noun=World
+echo "Hello, $noun!"
+noun=Travis
+echo "Hello, $noun!"
+```
+
+Now that we've learned the basics of bash variables and of running Cutadapt, let's try an exercise
+
+## Cutadapt All Samples Exercise (Breakout)
+
+1. View the help page, and construct a cutadapt command with a bash variable in it
+2. Use variable reassignment along with our command to trim all samples
+
 <details>
 <summary>Running cutadapt on all samples using a bash variable</summary>
 
@@ -81,11 +100,10 @@ cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/sample_01_R1.trimmed.fas
 
 </details>
 
-## Re-running FastQC
 
 Now that we've run cutadapt and trimmed the adapters from our reads, we will quickly re-run FastQC on these trimmed read FASTQs. This will confirm that we've successfully trimmed the adapters, and we'll see that our FASTQ files are ready for sequencing. Since we've discussed the FastQC input/output and functionality in the previous module, we'll go next to an exercise re-running FastQC on the trimmed read data
 
-Re-running FastQC Exercise:
+## Re-running FastQC Exercise:
 
 1. Construct and execute FastQC command to evaluate trimmed read FASTQ files
 2. View the output (filenames)
@@ -100,44 +118,8 @@ fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
 ls -l out_fastqc_trimmed
 ```
 
-
-# MultiQC
-
-FastQC is an excellent tool, but it can be tedious to look at the report for each sample separately, while keeping track of what trends emerge. It would be much easier to look at all the FastQC reports compiled into a single report. [MultiQC](https://multiqc.info/) is a tool that does exactly this.
-
-MultiQC is designed to interpret and aggregate reports from [various tools](https://multiqc.info/#supported-tools) and output a single report as an HTML document.
-
-## MultiQC Details
-
-MultiQC's main output is the report file in HTML format. This can be viewed in a web browser. Additionally, it creates a `data` directory with text files containing the data that MultiQC gathered during its execution - this same data is what is shown in the report.
-
-    # Given an output directory out_multiqc, we should see the following
-    # directory of multiqc data files
-    out_multiqc/multiqc_data/multiqc.log
-    out_multiqc/multiqc_data/multiqc_data.json
-    out_multiqc/multiqc_data/multiqc_fastqc.txt
-    out_multiqc/multiqc_data/multiqc_general_stats.txt
-    out_multiqc/multiqc_data/multiqc_sources.txt
-    # multiqc report
-    out_multiqc/multiqc_report.html
-
-
-## MultiQC Exercise
-
-1. View the multiQC help page
-2. Construct a MultiQC command to aggregate our QC results into a single report
-3. View the MultiQC report
-
-```
-# View MultiQC help page
-multiqc --help
-# Construct a MultiQC command
-multiqc --outdir out_multiqc_cutadapt out_fastqc_trimmed/
-```
-
-
 <details>
-<summary>Optional exercise - Transfer the MultiQC report to personal computer</summary>
+<summary>Optional exercise - Transfer a FastQC report to personal computer</summary>
 
 Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
 
@@ -145,7 +127,7 @@ scp command format, with the address for AWS remote
 
 ```
 # Usage: scp [source] [destination]
-scp <username>@bfx-workshop01.med.umich.edu:~/analysis/out_multiqc_cutadapt/multiqc_report.html ~/rsd-workshop/multiqc_cutadapt_report.html
+scp <username>@bfx-workshop01.med.umich.edu:~/analysis/out_fastqc_trimmed/sample_01_R1.trimmed_fastqc.html ~/rsd-workshop/
 ```
 
 </details>

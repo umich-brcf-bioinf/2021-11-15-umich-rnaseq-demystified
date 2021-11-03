@@ -17,8 +17,10 @@ output:
 
 In this module, we will learn:
 
-* how MultiQC gathers STAR alignment information, for QC purposes
-* how MultiQC presents the results of STAR alignment
+* about the MultiQC tool and its capabilities
+* how to run multiQC on a remote system
+* how MultiQC gathers information for QC purposes
+* how MultiQC presents the results of cutadapt trimming and STAR alignment
 * how to combine gene-level results into a count matrix
 
 # Differential Expression Workflow
@@ -75,9 +77,18 @@ After aligning reads it is often helpful to know how many reads were uniquely al
                             % of chimeric reads |	0.00%
 ```
 
-In a moment we will run `multiqc`, and it will detect these reports from STAR and include them in the report. When we run MultiQC, its main output is the report file in HTML format. This can be viewed in a web browser. Additionally, it creates a `data` directory with text files containing the data that MultiQC gathered during its execution - this same data is what is shown in the report.
+# MultiQC
 
-    # Given an output directory out_multiqc, we should see the following
+While the information is incredibly useful, it can be tedious to look at the report for each sample separately, while keeping track of what trends emerge. It would be much easier to look at all the data compiled into a single report. [MultiQC](https://multiqc.info/) is a tool that does exactly this.
+
+MultiQC is designed to interpret and aggregate reports from [various tools](https://multiqc.info/#supported-tools) and output a single report as an HTML document.
+
+## MultiQC Details
+
+MultiQC's main output is the report file in HTML format. This can be viewed in a web browser. Additionally, it creates a `data` directory with text files containing the data that MultiQC gathered during its execution - this same data is what is shown in the report.
+
+Given an output directory out_multiqc, we should see something like the following:
+
     # directory of multiqc data files
     out_multiqc/multiqc_data/multiqc.log
     out_multiqc/multiqc_data/multiqc_data.json
@@ -88,7 +99,9 @@ In a moment we will run `multiqc`, and it will detect these reports from STAR an
     out_multiqc/multiqc_report.html
 
 
-If we open the MultiQC report, the newly included STAR section will look something like the following:
+In a moment we will run `multiqc`, and it will detect these reports from STAR and include them in the report.
+
+If we then open the MultiQC report (HTML), the newly included STAR section will look something like the following:
 
 <center>
 
@@ -113,8 +126,30 @@ multiqc --outdir out_multiqc_rsem out_rsem/
 # Verify that the output files are present
 ```
 
+We just learned how to view all of our alignment results in one report with the help of MultiQC. MultiQC is also useful because it can utilize multiple separate modules to create summary figures of different steps in our pipeline.
+
+What would happen if we pointed multiQC at our trimmed read directory? What about if we point it to the entire analysis directory?
+
+## MultiQC Multiple Module Exercise (Breakout)
+
+1. Construct and run a MultiQC command to view the trimmed read results
+2. Construct and run a MultiQC command to view both the trimmed read and aligned read results
+3. (Optional) - Use scp to transfer a report from the AWS machine to your personal computer
+
 <details>
-<summary>Optional exercise - Transfer the MultiQC report to personal computer</summary>
+<summary>MultiQC with Different Modules</summary>
+
+```
+# A MultiQC command to analyze the trimmed read results
+multiqc --outdir out_multiqc_cutadapt out_trimmed/
+# A multiQC command for both trimmed and aligned read summary statistics
+multiqc --outdir out_multiqc_all  .
+```
+
+</details>
+
+<details>
+<summary>Optional exercise - Transfer a MultiQC report to personal computer</summary>
 
 Make sure you're running scp on your **local** computer, requesting a file from the **remote** computer we were just using.
 
