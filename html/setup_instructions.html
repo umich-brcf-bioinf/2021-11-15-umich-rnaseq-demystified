@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>setup_instructions</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MultiQC.html">Optional: Cutadapt/MultiQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="setup-instructions" class="section level1">
+<h1>Setup instructions</h1>
+<p>This document guides you through the installation of software necessary to participate in the workshop. To complete this setup, you will need:</p>
+<ul>
+<li>A Macintosh or Windows workstation connected to the internet.</li>
+<li>Two emails from the hosts
+<ol style="list-style-type: decimal">
+<li>An email invitation you to the workshop Slack workspace.</li>
+<li>An email containing your individual login and password for the shared workshop server</li>
+</ol></li>
+<li>About 10 minutes.</li>
+</ul>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<ul>
+<li>The workshop will be conducted over Zoom, Slack, Linux (first day), and R with RStudio (second day).</li>
+<li>Attendees will use their own workstation/laptop to participate in the workshop and access the server environment; the workstation/laptop should have a microphone, camera, and reliable internet access.</li>
+<li>The workshop will use Slack for group messaging. Messages posted to the general channel will be visible to all participants in the workshop.</li>
+<li>For simplicity, participants will log in to a pre-built server which has the necessary data, software, and configuration already installed.</li>
+<li>While not required, advanced users may elect to install some software locally; see <a href="setup_instructions_advanced">advanced setup instructions</a>.</li>
+</ul>
+<div id="how-to-get-help" class="section level3">
+<h3>How to get help</h3>
+<p>While we have endeavored to make this setup process work robust and comprehensive, installing bioinformatics software is tricky and we would be happy to lend a hand to get things working.</p>
+<ul>
+<li><p>If you have problems/questions, please don’t hesitate to email us at: <a href="mailto:bioinformatics-workshops@umich.edu">bioinformatics-workshops@umich.edu</a></p></li>
+<li><p>When emailing it will speed things along if you could include:</p>
+<ul>
+<li>Whether you are using Windows or Mac (and optionally which version of the OS you are using).</li>
+<li>Whether you have Administrative privileges on your workstation.</li>
+<li>The specific text of any error messages, if applicable.</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="steps-to-setup-for-the-workshop" class="section level2">
+<h2>Steps to Setup for the Workshop</h2>
+<ol style="list-style-type: decimal">
+<li><p><strong>Zoom</strong></p>
+<p>If you have not used Zoom before, please use the following link to install “Zoom client for Meetings”<br />
+<a href="https://zoom.us/download" class="uri">https://zoom.us/download</a></p>
+<ul>
+<li><p>Additional Zoom settings for Macintosh:</p>
+<p>1.1 To enable screen sharing (useful for breakout rooms and tech support)</p>
+<ul>
+<li>System Preferences &gt;&gt; Security &amp; Privacy: click on the Privacy tab</li>
+<li>Select <strong>Screen Recording</strong> on left tab</li>
+<li>Scroll to the bottom of the right tab and verify <strong>Zoom</strong> is checked.</li>
+</ul>
+<p>1.2. To enable remote control (useful for breakout rooms and tech support)</p>
+<ul>
+<li>System Preferences &gt;&gt; Security &amp; Privacy: click on the Privacy tab</li>
+<li>Select <strong>Accessibility</strong> on left tab</li>
+<li>Scroll to the bottom on the right tab and verify <strong>Zoom</strong> is checked.</li>
+<li>If it’s not checked, click the lower left lock icon and enter user password when prompted. You can now check Zoom in the right tab.</li>
+<li>Click the lock again.</li>
+</ul></li>
+</ul>
+<p>1.3. Close and relaunch Zoom client.</p></li>
+<li><p><strong>Slack</strong></p>
+<p>2.1. In the invitation from the hosts on the link to join the Slack workspace.</p>
+<p>2.2. Follow the Slack instructions to login or create an account. You may edit your profile to add a photo if you choose.</p>
+<p>2.3. Note that once your Slack account is established and you have accepted the Slack invite you can access the Slack channel by pointing your web browser here: <a href="https://umcoderspaces.slack.com" class="uri">https://umcoderspaces.slack.com</a></p></li>
+<li><p><strong>Launch a command window:</strong></p>
+<ul>
+<li><p>If you are using Windows:</p>
+<ul>
+<li><p>Press <strong>Windows Key + R</strong> to launch a command window.</p></li>
+<li><p>You will see a new command window containing something like this (your may have more text and the last line may look a bit different; that’s ok)</p></li>
+</ul>
+<p>~~~ Microsoft Windows [Version 10.0.17763.1935]</p>
+<ol start="3" style="list-style-type: lower-alpha">
+<li>2018 Microsoft Corporation. All rights reserved.</li>
+</ol>
+<p>H:&gt;</p></li>
+<li><p>If you are using a Mac:</p>
+<ul>
+<li><p>Macintosh OSX has a built in command window called <strong>Terminal</strong>. Press <strong>Command + Space</strong> to launch Spotlight. In the search field, type “Terminal” and double-click on the top result.</p></li>
+<li><p>You will see a new Terminal window containing something like this (your may have more text and the last line may look a bit different; that’s ok)</p>
+<p>~~~ Last login: Thu Dec 10 12:44:03 on ttys003<br />
+MacBook: ~ your_username$</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Login to the shared server</strong></p>
+<p>4.1. In the command window, type the following command, replacing the <strong>YOUR_USERNAME</strong> with the username supplied to you by the workshop hosts; hit <strong>Enter or Return</strong> to execute the command.</p>
+<p><em>Note: you can copy the command below to the clipboard and then right-click in the command window to paste.</em></p>
+<pre><code>   ssh YOUR_USERNAME@bfx-workshop01.med.umich.edu</code></pre>
+<p>4.2. The first time you run this command, you may see a prompt like the following; hit <strong>Enter/Return</strong> to continue.</p>
+<pre><code>The authenticity of host &#39;...&#39; can&#39;t be established.
+ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
+Are you sure you want to continue connecting (yes/no)? yes</code></pre>
+<p>The command will print a warning (e.g. Warning: Permanently added ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts). This is fine.</p>
+<p>4.3. When prompted, type the password supplied by the workshop hosts followed by <strong>Enter/Return</strong>. (Note that the password is case sensitive. Also note that the server will not echo any characters when you are typing your password; this is ok.)</p>
+<p>After successfully logging in, your command window should end looking something like this:</p>
+<pre><code>Welcome to RNA-Seq Demystified
+------------------------------
+(/rsd/conda/workshop) YOUR_USERNAME@ip:~$</code></pre></li>
+<li><p><strong>Launch R/RStudio in a web browser</strong></p></li>
+</ol>
+<p>5.1 Open the following web address: <a href="https://bfx-workshop01.med.umich.edu/" class="uri">https://bfx-workshop01.med.umich.edu/</a></p>
+<p>5.2 When prompted, enter the username and password supplied by your hosts and click <strong>Sign In</strong>. (Same username and password as the step above.)</p>
+<p>You should see a new webpage that looks like something like this:</p>
+<div class="figure">
+<img src="images/setup_instructions_rstudio.png" alt="" />
+<p class="caption">RStudio initial screen</p>
+</div>
+<p>If you see a screen like that above, you have successfully logged into RStudio.</p>
+</div>
+<div id="congratulations" class="section level2">
+<h2>Congratulations</h2>
+<p>Your workstation and logins are ready for the workshop; thank you for taking time to set this up in advance.</p>
+<ul>
+<li>You can close the command window by typing <strong>exit</strong> <Return/Enter> or simply closing the window.</li>
+<li>You can close your RStudio session by clicking the small orange “power” button in the top-right corner (highlighted in the picture above by a red arrow). The webpage will announce <strong>R Session Ended</strong>; you may now close the web page.</li>
+</ul>
+<div id="a-note-on-the-shared-compute-environment" class="section level4">
+<h4>A note on the shared compute environment</h4>
+<p>Please note that this environment is optimized for the exercises in this particular workshop but is likely unsuitable for analyzing your own datasets. In particular: - It is not sized for compute intensive operations or large storage. - It is not secured for sensitive data of any kind. - This environment is temporary and will be removed shortly after the conclusion of the workshop.</p>
+<p>If you had problems and problems or questions about the installation steps please see the <strong><a href="#how-to-get-help">How to get help</a></strong> section above for more assistance.</p>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

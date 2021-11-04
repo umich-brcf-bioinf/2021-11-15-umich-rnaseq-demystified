@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>setup_instructions_advanced</title>
+
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MultiQC.html">Optional: Cutadapt/MultiQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+
+</div>
+
+
+<div id="advanced-setup-instructions" class="section level1">
+<h1>Advanced setup instructions</h1>
+<ul>
+<li><p>The steps below are oriented toward advanced users who would like to install and configure select software on their local workstation. These steps are not necessary or recommended, but may provide context for advanced use-cases.</p></li>
+<li><p>These instructions build on the install detailed in the <a href="setup_instructions.md">basic setup instructions</a>; please see that document for more details on setting up Zoom, Slack, and also for getting help.</p></li>
+<li><p>Note that you do not have Administrative privileges it will be tricky to install R/RStudio; you may need to coordinate with your System Admin/IT Support team to get these installed.</p>
+<h4 id="table-of-contents">Table of Contents</h4>
+<ul>
+<li><a href="#windows-setup">Windows setup</a>
+<ul>
+<li>Git-Bash</li>
+<li>Installing R/RStudio</li>
+<li>Notes</li>
+</ul></li>
+<li><a href="#macintosh-setup">Macintosh setup</a>
+<ul>
+<li>Terminal</li>
+<li>Installing R/RStudio</li>
+<li>Notes</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="windows-setup" class="section level2">
+<h2>Windows setup</h2>
+<div id="windows-powershell-git-bash" class="section level3">
+<h3>Windows PowerShell / git-bash</h3>
+<p>Git-bash and Windows Subsystem for Linux (WSL) are programs that enable you to connect to our workshop Linux environment. WSL is a powerful option, but can be difficult to install/configure. If you have WSL installed and you are comfortable using it, you can use that and skip to the next section.</p>
+<ol style="list-style-type: decimal">
+<li><p>To download git-bash, in a web browser, go to: <a href="https://git-scm.com/downloads" class="uri">https://git-scm.com/downloads</a> and click on <strong>Windows</strong>. Save and open the executable file to launch the installer.</p></li>
+<li><p>The git-bash installer presents <em>many</em> options; repeatedly click <strong>Next</strong> to simply accept all the default options. At the end of this series of questions, you can click <strong>Install</strong>.</p></li>
+<li><p>The installer will show a progress bar; this should take less than a minute. <em>Note: you may see a warning towards the end “Unable to run post-install scripts; no output?”; this will not impact your installation and you can ignore it by clicking <strong>Ok</strong>.</em></p></li>
+<li><p>On the final screen (Completing the Git Setup Wizard) you can uncheck <strong>View Release Notes</strong> option and click <strong>Finish</strong>. The installer will close.</p></li>
+<li><p>To launch git-bash, from Start Menu, select “Git Bash”; this will create a new window with a command prompt that looks something like this:</p></li>
+</ol>
+<ul>
+<li>your_username@WSRTS001 MINGW64 ~ $</li>
+</ul>
+<p>If you can’t install or launch git-bash, or if it returns an unexpected result, please see <a href="#how-to-get-help"><strong>How to get help</strong></a> for more assistance.</p>
+</div>
+<div id="installing-rrstudio-windows" class="section level3">
+<h3>Installing R/RStudio (Windows)</h3>
+<ol style="list-style-type: decimal">
+<li><p>RStudio depends on the R programming environment, so we have to install that first. In a web browser, open: <a href="https://cran.rstudio.com/bin/windows/base/" class="uri">https://cran.rstudio.com/bin/windows/base/</a> and click “Download R 4.0.3 for Windows” (the version may be slightly different). Open the downloaded executable to launch the R installer.</p></li>
+<li><p>The installer will walk through several options; accept all the defaults (by repeatedly clicking <strong>Next</strong>) and when prompted, click <strong>Install</strong>. The installer will show a progress bar; the process takes about 2 minutes; click <strong>Finish</strong> when prompted to close the installer.</p></li>
+<li><p>To install RStudio, in a web-browser, open: <a href="https://rstudio.com/products/rstudio/download/#download" class="uri">https://rstudio.com/products/rstudio/download/#download</a> and click on <strong>Download RStudio Desktop for Windows</strong>. Open the downloaded executable to launch the installer.</p></li>
+<li><p>The installer will either prompt you to login as an Admin user or (if your current account has Admin privileges) simply ask you to allow it to make changes. Click <strong>Yes</strong></p></li>
+<li><p>The installer will walk through several options; accept all the defaults (by repeatedly clicking <strong>Next</strong>) and when prompted, click <strong>Install</strong>. The installer will show a progress bar; the process takes less than one minute; click <strong>Finish</strong> when prompted to close the installer.</p></li>
+<li><p>Press Windows+R keys to open the <strong>Run</strong> dialog; type <strong>“RStudio”</strong> in the text box and hit enter. This will launch a new RStudio window. The RStudio window is divided into several panes. The lower left pane shows the <strong>Console</strong> tab and will show some text followed by a command prompt (&gt;):</p></li>
+</ol>
+<blockquote>
+<p>R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"<br />
+Copyright (C) 2020 The R Foundation for Statistical Computing<br />
+Platform: x86_64-w64-mingw32/x64 (64-bit)<br />
+<br />
+R is free software and comes with ABSOLUTELY NO WARRANTY.<br />
+You are welcome to redistribute it under certain conditions.<br />
+Type 'license()' or 'licence()' for distribution details.<br />
+<br />
+Natural language support but running in an English locale<br />
+<br />
+R is a collaborative project with many contributors.<br />
+Type 'contributors()' for more information and<br />
+'citation()' on how to cite R or R packages in publications.<br />
+<br />
+Type 'demo()' for some demos, 'help()' for on-line help, or<br />
+'help.start()' for an HTML browser interface to help.<br />
+Type 'q()' to quit R.<br />
+<br />
+&gt;</p>
+</blockquote>
+<ol start="7" style="list-style-type: decimal">
+<li>The workshop exercises requires the installation of special R libraries. To install them into RStudio, copy the block of text below, paste into the RStudio <strong>Console</strong> tab, and press <strong>Enter</strong> to execute. <em>(Note: These installations automatically trigger the installation of a litany of dependent libraries so you will see repeated progress bars and code flying by in the Console window. This step takes about 15 minutes, so now is a good time to get coffee/tea while RStudio cooks.)</em></li>
+</ol>
+<blockquote>
+<p>install.packages("tidyr")<br />
+install.packages("ggplot2")<br />
+install.packages("pheatmap")<br />
+install.packages("ggrepel")<br />
+install.packages("formattable")<br />
+install.packages("RColorBrewer")<br />
+install.packages("matrixStats")<br />
+install.packages("dplyr")<br />
+if (!requireNamespace("BiocManager", quietly = TRUE))<br />
+install.packages("BiocManager")<br />
+BiocManager::install("biomaRt", ask=FALSE)<br />
+BiocManager::install("DESeq2", ask=FALSE)<br />
+missing &lt;- setdiff(c("tidyr", "ggplot2", "pheatmap", "ggrepel", "formattable", "RColorBrewer", "matrixStats", "dplyr", "biomaRt", "DESeq2"), rownames(installed.packages()))<br />
+if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} else {cat("PROBLEM: could not install:", missing, "\n")}</p>
+</blockquote>
+<ol start="8" style="list-style-type: decimal">
+<li><p>The Console output should conclude with the text:<br />
+<strong>Ready for Computational Foundations workshop</strong>.</p></li>
+<li><p>Press <strong>Control-Q</strong> close RStudio; when prompted to <em>Save workspace image…</em>, click <strong>Don’t Save</strong>.</p></li>
+</ol>
+<div id="your-windows-workstation-is-ready-for-the-workshop.-thank-you-for-your-patience-and-fortitude." class="section level4">
+<h4>Your Windows workstation is ready for the workshop. Thank you for your patience and fortitude.</h4>
+</div>
+</div>
+<div id="notes-windows" class="section level3">
+<h3>Notes (Windows)</h3>
+<ul>
+<li>Following the workshop, you can remove any of Git-bash, R and RStudio. As an Admin user, go Start &gt; Settings &gt; Apps &amp; Features. Click on the program to remove and click Uninstall.</li>
+</ul>
+</div>
+</div>
+<div id="macintosh-setup" class="section level2">
+<h2>Macintosh setup</h2>
+<div id="terminal" class="section level3">
+<h3>Terminal</h3>
+<ol style="list-style-type: decimal">
+<li><p>Macintosh has a built in command window called Terminal. Press Command + Space to launch Spotlight. In the search field, type “Terminal” and double-click on the top result.</p>
+<p>You will see a new Terminal window containing something like this (your may have more text and the last line may look a bit different; that’s ok)</p></li>
+</ol>
+<blockquote>
+<p>Last login: Thu Dec 10 12:44:03 on ttys003<br />
+MacBook: ~ your_username$</p>
+</blockquote>
+<ol start="2" style="list-style-type: decimal">
+<li>At the command prompt, type <strong>date</strong> and press <strong>Return</strong>. The Terminal should print the current date and time.</li>
+</ol>
+</div>
+<div id="installing-rrstudio-macintosh" class="section level3">
+<h3>Installing R/RStudio (Macintosh)</h3>
+<ol style="list-style-type: decimal">
+<li>RStudio depends on the R programming environment, so we have to install that first. In a web browser, open:</li>
+</ol>
+<ul>
+<li><p><a href="https://cran.rstudio.com/bin/macosx/" class="uri">https://cran.rstudio.com/bin/macosx/</a></p>
+<p>and click the link “R-4.0.3.pkg” (the version may be slightly different). Open the downloaded executable to launch the R installer.</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li><p>The installer will walk through several options; accept all the defaults (by repeatedly clicking <strong>Continue</strong>) and when prompted, click <strong>Install</strong>. The installer will prompt you to confirm your username/password. The installer will show a progress bar; the process takes about 1 minutes; click <strong>Finish</strong> when prompted to close the installer.</p></li>
+<li><p>To install RStudio, in a web-browser, open:</p></li>
+</ol>
+<ul>
+<li><a href="https://rstudio.com/products/rstudio/download/#download" class="uri">https://rstudio.com/products/rstudio/download/#download</a> and click on <strong>Download RStudio Desktop for Mac</strong>.</li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Opening the downloaded executable opens a window with “RStudio” and your Applications folder icons. Drag the RStudio into the Applications folder. (If you see a dialog that claims RStudio already exists, click <strong>Keep Both</strong>.) The installer will prompt you to confirm your username/password.</p></li>
+<li><p>The installer will walk through several options; accept all the defaults (by repeatedly clicking <strong>Next</strong>) and when prompted, click <strong>Install</strong>. The installer will show a progress bar; the process takes less than one minute.</p></li>
+<li><p>When completed, open the Applications folder and double-click on the RStudio application. You will see a dialog “<em>RStudio.app is an app downloaded from Internet. Are you sure you want to open it?</em>” Click <strong>Open</strong>. This will launch a new RStudio window. The RStudio window is divided into several panes. The lower left pane shows the <strong>Console</strong> tab and will show some text followed by a command prompt (&gt;):</p></li>
+</ol>
+<blockquote>
+<p>R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"<br />
+Copyright (C) 2020 The R Foundation for Statistical Computing<br />
+Platform: x86_64-apple-darwin17.0 (64-bit)<br />
+<br />
+R is free software and comes with ABSOLUTELY NO WARRANTY.<br />
+You are welcome to redistribute it under certain conditions.<br />
+Type 'license()' or 'licence()' for distribution details.<br />
+<br />
+Natural language support but running in an English locale<br />
+<br />
+R is a collaborative project with many contributors.<br />
+Type 'contributors()' for more information and<br />
+'citation()' on how to cite R or R packages in publications.<br />
+<br />
+Type 'demo()' for some demos, 'help()' for on-line help, or<br />
+'help.start()' for an HTML browser interface to help.<br />
+Type 'q()' to quit R.<br />
+<br />
+&gt;</p>
+</blockquote>
+<ol start="7" style="list-style-type: decimal">
+<li>The workshop exercises require the installation of special R libraries. To install them into RStudio, copy the block of text below, paste into the RStudio <strong>Console</strong> tab, and press <strong>Enter</strong> to execute. <em>(Note: These installations automatically trigger the installation of a litany of dependent libraries so you may see repeated progress bars and lots of code flying by in the Console window. This step takes about 15 minutes, so now is a good time to get coffee/tea while RStudio cooks.)</em></li>
+</ol>
+<blockquote>
+<p>install.packages("tidyr")<br />
+install.packages("ggplot2")<br />
+install.packages("pheatmap")<br />
+install.packages("ggrepel")<br />
+install.packages("formattable")<br />
+install.packages("RColorBrewer")<br />
+install.packages("matrixStats")<br />
+install.packages("dplyr")<br />
+if (!requireNamespace("BiocManager", quietly = TRUE))<br />
+install.packages("BiocManager")<br />
+BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)<br />
+missing &lt;- setdiff(c("tidyr", "ggplot2", "pheatmap", "ggrepel", "formattable", "RColorBrewer", "matrixStats", "dplyr", "biomaRt", "DESeq2"), rownames(installed.packages()))<br />
+if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} else {cat("PROBLEM: could not install:", missing, "\n")}</p>
+</blockquote>
+<ol start="8" style="list-style-type: decimal">
+<li><p>The Console output should conclude with the text <strong>Ready for Computational Foundations workshop</strong></p></li>
+<li><p>Press <strong>Command-Q</strong> close RStudio; when prompted to <em>Save workspace image…</em>, click <strong>Don’t Save</strong>.</p></li>
+</ol>
+<div id="your-macintosh-workstation-is-ready-for-the-workshop.-thank-you-for-your-patience-and-fortitude." class="section level4">
+<h4>Your Macintosh workstation is ready for the workshop. Thank you for your patience and fortitude.</h4>
+</div>
+</div>
+<div id="notes-macintosh" class="section level3">
+<h3>Notes (Macintosh)</h3>
+<ul>
+<li>Following the workshop, you can remove any of R and RStudio. Open your Applications directory, and drag the R or RStudio application into the Trash.</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

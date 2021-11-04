@@ -1,6 +1,10 @@
 library(rmarkdown)
 
 render_site('index.md')
+render_site('preworkshop_checklist.md')
+render_site('setup_instructions.md')
+render_site('setup_instructions_advanced.md')
+
 render_site('Module00_Introduction.md')
 
 render_site('Module01_Warming_Up.md')
