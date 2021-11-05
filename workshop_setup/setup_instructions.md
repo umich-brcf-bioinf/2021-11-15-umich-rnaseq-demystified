@@ -89,7 +89,7 @@ be happy to lend a hand to get things working.
 
 ### **Slack**
 
-   2.1. In the invitation from the hosts on the link to join the Slack workspace.
+   2.1. In the Slack email invitation from the hosts, click the link to join the Slack workspace.
 
    2.2. Follow the Slack instructions to login or create an account. You may
       edit your profile to add a photo if you choose.
