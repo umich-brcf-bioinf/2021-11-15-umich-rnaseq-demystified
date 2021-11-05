@@ -19,7 +19,7 @@ body{ /* Normal  */
 <br/>
 
 1. Follow this link for <a href="setup_instructions.html" target="_blank">instructions to set up your computer</a><br/>
-A separate email with the subject **"RNA-Seq Demystified workshop login"** will detail your individual username and password to access the shared server. (Note that this email is sometimes flagged as spam, so if you don't see it in your Inbox please check your spam folder.)
+A separate email with the subject **"RNA-Seq Demystified workshop setup"** will detail your individual username and password to access the shared server. (Note that this email is sometimes flagged as spam, so if you don't see it in your Inbox please check your spam folder.)
 
 2. Join the UM Coderspaces Slack channel<br/>
 You will receive an email invite soon; please accept that to set up your Slack account.

@@ -23,8 +23,9 @@ to participate in the workshop. To complete
 this setup, you will need:
 
 -   A Macintosh or Windows workstation connected to the internet.
--   An email invitation you to the workshop Slack workspace.
--   An email containing your individual login and password for the shared workshop server
+-   An email invitation to the workshop Slack workspace.
+-   An email titled **"RNA-Seq Demystified workshop setup"** containing your 
+    individual login and password for the shared workshop server
 -   About 10 minutes.
 
 
