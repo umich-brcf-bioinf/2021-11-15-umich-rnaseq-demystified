@@ -1,5 +1,22 @@
-# Preparing for RNA-Seq Demystified workshop
+---
+title: "Preparing for the RNA-Seq Demystified workshop"
+author: "UM Bioinformatics Core Workshop Team"
+output:
+        html_document:
+            theme: paper
+            toc: false
+            number_sections: false
+            fig_caption: false
+            markdown: GFM
+            code_download: false
+---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+</style>
 
+<br/>
 
 1. Follow this link for [instructions to set up your computer](https://umich-brcf-bioinf.github.io/2021-fall-umich-rnaseq-demystified/setup_instructions)<br/>
 A separate email with the subject **"RNA-Seq Demystified workshop login"** will detail your individual username and password to access the shared server. (Note that this email is sometimes flagged as spam, so if you don't see it in your Inbox please check your spam folder.)
@@ -20,5 +37,5 @@ For a primer on key ideas/techniques, review notes from a recent UM Carpentries 
 
 We are looking forward to seeing you in the workshop. Please let us know if you have any questions.<br/><br/>
 
-The Bioinformatics Workshop Team<br/>
+The Bioinformatics Core Workshop Team<br/>
 [bioinformatics-workshops@umich.edu](mailto:bioinformatics-workshops@umich.edu)
