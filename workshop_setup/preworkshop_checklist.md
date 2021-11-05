@@ -18,7 +18,7 @@ body{ /* Normal  */
 
 <br/>
 
-1. Follow this link for [instructions to set up your computer](https://umich-brcf-bioinf.github.io/2021-fall-umich-rnaseq-demystified/setup_instructions)<br/>
+1. Follow this link for [instructions to set up your computer](setup_instructions.html)<br/>
 A separate email with the subject **"RNA-Seq Demystified workshop login"** will detail your individual username and password to access the shared server. (Note that this email is sometimes flagged as spam, so if you don't see it in your Inbox please check your spam folder.)
 
 2. Join the UM Coderspaces Slack channel<br/>
