@@ -1,14 +1,27 @@
-# Advanced setup instructions
+---
+title: "RNA-Seq Demystified: Advanced setup instructions"
+author: "UM Bioinformatics Core Workshop Team"
+output:
+        html_document:
+            theme: paper
+            toc: true
+            toc_depth: 6
+            toc_float: true
+            number_sections: false
+            fig_caption: false
+            markdown: GFM
+            code_download: false
+---
 
 - The steps below are oriented toward advanced users who would like to install
   and configure select software on their local workstation. These steps are not
   necessary or recommended, but may provide context for advanced use-cases.
 
 - These instructions build on the install detailed in the [basic setup
-  instructions](setup_instructions.md); please see that document for more
+  instructions](setup_instructions.html); please see that document for more
   details on setting up Zoom, Slack, and also for getting help.
 
-- Note that you do not have Administrative privileges it will be tricky
+- Note that if you do not have Administrative privileges it will be tricky
   to install R/RStudio; you may need to coordinate with your
   System Admin/IT Support team to get these installed.
 

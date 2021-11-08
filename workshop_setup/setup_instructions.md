@@ -1,13 +1,31 @@
-# Setup instructions
+---
+title: "RNA-Seq Demystified: Setup instructions"
+author: "UM Bioinformatics Core Workshop Team"
+output:
+        html_document:
+            theme: paper
+            toc: true
+            toc_depth: 6
+            toc_float: true
+            number_sections: false
+            fig_caption: false
+            markdown: GFM
+            code_download: false
+---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+</style>
 
 This document guides you through the installation of software necessary
 to participate in the workshop. To complete
 this setup, you will need:
 
 -   A Macintosh or Windows workstation connected to the internet.
--   Two emails from the hosts
-    1. An email invitation you to the workshop Slack workspace.
-    2. An email containing your individual login and password for the shared workshop server
+-   An email invitation to the workshop Slack workspace.
+-   An email titled **"RNA-Seq Demystified workshop setup"** containing your 
+    individual login and password for the shared workshop server
 -   About 10 minutes.
 
 
@@ -22,10 +40,10 @@ this setup, you will need:
     general channel will be visible to all participants in the workshop.
 -   For simplicity, participants will log in to a pre-built server which
     has the necessary data, software, and configuration already installed.
--   While not required, advanced users may elect to install some software
-    locally; see [advanced setup instructions](setup_instructions_advanced).
+-   While not required or recommended, advanced users may elect to install some software
+    locally; see [advanced setup instructions](setup_instructions_advanced.html).
 
-### How to get help
+## How to get help
 
 While we have endeavored to make this setup process work robust and
 comprehensive, installing bioinformatics software is tricky and we would
@@ -41,9 +59,9 @@ be happy to lend a hand to get things working.
     -   Whether you have Administrative privileges on your workstation.
     -   The specific text of any error messages, if applicable.
 
-## Steps to Setup for the Workshop
+## Setup steps
 
-1. **Zoom**
+### **Zoom**
 
    If you have not used Zoom before, please use the following link to
    install "Zoom client for Meetings"\
@@ -67,11 +85,11 @@ be happy to lend a hand to get things working.
             right tab.
         - Click the lock again.
 
-    1.3.  Close and relaunch Zoom client.
+      1.3.  Close and relaunch Zoom client.
 
-2. **Slack**
+### **Slack**
 
-   2.1. In the invitation from the hosts on the link to join the Slack workspace.
+   2.1. In the Slack email invitation from the hosts, click the link to join the Slack workspace.
 
    2.2. Follow the Slack instructions to login or create an account. You may
       edit your profile to add a photo if you choose.
@@ -80,7 +98,7 @@ be happy to lend a hand to get things working.
       Slack invite you can access the Slack channel by pointing your web browser
       here: https://umcoderspaces.slack.com
 
-3. **Launch a command window:**
+### **Launch a command window**
 
    - If you are using Windows:
 
@@ -90,12 +108,13 @@ be happy to lend a hand to get things working.
      (your may have more text and the last line may look a bit different;
      that's ok)
 
-      ~~~
-      Microsoft Windows [Version 10.0.17763.1935]
-     (c) 2018 Microsoft Corporation. All rights reserved.
-
-      H:\>
-
+        ```
+        Microsoft Windows [Version 10.0.17763.1935]
+       (c) 2018 Microsoft Corporation. All rights reserved.
+  
+        H:\>
+        ```
+    
    - If you are using a Mac:
 
      - Macintosh OSX has a built in command window called **Terminal**. Press
@@ -106,30 +125,31 @@ be happy to lend a hand to get things working.
        (your may have more text and the last line may look a bit different;
        that's ok)
 
-       ~~~
+       ```
        Last login: Thu Dec 10 12:44:03 on ttys003\
        MacBook: \~ your_username\$
+       ```
 
-4. **Login to the shared server**
+### **Login to the shared server**
 
    4.1. In the command window, type the following
       command, replacing the **YOUR_USERNAME** with the username supplied to you by
-      the workshop hosts; hit **Enter or Return** to execute the command.
+      the workshop hosts; hit **Enter or Return** to execute the command.<br/>
+      *Note: you can copy the command below to the clipboard and then
+      right-click in the command window to paste.*
 
-      _Note: you can copy the command below to the clipboard and then
-      right-click in the command window to paste._
+        ssh YOUR_USERNAME@bfx-workshop01.med.umich.edu
 
-          ssh YOUR_USERNAME@bfx-workshop01.med.umich.edu
-
+  
    4.2. The first time you run this command, you may see a prompt like the
    following; hit **Enter/Return** to continue.
 
-       The authenticity of host '...' can't be established.
-       ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
-       Are you sure you want to continue connecting (yes/no)? yes
+      The authenticity of host '...' can't be established.
+      ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
+      Are you sure you want to continue connecting (yes/no)? yes
 
-     The command will print a warning (e.g. Warning: Permanently added
-     ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts). This is fine.
+   The command will print a warning (e.g. `Warning: Permanently added
+   ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts`). This is fine.
 
    4.3. When prompted,  type the password supplied by the workshop hosts followed
    by **Enter/Return**. (Note that the password is case sensitive. Also note that the server will not echo any characters when you are typing your password; this is ok.)
@@ -140,7 +160,7 @@ be happy to lend a hand to get things working.
        ------------------------------
        (/rsd/conda/workshop) YOUR_USERNAME@ip:~$
 
-5. **Launch R/RStudio in a web browser**
+### **Launch R/RStudio (from the web)**
 
   5.1 Open the following web address: <https://bfx-workshop01.med.umich.edu/>
 
@@ -163,7 +183,7 @@ Your workstation and logins are ready for the workshop; thank you for
      arrow).  The webpage will announce **R Session Ended**; you may now close
      the web page.
 
-#### A note on the shared compute environment
+### A note on the shared compute environment
 
 Please note that this environment is optimized for the exercises in this
 particular workshop but is likely unsuitable for analyzing your own
