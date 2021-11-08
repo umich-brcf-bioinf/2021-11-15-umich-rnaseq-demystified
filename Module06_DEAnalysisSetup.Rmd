@@ -47,11 +47,13 @@ To get started, let's get a sense of what approaches you already use to compare 
 
 As discussed during the webinar, a common application for bulk RNA-seq is to test for differential expression between conditions or treatments, using statistical approaches that are appropriate for biological data.
 
-While there are several tools that can be used for differential expression comparisons, we will use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) in our analysis today. DESeq2 is one of two tools, along with [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression, as both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives.
+While there are several tools that can be used for differential expression comparisons, we will use [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) in our analysis today.
+
+DESeq2 is one of two tools, along with [EdgeR](https://bioconductor.org/packages/release/bioc/html/edgeR.html), considered ['best practice'](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-91) for differential expression. Both tools apply similar methods that account for the distributions we expect to see for RNA-seq and are fairly stringent in calling differentially expressed genes, lowering the risk of investigating genes that were really false positives (e.g. don't really have different expression between treatment groups and therefore are not relevant to the biological process).
 
 Additionally, `DESeq2` also has an
-[this excellent vignette](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) *click link to open*
-from Love, Anders, and Huber from which our workflow is partially adapted and is a good resource when analyzing your own data
+[excellent vignette](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) *click link to open*
+from Love, Anders, and Huber, from which our workflow is partially adapted, and is a good resource when analyzing your own data
 (see also: [Love, Anders, and Huber. _Genome Biology_. 2014.](https://doi.org/10.1186/s13059-014-0550-8)).
 
 
@@ -63,32 +65,33 @@ from Love, Anders, and Huber from which our workflow is partially adapted and is
 
 ## DESeq2 assumptions and requirements
 
-A key assumption is that for most experiments biological variance is much greater than technical variance, especially if [best practices](https://www.txgen.tamu.edu/faq/rna-isolation-best-practices/) for [quality RNA isolation](https://www.biocompare.com/Bench-Tips/128790-Four-Tips-for-Perfecting-RNA-Isolation/) are followed (including DNase treatment!).
+A key assumption of DESeq2 is that for most experiments *biological variance is much greater than technical variance* (especially if [best practices](https://www.txgen.tamu.edu/faq/rna-isolation-best-practices/) for [quality RNA isolation](https://www.biocompare.com/Bench-Tips/128790-Four-Tips-for-Perfecting-RNA-Isolation/) are followed, including DNase treatment!).
 
 
-Since variance is key to the statistical approach used for DESeq2, if you try to compare treatment groups with less than **two** replicates, DESeq2 will give you an error, as shown in [this blog post](https://support.bioconductor.org/p/89746/). Without replicates, statistical significance (i.e. p-values) cannot be calculated, but qualitative approaches like looking at the top expressed genes after normalization are an option.
+Since calculating variance is key to the statistical approach used for DESeq2, if we tried to compare two treatment groups with less than **two** replicates, we would get an error, as shown in [this blog post](https://support.bioconductor.org/p/89746/). Without replicates, there cant't be statistical significance (e.g. p-values), but *qualitative* approaches are an option, like looking at the top expressed genes after normalization.
 
 ### Replicates in RNA-seq experiments
 
-A question we are frequently asked is "How many replicates do I need?" As mentioned in the seminar, there is often more contributing to the observed gene expression in each sample than the experimental treatment or condition of interest.
+A frequent question for RNA-seq projects is "How many replicates do I need?". As mentioned in the webinar, there is often more contributing to the observed gene expression in each sample than the experimental treatment or condition of interest.
+
+
+The general goal of our analyses is to separate the “interesting” biological contributions from the “uninteresting” technical or other contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.  
 
 
 ![Image of technical, biological, and experimental contributors to gene expression, from HBC training materials](./images/de_variation.png)
 
 
-The general goal of differential expression analysis to separate the “interesting” biological contributions from the “uninteresting” technical or extraneous contributions that either cannot be or were not controlled in the experimental design. The more sources of variation, such as samples coming from heterogenous tissues or experiments with incomplete knockdowns, the more replicates (>3) are recommended.  
-
-For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please review [A Beginner’s Guide to Analysis of RNA Sequencing Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and papers like this one by [Hart et al](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
+For a more in depth discussion of experimental design considerations, particularly for the number of replicates, please read [A Beginner’s Guide to Analysis of RNA Sequencing Data](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6096346/) and papers like this one by [Hart et al](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3842884/) that focus on estimating statistical power for RNA-seq experiments.
 
 #### Sequencing depth recommendations
 
 
-A related aspect to consider for experimental design is how much sequencing depth should be generated per sample. This figure shared by Illumina in their technical talks is helpful to understand the relative importance of sequencing depth versus number of replicates.
+A related experimental design consideration is how much sequencing depth should be generated per sample. This figure shared by Illumina in their technical talks is helpful to understand the relative importance of sequencing depth versus number of replicates.
 
 
 ![Illumina's differential expression recovery across replicate number and sequencing depth](./images/de_replicates_img.png){width=75%}
 
-Generally, for the human and mouse genomes, the general recommendation is 30-40 million reads per sample if measuring the ~20,000  protein-coding genes (i.e.: polyA library prep) to capture both highly expressed (common) and more lowly expresssed (rarer) transcripts. However, as the image above shows, sequencing depth has less of an impact than number of replicates in detecting differentially expressed genes (DEGs).
+Generally, for the human and mouse genomes, the recommendation is 30-40 million reads per sample for polyA library preps, we the expectation is that ~25,000 protein-coding genes would be measured. This recommendation is to capture both highly expressed (abundant) and more lowly expressed (rarer) transcripts. However, as the image above shows, sequencing depth has less of an impact than number of replicates in detecting differentially expressed genes (DEGs).
 
 #### [Exercise]
 
@@ -128,13 +131,15 @@ Such as illustrated in this figure from the Noble review:
 
 ![](./images/Noble2009_dataprojects.png){width=75%}
 
+**TODO: Add variable
+
 To organize our files for our analysis today, we'll create a new folder in our home directory and name it `2021-Nov-umich-rnaseq-demystified`:
 ```{r SetupDirectories, echo=TRUE}
-dir.create("~/2021-08-09-umich-rnaseq-demystified", showWarnings = FALSE)
+dir.create("~/2021-Nov-umich-rnaseq-demystified", showWarnings = FALSE)
 ```
 Then we'll set this our working directory:
 ```{r SetWorkingDir, echo = TRUE}
-setwd("~/2021-08-09-umich-rnaseq-demystified")
+setwd("~/2021-Nov-umich-rnaseq-demystified")
 ```
 
 Before moving forward, let's double check that we're in the right place.
@@ -146,36 +151,41 @@ getwd()
 
 ## Creating our code file
 
-Next, we'll create a new code file, use the toolbar at the top of our window and click the icon that looks like white square with a small green plus symbol. From the drop down menu, select the first option named 'R Script'.
+Next, we'll create a new code file, using the toolbar at the top of our window and clicking the icon that looks like white square with a small green plus symbol.
+
+From the drop down menu, select the first option named 'R Script'.
 
 **TODO: Add screen shot highlighting 'new file' button**
 
-A new window should pop up in your console. We'll then use the blue floppy disc icon save our 'Untitled1' file as "RNASeqAnalysis.R".
+A new window should pop up in your console. We'll then use the blue floppy disc icon save our 'Untitled1' file as "DE_Analysis.R".
 
 **TODO: Add screen shot highlighting 'save' button**
 
-This new "RNASeqAnalysis.R" will serve as a record of our analysis and should be saved in a separate location from our raw data, such as our current working directory of `2021-08-09-umich-rnaseq-demystified`.
+This new "DE_Analysis.R" will serve as a record of the analysis steps we follow for the remainder of the workshop.
+
+**Checkpoint**: *Please use the red 'x' button in your zoom reaction panel if you would like these steps repeated and the green 'check' if you were able to create and save a code file*
 
 
-*Note: This code file can also serve as a starting point for working through differential expression comparisons with other example datasets or your own data in the future.*
+*Note: This code file along with the resources shared in this workshop can also serve as a starting point for working through differential expression analyses with other example datasets or your own count table data in the future.*
 
 ## Downloading our data
 
-Next, we'll create a new folder within `2021-08-09-umich-rnaseq-demystified` called `data` to store our raw data by copying & pasting the following command.
+Next, we'll create a new folder within `2021-Nov-umich-rnaseq-demystified` called `data` to store our raw data by copying & pasting the following command.
 
 ```{r SetupDirs2, eval=FALSE, message=FALSE, warning=FALSE}
 dir.create("data", showWarnings = FALSE)
 ```
 
-**Checkpoint**: *Please use the green 'check' if you see 'data' within your '2021-08-09-umich-rnaseq-demystified' directory and use the red 'x' button in your zoom reaction panel if you'd like the steps repeated*
+**Checkpoint**: *Please use the green 'check' if you see 'data' within your '2021-Nov-umich-rnaseq-demystified' directory and use the red 'x' button in your zoom reaction panel if you'd like the steps repeated*
 
+**TODO: UPDATE URL FOR RAW DATA
 
 Next, we'll download the files we'll need for today by copying and pasting the follow.
 ```{r DownloadData, eval = FALSE}
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-08-09-umich-rnaseq-demystified/master/data/SampleInfo_trimmed.csv", "data/SampleInfo_trimmed.csv")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-Nov-umich-rnaseq-demystified/master/data/SampleInfo_trimmed.csv", "data/SampleInfo_trimmed.csv")
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-08-09-umich-rnaseq-demystified/master/data/gene_expected_count_trimmed.txt", "data/gene_expected_count_trimmed.txt")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-Nov-umich-rnaseq-demystified/master/data/gene_expected_count_trimmed.txt", "data/gene_expected_count_trimmed.txt")
 ```
 
 If we look within our 'data' folder, we should now see two files:
