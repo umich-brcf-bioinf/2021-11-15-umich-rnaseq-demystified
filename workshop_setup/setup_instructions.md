@@ -102,10 +102,10 @@ be happy to lend a hand to get things working.
 
    - If you are using Windows:
 
-     - Press **Windows Key + R** to launch a command window.
+     - Press **Windows Key + R** to launch a command window. Make sure the `Open` field says `cmd` and click OK.
 
      - You will see a new command window containing something like this
-     (your may have more text and the last line may look a bit different;
+     (yours may have more text and the last line may look a bit different;
      that's ok)
 
         ```
@@ -193,6 +193,6 @@ datasets. In particular:
 - This environment is temporary and will be removed shortly after the
   conclusion of the workshop.
 
-If you had problems and problems or questions about the installation steps
+If you had problems or questions about the installation steps
 please see the **[How to get help](#how-to-get-help)** section above for
 more assistance.
