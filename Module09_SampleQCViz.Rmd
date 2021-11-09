@@ -55,7 +55,9 @@ Yesterday we discussed aspects of quality control assessment at the sequencing d
 
 To do this, we will first assess the similarity of our samples by using principal component analysis (PCA). This will allow us to determine how well patterns in the data fits our expectations from the experiments design and possible sources of variation in the dataset.
 
-Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which can be found in the bonus content module. **TODO: EDIT INTRO AFTER CHANGING VISUALIZATION**
+Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which can be found in the bonus content module.
+
+**TODO: DOUBLE CHHECK INTRO AFTER CHANGING VISUALIZATION**
 
 ## Principle Component Analysis (PCA) Plots
 
