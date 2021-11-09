@@ -7,10 +7,19 @@
 
 library(rmarkdown)
 
-render_site('index.md')
+# The following stanza is problematic in that 
+# a) it generates html in the same folder as the md files
+# b) the generated index.html refers to these same files from inside html folder
+# Together it means there are two copies of these files one at 
+# /workshop_setup and another inside /html. We really need them to be inside 
+# /html to keep things simple, but since learners have the link to 
+# /workshow_setup/preworkshop_checklist I can't gracefully fix this now. Should 
+# be simple to fix after the workshop.
+# cgates 11/9/2021
 render('workshop_setup/preworkshop_checklist.md')
 render('workshop_setup/setup_instructions.md')
 render('workshop_setup/setup_instructions_advanced.md')
+render_site('index.md')
 
 render_site('Module00_Introduction.md')
 
