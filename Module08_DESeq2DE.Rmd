@@ -134,7 +134,6 @@ In this section, we:
 * Fit two DESeq2 models for our data    
 * Saw the impact of including a covariate in our model
 
-**Before moving on with our group comparisons, we'll take a short (10 minute) break.**
 
 
 ---
