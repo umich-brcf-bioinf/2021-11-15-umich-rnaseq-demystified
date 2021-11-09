@@ -218,7 +218,7 @@ What is one thing you hope to learn today or tomorrow?
 
 
 ## Workshop topics at a glance
-![](images/wayfinder_00-0.png)
+![](images/wayfinder/wayfinder-00.png)
 
 # Any questions?
  -

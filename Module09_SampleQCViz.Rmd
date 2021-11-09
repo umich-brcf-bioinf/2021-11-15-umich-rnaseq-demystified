@@ -45,7 +45,7 @@ load("rdata/RunningData.RData")
 
 Prior to testing for differential expression between our comparisons of interest, we'll first generate plots that will assess how well our samples match up with our expectations (based on their treatment groups) and what we might expect to see from our differential expression comparisons.
 
-![](./images/wayfinder_08.png){width=75%}
+![](./images/wayfinder/wayfinder-05.png){width=75%}
 
 ---
 

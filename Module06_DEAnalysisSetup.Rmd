@@ -32,7 +32,7 @@ output:
 
 Today we will proceed through key steps in a differential expression analysis, starting from a count table that's similar to what would have been generated on Day 1.
 
-![](./images/wayfinder_00-0.png){width=95%}
+![](./images/wayfinder/wayfinder-04.png){width=95%}
 
 #### [Warm-Up]
 

@@ -38,7 +38,7 @@ load("rdata/RunningData.RData")
 
 Here we will finally test for differential expression between our comparisons of interest.
 
-![](./images/wayfinder_09.png){width=75%}
+![](./images/wayfinder/wayfinder-06.png){width=75%}
 
 
 ---

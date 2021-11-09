@@ -25,7 +25,7 @@ In this module, we will learn:
 
 Here we will take the results from the previous module and operate on them a bit further. This will wrap up the day 1 exercises, leaving us well-poised to begin differential expression, which we will discuss on day 2.
 
-![](images/wayfinder_06.png)
+![](images/wayfinder/wayfinder-03.png)
 <br>
 <br>
 <br>
