@@ -26,7 +26,7 @@ In this module, we will learn:
 
 Here we will set the stage for the next steps by discussing reference genomes, which are integral to genome alignments and gene/isoform quantification. Along the way we will touch on some things to be aware of.
 
-![](images/wayfinder_05.png)
+![](images/wayfinder/wayfinder-02.png)
 <br>
 <br>
 <br>

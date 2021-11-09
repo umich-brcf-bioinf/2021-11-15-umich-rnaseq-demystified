@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 10: DE Comparisons Results"
+title: "Day 3 - Module 10: DE Comparisons Results"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -38,7 +38,7 @@ load("rdata/RunningData.RData")
 
 Here we will finally test for differential expression between our comparisons of interest.
 
-![](./images/wayfinder_09.png){width=75%}
+![](./images/wayfinder/wayfinder-06.png){width=75%}
 
 
 ---

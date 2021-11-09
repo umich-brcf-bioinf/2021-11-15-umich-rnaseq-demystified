@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 11X: Bonus Content"
+title: "Day 3 - Module 11X: Bonus Content"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:

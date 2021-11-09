@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 11: DE Visualizationsand Gene Annotations"
+title: "Day 3 - Module 11: DE Visualizationsand Gene Annotations"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
@@ -41,7 +41,7 @@ load("rdata/RunningData.RData")
 
 Here we will generate summary figures for our results and annotate our DE tables.
 
-![](./images/wayfinder_09.png){width=75%}
+![](./images/wayfinder/wayfinder-06.png){width=75%}
 
 **TODO: double check references to annotated table prior to running annotations**
 

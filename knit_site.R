@@ -1,9 +1,25 @@
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)
+# 
+# missing <- setdiff(c("tidyr", "ggplot2", "pheatmap", "ggrepel", "formattable", "RColorBrewer", "matrixStats", "dplyr", "biomaRt", "DESeq2"), rownames(installed.packages()))
+# if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} else {cat("PROBLEM: could not install:", missing, "\n")}
+
 library(rmarkdown)
 
-render_site('index.md')
+# The following stanza is problematic in that 
+# a) it generates html in the same folder as the md files
+# b) the generated index.html refers to these same files from inside html folder
+# Together it means there are two copies of these files one at 
+# /workshop_setup and another inside /html. We really need them to be inside 
+# /html to keep things simple, but since learners have the link to 
+# /workshow_setup/preworkshop_checklist I can't gracefully fix this now. Should 
+# be simple to fix after the workshop.
+# cgates 11/9/2021
 render('workshop_setup/preworkshop_checklist.md')
 render('workshop_setup/setup_instructions.md')
 render('workshop_setup/setup_instructions_advanced.md')
+render_site('index.md')
 
 render_site('Module00_Introduction.md')
 
@@ -20,8 +36,8 @@ render_site('Module07_DESeq2Init.Rmd')
 render_site('Module08_DESeq2DE.Rmd')
 render_site('Module09_SampleQCViz.Rmd')
 render_site('Module10_DEComparisons.Rmd')
-#render_site('Module11_DEVisualizations.Rmd')
-#render_site('Module11X_BonusContent.Rmd')
+render_site('Module11_DEVisualizations.Rmd')
+render_site('Module11X_BonusContent.Rmd')
 
 render_site('Module99_Wrap_up.md')
 

@@ -37,7 +37,7 @@ load("rdata/RunningData.RData")
 
 Here we will proceed setting up the inputs needed to initialize DESeq2 before testing for differential expression.
 
-![](./images/wayfinder_07.png){width=75%}
+![](./images/wayfinder/wayfinder-04.png){width=75%}
 
 ---
 

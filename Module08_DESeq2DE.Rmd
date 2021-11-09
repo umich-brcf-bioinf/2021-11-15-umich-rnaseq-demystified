@@ -35,7 +35,7 @@ load("rdata/RunningData.RData")
 
 Here we will proceed with count normalizations and fit our DESeq2 model.
 
-![](./images/wayfinder_07.png){width=75%}
+![](./images/wayfinder/wayfinder-04.png){width=75%}
 
 ---
 

@@ -42,8 +42,8 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 
 ## Housekeeping
 
-- Please take our optional [post-workshop survey](https://forms.gle/7CQYuKBAcH94tqng8) (5-10 minutes) <br />
-  https://forms.gle/7CQYuKBAcH94tqng8
+- Please take our optional [post-workshop survey](https://forms.gle/XcSnsfDMF6hwBJXBA) (5-10 minutes) <br />
+  https://forms.gle/XcSnsfDMF6hwBJXBA
 
 - We will email you a link to the session recordings by next week.
 
@@ -60,8 +60,8 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
     (We are considering offering a Computational Reproducibility workshop that
     would cover this.) For the intrepid, see relevant links below:
     - [Installing Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation)
-    - [Conda environment YAML](https://github.com/umich-brcf-bioinf/2021-08-09-umich-rnaseq-demystified/blob/master/server_setup/conda_setup/workshop-rsd.yaml)
-    - [Setting up R/R-Studio](https://umich-brcf-bioinf.github.io/2021-08-09-umich-rnaseq-demystified/setup_instructions_advanced)
+    - [Conda environment YAML](https://github.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/blob/master/server_setup/conda_setup/workshop-rsd.yaml)
+    - [Setting up R/R-Studio](workshop_setup/setup_instructions_advanced.html)
 
 ---
 
@@ -69,12 +69,16 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 
 ![Sponsors](images/Module00_sponsor_logos.png)
 
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg)| ![](images/Module00_headshots/headshot_damki.jpg)|
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Travis** | **Dana** |
-| | | | |
-| ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
-| **Becky** | **Nick** | **Raymond** | **Weisheng** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Travis** |
+| | | |
+| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | 
+|  **Dana** | **Becky** | **Grace** |
+| | | |
+| ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
+| **Nick** | **Raymond** | **Weisheng** |
+<br/>
 
 YOU!
 
