@@ -1,5 +1,5 @@
 ---
-title: "Day 2 - Module 09: Sample Visualizations for Quality Control"
+title: "Day 3 - Module 09: Sample Visualizations for Quality Control"
 author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:

@@ -1,3 +1,10 @@
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#    install.packages("BiocManager")
+# BiocManager::install(c("biomaRt","DESeq2"), update=FALSE, ask=FALSE)
+# 
+# missing <- setdiff(c("tidyr", "ggplot2", "pheatmap", "ggrepel", "formattable", "RColorBrewer", "matrixStats", "dplyr", "biomaRt", "DESeq2"), rownames(installed.packages()))
+# if (!length(missing)) { cat("Ready for Computational Foundations workshop\n")} else {cat("PROBLEM: could not install:", missing, "\n")}
+
 library(rmarkdown)
 
 render_site('index.md')
@@ -20,8 +27,8 @@ render_site('Module07_DESeq2Init.Rmd')
 render_site('Module08_DESeq2DE.Rmd')
 render_site('Module09_SampleQCViz.Rmd')
 render_site('Module10_DEComparisons.Rmd')
-#render_site('Module11_DEVisualizations.Rmd')
-#render_site('Module11X_BonusContent.Rmd')
+render_site('Module11_DEVisualizations.Rmd')
+render_site('Module11X_BonusContent.Rmd')
 
 render_site('Module99_Wrap_up.md')
 
