@@ -1,3 +1,10 @@
+<style type="text/css">
+
+body, td {
+   font-size: 18px;
+}
+</style>
+
 # RNA-seq Demystified
 
 #### [Setup instructions](workshop_setup/setup_instructions.html)
