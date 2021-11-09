@@ -40,12 +40,15 @@ pre {
 - https://brcf.medicine.umich.edu/bioinformatics
 
 ## About the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg)| ![](images/Module00_headshots/headshot_damki.jpg)|
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Travis** | **Dana** |
-| | | | |
-| ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
-| **Becky** | **Nick** | **Raymond** | **Weisheng** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Travis** |
+| | | |
+| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | 
+|  **Dana** | **Becky** | **Grace** |
+| | | |
+| ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
+| **Nick** | **Raymond** | **Weisheng** |
 <br/>
 
 ## Workshop sponsors
