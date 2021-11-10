@@ -192,15 +192,12 @@ If you have some extra time, explore the additional plot options that we usually
     Work through the following plot options, testing out including and including the additional aesthetic commands, to understand how to make a complex but well labeled PCA plot.
 ``` {r PCAexerciseAdvanced}
 gp <- ggplot(p.all$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) +
-scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') +
-geom_point(size=2) +
-ggtitle(label = as.character('All samples Rlog-Normalized')) +
-guides(colour=guide_legend(nrow=12, title = 'Sample'),
-    legend.key = element_rect(size = 1),
-    legend.key.size = unit(0, 'cm')) +
-xlab(p.all$labels[2]) + ylab(p.all$labels[1]) +
-theme(legend.margin = margin(t = 0, unit='mm'), plot.title = element_text(hjust = 0.5)) +
-theme_classic(base_size = 10)
+    scale_shape_manual(values=1:nlevels(CombinatoricGroup), name = 'Combinatoric Group') +
+    geom_point(size=2) +
+    ggtitle(label = as.character('All samples Rlog-Normalized')) +
+    guides(colour=guide_legend(nrow = 12, title = 'Sample')) +
+    xlab(p.all$labels[2]) + ylab(p.all$labels[1]) +
+    theme_classic(base_size = 10)
 ```
 </details>
 
