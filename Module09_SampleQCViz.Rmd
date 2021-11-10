@@ -181,6 +181,7 @@ Next, look at the possible slots of the `p.all` object to determine where the PC
     <summary>*Click for solution*</summary>
 ```{r PCAexercise3}
 gp <- ggplot(p.all$data, aes(x = PC1, y = PC2, color = SampleName, shape = CombinatoricGroup)) +
+geom_point() +
 ggtitle(label = as.character('All samples Rlog-Normalized'))
 ```
 </details>
