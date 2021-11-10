@@ -13,6 +13,17 @@ output:
             keep_md: false
             markdown: GFM
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+code.r{
+  font-size: 12pt;
+}
+</style>
 
 <!--- Allow the page to be wider --->
 <style>

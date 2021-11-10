@@ -13,6 +13,17 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+code.r{
+  font-size: 12pt;
+}
+</style>
 
 <!--- Allow the page to be wider --->
 <style>
@@ -128,13 +139,13 @@ Such as illustrated in this figure from the Noble review:
 
 ![](./images/Noble2009_dataprojects.png){width=75%}
 
-To organize our files for our analysis today, we'll create a new folder in our home directory and name it `2021-Nov-umich-rnaseq-demystified`:
+To organize our files for our analysis today, we'll create a new folder in our home directory and name it `2021-11-15-umich-rnaseq-demystified`:
 ```{r SetupDirectories, echo=TRUE}
-dir.create("~/2021-08-09-umich-rnaseq-demystified", showWarnings = FALSE)
+dir.create("~/2021-11-15-umich-rnaseq-demystified", showWarnings = FALSE)
 ```
 Then we'll set this our working directory:
 ```{r SetWorkingDir, echo = TRUE}
-setwd("~/2021-08-09-umich-rnaseq-demystified")
+setwd("~/2021-11-15-umich-rnaseq-demystified")
 ```
 
 Before moving forward, let's double check that we're in the right place.
@@ -326,6 +337,7 @@ Now that we have our count data processed, we can move on to "unblinding" our da
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE}
 #Hidden code block to write out data for knitting
 
+dir.create("rdata", showWarnings=FALSE)
 save.image(file = "rdata/RunningData.RData")
 #How to load for next segment
 #load("rdata/RunningData.RData")
