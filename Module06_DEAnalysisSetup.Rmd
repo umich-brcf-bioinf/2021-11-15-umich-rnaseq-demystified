@@ -335,7 +335,7 @@ Now that we have our count data processed, we can move on to "unblinding" our da
 
 ```{r WriteOut.RData, eval=TRUE, echo=FALSE, message=FALSE}
 #Hidden code block to write out data for knitting
-
+dir.create('rdata')
 save.image(file = "rdata/RunningData.RData")
 #How to load for next segment
 #load("rdata/RunningData.RData")
