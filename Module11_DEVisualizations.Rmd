@@ -300,7 +300,7 @@ res_WT_anno <- cbind(genes=row.names(res_WT_anno), res_WT_anno[ ,c(1:6)])
 res_WT_anno <- as.data.frame(res_WT_anno)
 
 # combine the two tables using the merge function (similar to join from `tidyverse`)
-res_WT_anno <- merge(GeneKey, res_WT_anno, by.x = "external_gene_name", by.y="genes", all.x = FALSE, all.y = TRUE)
+res_WT_anno <- merge(GeneKey, res_WT_anno, by.x = "external_gene_id", by.y="genes", all.x = FALSE, all.y = TRUE)
 
 head(res_WT_anno)
 ```
