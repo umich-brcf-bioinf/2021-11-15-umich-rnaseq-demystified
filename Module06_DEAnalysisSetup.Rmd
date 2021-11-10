@@ -178,14 +178,12 @@ dir.create("data", showWarnings = FALSE)
 
 **Checkpoint**: *Please use the green 'check' if you see 'data' within your '2021-Nov-umich-rnaseq-demystified' directory and use the red 'x' button in your zoom reaction panel if you'd like the steps repeated*
 
-**TODO: UPDATE URL FOR RAW DATA
-
 Next, we'll download the files we'll need for today by copying and pasting the follow.
 ```{r DownloadData, eval = FALSE}
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-Nov-umich-rnaseq-demystified/master/data/SampleInfo_trimmed.csv", "data/SampleInfo_trimmed.csv")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/master/data/SampleInfo_trimmed.csv", "data/SampleInfo_trimmed.csv")
 
-download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-Nov-umich-rnaseq-demystified/master/data/gene_expected_count_trimmed.txt", "data/gene_expected_count_trimmed.txt")
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/master/data/gene_expected_count_trimmed.txt", "data/gene_expected_count_trimmed.txt")
 ```
 
 If we look within our 'data' folder, we should now see two files:
