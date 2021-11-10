@@ -241,7 +241,7 @@ p.raw <- plotPCA(DESeqTransform(RC), intgroup = c('Gtype.Tx'), ntop = 500)
 p.raw
 ```
 
-We see that there is less variance explained by PC1 and that the samples from the same group are not as well clustered for the raw data. Since this is prior to normalization, these differences are likely due to **technical** considerations like sequencing depth differences that are accounted for by the rlog normalization.  
+We see that there is less variance explained by PC2 and that the samples from the same group are not as well clustered for the raw data. Since this is prior to normalization, these differences are likely due to **technical** considerations like sequencing depth differences that are accounted for by the rlog normalization.  
 
 <details>
     <summary>*Click for code for customized PCA plot of raw data*</summary>
