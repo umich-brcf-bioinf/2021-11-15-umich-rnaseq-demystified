@@ -158,11 +158,10 @@ colnames(sampleDistMatrix) <- NULL
 
 colors <- colorRampPalette(rev(brewer.pal(9, 'Blues')))(255)
 pdf(file = paste0(plotPath,'Heatmap_Dispersions_', Comparison, '.pdf'), onefile = FALSE)
-p <- pheatmap(sampleDistMatrix,
-         clustering_distance_rows=sampleDists,
-         clustering_distance_cols=sampleDists,
-         col=colors)
-p
+pheatmap(sampleDistMatrix,
+       clustering_distance_rows=sampleDists,
+       clustering_distance_cols=sampleDists,
+       col=colors)
 dev.off()
 ```
 If we look at the `sampleDists` object, we now see from the diagonal values that there appears to be two major groups of samples, with better defined subgroups in the bottom right quadrant.
