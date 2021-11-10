@@ -29,10 +29,10 @@ library(dplyr)
 library('ggrepel', character.only=TRUE)
 library('pheatmap', character.only=TRUE)
 library('RColorBrewer', character.only=TRUE)
-load("RunningData.RData")
+load("rdata/RunningData_Full.RData")
 ```
 
-> # Objectives 
+> # Objectives
 > * Additional visualizations for gene level QC assessment
 
 
@@ -50,7 +50,7 @@ y_label <- 'log2(counts)'
 Comparison <- "ko.Tx"
 ```
 
-Then, we'll add the relevant annotations to the count table. 
+Then, we'll add the relevant annotations to the count table.
 ```{r Annotations}
 # create annotationn table for raw plots
 annot_df = data.frame(
@@ -64,7 +64,7 @@ tidy_mat = tidyr::gather(as_tibble(mat), key = 'sample', value = 'counts') %>%
     left_join(annot_df, by = 'sample')
 ```
 
-Once we set up the input data, we can plot the raw counts for our samples. 
+Once we set up the input data, we can plot the raw counts for our samples.
 ```{r BoxplotsRaw, warning=FALSE}
 box_plot = ggplot(tidy_mat, aes(x = sample, y = log2(counts))) +
     geom_boxplot(notch = TRUE) +
@@ -116,21 +116,21 @@ ggsave(filename = paste0(plotPath, "BoxPlot_Gtype.Tx_rlog.pdf"), plot = box_plot
 
 # Heatmaps
 
-To understand the patterns of expression across all our samples, including how well our samples cluster by group labels, we can generate a heatmaps. 
+To understand the patterns of expression across all our samples, including how well our samples cluster by group labels, we can generate a heatmaps.
 
-The first heatmap to generate is of the top 500 expressed genes across all samples. First, we'll set our color palette using a tool called [Color Brewer](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html). 
+The first heatmap to generate is of the top 500 expressed genes across all samples. First, we'll set our color palette using a tool called [Color Brewer](https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html).
 ```{r ChooseColors}
 #heatmap with top 500 variant or expressed genes, rlog normalized data
 colors <- colorRampPalette(brewer.pal(9, 'Blues'))(255)
 ```
 
-First, we'll select the top 500 expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved. 
+First, we'll select the top 500 expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved.
 ```{r TopExpression}
 select <- order(rowMeans(assay(rld)), decreasing=TRUE)[1:500]
 df <- data.frame(Group = colData(rld)[,c('Gtype.Tx')], row.names = rownames(colData(dds)))
 ```
 
-Next, we'll set up a PDF file and plot our heatmap. Saving the plot as an object allows us to view the figure within our session as well as writing the plot to file. 
+Next, we'll set up a PDF file and plot our heatmap. Saving the plot as an object allows us to view the figure within our session as well as writing the plot to file.
 
 The [`pheatmap` function](https://cran.r-project.org/web/packages/pheatmap/pheatmap.pdf) does quite a lot in a single step, including scaling the data by row and clustering both the samples (columns) and genes (rows).
 
@@ -145,11 +145,11 @@ dev.off()
 
 Looking at the heatmap, we see that samples within the same treatment group cluster together, fitting our understanding of the experimental design. We also see clusters of genes that appear to have contrasting patterns between the treatment groups, which is promising for our differential expression comparisons.
 
-**Note**: Heatmaps are helpful visualizations, especially for sharing an overview of your RNA-seq data. The why and how of to use them properly can be confusing, such as outlined in the questions and answers in [this biostars post](https://www.biostars.org/p/230115/) that adds additional context to the overview in this workshop. 
+**Note**: Heatmaps are helpful visualizations, especially for sharing an overview of your RNA-seq data. The why and how of to use them properly can be confusing, such as outlined in the questions and answers in [this biostars post](https://www.biostars.org/p/230115/) that adds additional context to the overview in this workshop.
 
 ## Sample and Top Variable Expressed Heatmaps
 
-This [blog post](http://www.opiniomics.org/you-probably-dont-understand-heatmaps/) reviews the data transformation procedure for generating heatmaps and is a useful resource. They review the steps for generating a sample correlation heatmap similar to the plot generated below. 
+This [blog post](http://www.opiniomics.org/you-probably-dont-understand-heatmaps/) reviews the data transformation procedure for generating heatmaps and is a useful resource. They review the steps for generating a sample correlation heatmap similar to the plot generated below.
 
 ```{r SampleHeatmaps, warning=FALSE}
 #heatmap of normalized data, sample distibution matrix
@@ -159,7 +159,7 @@ colnames(sampleDistMatrix) <- NULL
 
 colors <- colorRampPalette(rev(brewer.pal(9, 'Blues')))(255)
 pdf(file = paste0(plotPath,'Heatmap_Dispersions_', Comparison, '.pdf'), onefile = FALSE)
-p <- pheatmap(sampleDistMatrix, 
+p <- pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
          col=colors)
