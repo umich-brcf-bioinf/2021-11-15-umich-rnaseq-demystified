@@ -13,11 +13,12 @@ EMAIL_FIELD_INDEX=5
 
 echo -e "#username\tpasswd\temail\tfirst_name\tlast_name"
 cat $PARTICIPANTS_FILE | \
-	awk -F '\t' -v email_field_index=${EMAIL_FIELD_INDEX} \
-	'BEGIN {OFS="\t"} 
+	awk -F '\t' -v email_field_index=${EMAIL_FIELD_INDEX} -v passwd_prefix=${PASSWD_PREFIX} \
+	'BEGIN {OFS="\t"}
+        NR==1 {next}
         /^#/ {next}
 	NF>=4 {
 		user=tolower(gensub(/@.*/, "","g", $email_field_index)); 
-		passwd=sprintf("${PASSWD_PREFIX}%s", substr($1, length($1)-2, length($1))); 
+		passwd=sprintf("%s%s", passwd_prefix, substr($1, length($1)-2, length($1))); 
 		print user, passwd, $email_field_index, $3, $4}' | \
 	sort --ignore-case 

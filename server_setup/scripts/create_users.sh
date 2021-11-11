@@ -6,7 +6,7 @@ date
 export USER_PASSWD_FILE=$1
 export CONDA_PREFIX='/rsd/conda/workshop'
 export PRIMARY_GROUP='workshop-rsd-users'
-export CONDA_SETUP=/rsd/workshop_setup/conda_setup/Miniconda3-latest-Linux-x86_64.sh
+export CONDA_SETUP=/rsd/workshop_setup/Miniconda3-latest-Linux-x86_64.sh
 
 users=()
 existing_users=()
@@ -15,7 +15,7 @@ while IFS==$'\t' read -r -a line; do
     [[ "${line[0]}" =~ ^#.*$ ]] && continue
     user=${line[0]}
 
-    if grep "^${user}:" /etc/passwd; then
+    if grep "^${user}:" /etc/passwd > /dev/null; then
         existing_users+=($user)
         continue 
     fi
@@ -28,8 +28,8 @@ done < "$USER_PASSWD_FILE"
 if (( ${#existing_users[@]} )); then
     echo skipping existing users: ${existing_users[@]}
 fi
-echo adding ${#users[@]} users: ${users[@]}
-
+echo ready to add ${#users[@]} users: ${users[@]}
+read -p "Press any key to continue..."
 
 added_users=()
 for user in ${users[@]}; do
