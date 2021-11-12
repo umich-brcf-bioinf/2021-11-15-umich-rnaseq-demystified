@@ -294,7 +294,18 @@ Now that you have the ENSEMBL information and a gene symbol to match to our resu
 <details>
     <summary>*Click for solution for adding annotations*</summary>
 
-```{r updateDETable}
+    First, create a new table called `res_WT_anno` that includes a column with the ENSEMBL ids named `genes` using the `mutate` function. Then use the `join` function to combine the `GeneKey` table with the `res_WT` DE results. 
+```{r updateDETableTidyr}
+## TODO: CHECK TIDYVERSE SOLUTION
+
+res_WT_anno <- res_WT %>%
+  mutate(genes = row.names(res_WT_anno))
+
+res_WT_anno <- join()
+
+```
+    Alternatively, if you are more familiar with base functions:
+```{r updateDETableBase}
 res_WT_anno <- res_WT # copy table
 res_WT_anno <- cbind(genes=row.names(res_WT_anno), res_WT_anno[ ,c(1:6)])
 res_WT_anno <- as.data.frame(res_WT_anno)
