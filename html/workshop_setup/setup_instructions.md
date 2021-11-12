@@ -142,11 +142,11 @@ be happy to lend a hand to get things working.
 
   
    4.2. The first time you run this command, you may see a prompt like the
-   following; hit **Enter/Return** to continue.
+   following; type **yes** and hit **Enter/Return** to continue.
 
       The authenticity of host '...' can't be established.
       ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
-      Are you sure you want to continue connecting (yes/no)? yes
+      Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 
    The command will print a warning (e.g. `Warning: Permanently added
    ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts`). This is fine.

@@ -337,10 +337,10 @@ MacBook: \~ your_username\$</code></pre></li>
 <h3><strong>Login to the shared server</strong></h3>
 <p>4.1. In the command window, type the following command, replacing the <strong>YOUR_USERNAME</strong> with the username supplied to you by the workshop hosts; hit <strong>Enter or Return</strong> to execute the command.<br /> <em>Note: you can copy the command below to the clipboard and then right-click in the command window to paste.</em></p>
 <pre><code>    ssh YOUR_USERNAME@bfx-workshop01.med.umich.edu</code></pre>
-<p>4.2. The first time you run this command, you may see a prompt like the following; hit <strong>Enter/Return</strong> to continue.</p>
+<p>4.2. The first time you run this command, you may see a prompt like the following; type <strong>yes</strong> and hit <strong>Enter/Return</strong> to continue.</p>
 <pre><code>  The authenticity of host &#39;...&#39; can&#39;t be established.
   ECDSA key fingerprint is SHA256:nz9lJaGEI5QFy7....
-  Are you sure you want to continue connecting (yes/no)? yes</code></pre>
+  Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</code></pre>
 <p>The command will print a warning (e.g. <code>Warning: Permanently added    ‘SERVER_ADDRESS’ (ECDSA) to the list of known hosts</code>). This is fine.</p>
 <p>4.3. When prompted, type the password supplied by the workshop hosts followed by <strong>Enter/Return</strong>. (Note that the password is case sensitive. Also note that the server will not echo any characters when you are typing your password; this is ok.)</p>
 <p>After successfully logging in, your command window should end looking something like this:</p>
