@@ -40,7 +40,7 @@ library(dplyr)
 library('ggrepel', character.only=TRUE)
 library('pheatmap', character.only=TRUE)
 library('RColorBrewer', character.only=TRUE)
-load("rdata/RunningData_Full.RData")
+load("rdata/RunningData.RData")
 ```
 
 > # Objectives
