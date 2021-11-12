@@ -177,6 +177,62 @@ Things that we have learned:
 <br>
 <br>
 
+# Conda Exercises
+
+Environment recap:
+
+By default you will usually have a single compute environment - one set up specifically for your user. You'll have a set of programs, some configuration details, etc. that are set up according to your preferences.
+
+As mentioned above, when doing data analysis tasks, it can become onerous to create and maintain one environment that satisfies all of your needs. It is good practice to create separate environments according to the specific needs of a project. A metaphor would be putting on different outfits for different occasions or tasks in your life.
+
+Conda is a tool that we've used for managing our software environment for this workshop. We're all currently using the same conda environment that we (the instructors) built ahead of time.
+
+Conda must-know:
+* A tool for managing software environments
+* Create an environment
+* Activate and deactivate an environment
+
+## Conda Activate / Deactivate Exercise
+
+1. Learn about the `which` command - use to reveal the path to a specific software
+2. Try `which python`
+3. Deactivate our current shared environment with `conda deactivate`
+4. Try `which python` again - Is it different now?
+5. Activate the environment again with `conda activate /rsd/conda/workshop`
+
+
+## Conda Create Simple Exercise
+
+1. Check which python version we have in our current environment
+2. Create a simple conda environment named `py36` that contains python 3.6 - use the `bioconda` channel
+3. Activate the new `py36` environment and verify that you now have python 3.6
+4. Deactivate our `py36` environment
+
+```
+# Check which python version we're using in our current environment
+python --version
+# Create a conda environment with python version 3.6, using the bioconda channel
+conda create -n py36 -c bioconda python=3.6
+# Activate our new conda environment
+conda activate py36
+# Check our python version now (it should be 3.6)
+python --version
+# Deactivate our environment
+conda deactivate
+```
+
+## Conda Create Exercises (breakout)
+
+1. Create an environment that has several QC and trimming packages that we used. Make sure to use the `bioconda` channel
+    * cutadapt
+    * fastqc
+    * multiqc
+
+2. Create an environment that has the aligner & quantification program that we've used. Use the `bioconda` channel
+    * star
+    * rsem
+
+
 ---
 
 These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.

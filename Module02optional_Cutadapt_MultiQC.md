@@ -13,7 +13,7 @@ output:
             code_download: true
 ---
 
-# More QC - Cutadapt and MultiQC
+# More QC - Cutadapt
 
 In this module we will learn:
 

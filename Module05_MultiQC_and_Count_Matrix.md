@@ -202,3 +202,7 @@ combine.py --input_path "out_rsem/*.genes.results" --output_file combined_counts
 # View the resulting count matrix
 less combined_counts.txt
 ```
+
+---
+
+These materials have been adapted and extended from materials created by the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license (CC BY 4.0)](http://creativecommons.org/licenses/by/4.0/), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
