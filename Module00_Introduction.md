@@ -1,5 +1,5 @@
 ---
-title: "RNA-seq Demystified Workshop"
+title: "RNA-Seq Demystified Workshop"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
@@ -102,9 +102,9 @@ pre {
 It is important that you can see:
 
  - Zoom (instructor's shared screen + reactions)
+ - Your terminal/command window (days 1-2) or R/Studio (days 2-3)
  - Slack
  - Lesson plan web page
- - Your terminal/command window (day 1) or R/Studio (day 2)
 
 ![arranged screens](images/Module00_arranged_screens.png?)
 <br/>

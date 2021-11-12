@@ -15,8 +15,8 @@
 
 <title>Day 3 - Module 09: Sample Visualizations for Quality Control</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -420,7 +420,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
     </li>
   </ul>
 </li>
@@ -482,19 +488,19 @@ code.r{
 </ul>
 </blockquote>
 <div id="differential-expression-workflow" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Differential Expression Workflow</h1>
+<h1 number="1"><span class="header-section-number">1</span> Differential Expression Workflow</h1>
 <p>Prior to testing for differential expression between our comparisons of interest, we’ll first generate plots that will assess how well our samples match up with our expectations (based on their treatment groups) and what we might expect to see from our differential expression comparisons.</p>
 <p><img src="images/wayfinder/wayfinder-05.png" style="width:75.0%" /></p>
 <hr />
 </div>
 <div id="sample-visualizatons-for-quality-control" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Sample Visualizatons for Quality Control</h1>
+<h1 number="2"><span class="header-section-number">2</span> Sample Visualizatons for Quality Control</h1>
 <p>Yesterday we discussed aspects of quality control assessment at the sequencing data level. Today we will outline sample-level and gene-level quality control assessments to determine what we should expect from our downstream differential expression comparisons.</p>
 <p>To do this, we will first assess the similarity of our samples by using principal component analysis (PCA). This will allow us to determine how well patterns in the data fits our expectations from the experiments design and possible sources of variation in the dataset.</p>
 <p>Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which can be found in the bonus content module.</p>
 <p><strong>TODO: DOUBLE CHHECK INTRO AFTER CHANGING VISUALIZATION</strong></p>
 <div id="principle-component-analysis-pca-plots" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Principle Component Analysis (PCA) Plots</h2>
+<h2 number="2.1"><span class="header-section-number">2.1</span> Principle Component Analysis (PCA) Plots</h2>
 <p>A common and very useful plot for evaluating how well our samples cluster by treatment groups are Principle Component Analysis (PCA) plots. PCA is used to emphasize variation and bring out patterns in large datasets by using dimensionality redution.</p>
 <p>This image from <a href="https://blog.bioturing.com/2018/06/14/principal-component-analysis-explained-simply/">a helpful step by step explaination of PCA</a> helps to illustrate the principle component projections for two genes measured in approximately 60 mouse samples. Generally, this process is repeated and after each gene’s contribution to a principle component or weight is determined, the expression and weight are summed across genes for each sample to calculate a value for each principle component.</p>
 <p><img src="images/Blog_pca_6b.png" /></p>
@@ -502,7 +508,7 @@ code.r{
 <p><strong>Note</strong>: A more detailed overview of the PCA procedure is outlined in <a href="https://hbctraining.github.io/DGE_workshop/lessons/principal_component_analysis.html">a Harvard Chan Bioinformatic Core training module</a> and is based on a more thorough description presented in a <a href="https://www.youtube.com/watch?v=_UVHneBUBW0">StatQuest’s video</a>. Additionally, <a href="https://towardsdatascience.com/principal-component-analysis-3c39fbf5cb9d">this TowardsDataScience blog post</a> goes through the math behind PCAs.</p>
 </blockquote>
 <div id="interpreting-pca-plots" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> Interpreting PCA plots</h3>
+<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> Interpreting PCA plots</h3>
 <p><img src="images/PCAplot_Fancy_rlog_ko.Tx.png" style="width:75.0%" /></p>
 <p>In this plot, which is similar to what we’ll generate below for our data, principle component 1 (PC1) explains ~80% of the variance in our data while principle component 2 (PC2) explains ~12% of the variance.</p>
 <p>For most experiments, we expect the majority of the total variance to be explained by the first two or three principle components so this plot.</p>
@@ -510,7 +516,7 @@ code.r{
 <p>For more information, this <a href="https://blog.bioturing.com/2018/06/14/principal-component-analysis-explained-simply/">helpful overview of PCA basics</a> walks through both the generation and interpretation of similar plots.</p>
 </div>
 <div id="evaluating-batch-effects-or-confounders" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> Evaluating batch effects or confounders</h3>
+<h3 number="2.1.2"><span class="header-section-number">2.1.2</span> Evaluating batch effects or confounders</h3>
 <p>PCA plots are useful for evaluating the impact of factors other than the experimental treatment or group.</p>
 <p>At times, batch effects can be quite obvious, such as this example from the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html">DESeq2 vignette</a>, where there is clear separation within the treatment groups.</p>
 <p><img src="images/PCA1_DESeq2Vignette.png" /></p>
@@ -524,21 +530,21 @@ code.r{
 In experiments with more complex designs, such as when there are interesecting/multiple treatment conditions, it can be less clear what covariants are influencing expression, such as illustrated from <a href="http://www.molmine.com/magma/global_analysis/batch_effect.html">this documenation for a microarray analysis tool</a>. From the PCA labeled by experimental treatment, we see that samples from the treatment group do not cluster together and that there is high variance across all treatment groups. <img src="images/batch_ex1b.jpg" /> However, when the plot is color coded by the technical batches of probe labeling, we see that the patterns in the data are better explained by batch than the experimental conditions. <img src="images/batch_ex1c.jpg" />
 </details>
 <div id="when-to-remove-samples-or-update-the-design-formula" class="section level4" number="2.1.2.1">
-<h4><span class="header-section-number">2.1.2.1</span> When to remove samples or update the design formula</h4>
+<h4 number="2.1.2.1"><span class="header-section-number">2.1.2.1</span> When to remove samples or update the design formula</h4>
 <p>Generally, the decision to remove samples should not be taken lightly, especially if the consideration is based on the expression level patterns we are visualizing in this section, as doing so without sufficient justification could potentially bias your results. Other training materials have a step-by-step example of evaluating <a href="https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html">batch effects</a> using PCAs, that we would recommend reviewing prior to removing any samples from your comparisons.</p>
 <p>If your PCA reveals patterns that were not accounted for in the initial model fit, the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#multi-factor-designs">DESeq2 vignette</a> provides an overview of how to add additional covariates to a model design before refitting the DESeq2 model for a dataset.</p>
 </div>
 </div>
 </div>
 <div id="plot-setup" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Plot Setup</h2>
+<h2 number="2.2"><span class="header-section-number">2.2</span> Plot Setup</h2>
 <p>We’ve already loaded the libraries we need for this module. We’ll follow best practices and create new directories to organize our output figures, as well as a variable to store a descriptor of the dataset we are looking at so we can more easily recycle our plotting functions.</p>
 <pre class="r"><code>plotPath = &#39;figures/&#39;
 dir.create(plotPath, showWarnings = FALSE)
 Comparison &lt;- &quot;Gtype.Tx&quot; # descriptor for the dataset we are looking at</code></pre>
 </div>
 <div id="pca-plot-initialization" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> PCA Plot initialization</h2>
+<h2 number="2.3"><span class="header-section-number">2.3</span> PCA Plot initialization</h2>
 <p>Below, we will plot the rlog normalized data for our samples projected onto a 2D plane and spanned by their first two principle components to visualize the overall effect of experimental covariates and determine if there is evidence of batch effects.</p>
 <p>We’ll generate the PCA projections for the top 500 using the <code>plotPCA</code> function from DESeq2, specifying <code>Gtype.Tx</code> as the condition of interest, and view the simple plot generated by the function.</p>
 <pre class="r"><code>p.all &lt;- plotPCA(rld, intgroup = c(&#39;Gtype.Tx&#39;), ntop = 500)
@@ -553,7 +559,7 @@ dev.off()</code></pre>
 ##                 2</code></pre>
 <p><strong>Checkpoint</strong>: <em>If generated and saved the <code>p.all</code> PCA plot, please indicate with the green ‘check’ button. Otherwise, please use use the red ‘x’ button in your zoom reaction panel to have this step repeated.</em></p>
 <div id="exercise-pca-plot-customization-with-ggplot2" class="section level4" number="2.3.0.1">
-<h4><span class="header-section-number">2.3.0.1</span> [Exercise]: PCA plot customization with ggplot2</h4>
+<h4 number="2.3.0.1"><span class="header-section-number">2.3.0.1</span> [Exercise]: PCA plot customization with ggplot2</h4>
 <p>We can generate a customized plot using the <code>ggplot2</code> package, including shape assignments for our treatment groups and color assignments for the individual samples.</p>
 <p>**TODO: break into multiple guided stanza’s (with solutions)</p>
 <p>First, we need to create some objects to store the sample and group information.</p>
@@ -615,7 +621,7 @@ barplot((scree[1:10]*100), main=&quot;Scree Plot&quot;, xlab=&quot;Principal Com
 </details>
 </div>
 <div id="optional---pca-plot-for-raw-data" class="section level4" number="2.3.0.2">
-<h4><span class="header-section-number">2.3.0.2</span> Optional - PCA plot for raw data</h4>
+<h4 number="2.3.0.2"><span class="header-section-number">2.3.0.2</span> Optional - PCA plot for raw data</h4>
 <p>It can sometimes be useful to also generate a PCA plot for the raw data as well as the normalized data, particularly</p>
 <pre class="r"><code>RC &lt;- SummarizedExperiment(log2(counts(dds, normalized = FALSE)), colData=colData(dds))
 p.raw &lt;- plotPCA(DESeqTransform(RC), intgroup = c(&#39;Gtype.Tx&#39;), ntop = 500)
@@ -645,7 +651,7 @@ plot(gpRC)</code></pre>
 </div>
 </div>
 <div id="summary" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Summary</h1>
+<h1 number="3"><span class="header-section-number">3</span> Summary</h1>
 <p>In this section, we:</p>
 <ul>
 <li>Discussed variance within treatment groups<br />
@@ -657,7 +663,7 @@ plot(gpRC)</code></pre>
 <hr />
 </div>
 <div id="sources-used" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Sources Used</h1>
+<h1 number="4"><span class="header-section-number">4</span> Sources Used</h1>
 <ul>
 <li>HBC QC tutorial: <a href="https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html</a><br />
 </li>

@@ -15,8 +15,8 @@
 
 <title>Day 3 - Module 11X: Bonus Content</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -410,7 +410,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
     </li>
   </ul>
 </li>
@@ -457,7 +463,7 @@ code.r{
 </ul>
 </blockquote>
 <div id="count-boxplots" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Count boxplots</h1>
+<h1 number="1"><span class="header-section-number">1</span> Count boxplots</h1>
 <p>To understand how skewed our raw data was and how well our normalization worked, we can look at distributions of raw and normalized counts. First, we need to set up some tables and labels.</p>
 <pre class="r"><code>## setup for raw counts
 plotPath = &quot;figures/&quot;
@@ -518,7 +524,7 @@ box_plot</code></pre>
 <pre class="r"><code>ggsave(filename = paste0(plotPath, &quot;BoxPlot_Gtype.Tx_rlog.pdf&quot;), plot = box_plot, height = 8, width = 8, dpi = 300)</code></pre>
 </div>
 <div id="heatmaps" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Heatmaps</h1>
+<h1 number="2"><span class="header-section-number">2</span> Heatmaps</h1>
 <p>To understand the patterns of expression across all our samples, including how well our samples cluster by group labels, we can generate a heatmaps.</p>
 <p>The first heatmap to generate is of the top 500 expressed genes across all samples. First, we’ll set our color palette using a tool called <a href="https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html">Color Brewer</a>.</p>
 <pre class="r"><code>#heatmap with top 500 variant or expressed genes, rlog normalized data
@@ -537,7 +543,7 @@ dev.off()</code></pre>
 <p>Looking at the heatmap, we see that samples within the same treatment group cluster together, fitting our understanding of the experimental design. We also see clusters of genes that appear to have contrasting patterns between the treatment groups, which is promising for our differential expression comparisons.</p>
 <p><strong>Note</strong>: Heatmaps are helpful visualizations, especially for sharing an overview of your RNA-seq data. The why and how of to use them properly can be confusing, such as outlined in the questions and answers in <a href="https://www.biostars.org/p/230115/">this biostars post</a> that adds additional context to the overview in this workshop.</p>
 <div id="sample-and-top-variable-expressed-heatmaps" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Sample and Top Variable Expressed Heatmaps</h2>
+<h2 number="2.1"><span class="header-section-number">2.1</span> Sample and Top Variable Expressed Heatmaps</h2>
 <p>This <a href="http://www.opiniomics.org/you-probably-dont-understand-heatmaps/">blog post</a> reviews the data transformation procedure for generating heatmaps and is a useful resource. They review the steps for generating a sample correlation heatmap similar to the plot generated below.</p>
 <pre class="r"><code>#heatmap of normalized data, sample distibution matrix
 sampleDists &lt;- dist(t(assay(rld))) #rld
@@ -569,7 +575,7 @@ dev.off()</code></pre>
 </div>
 </div>
 <div id="sources-used" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Sources Used</h1>
+<h1 number="3"><span class="header-section-number">3</span> Sources Used</h1>
 <ul>
 <li>HBC QC tutorial: <a href="https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html</a><br />
 </li>
@@ -578,63 +584,45 @@ dev.off()</code></pre>
 <hr />
 </div>
 <div id="session-info" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Session Info</h1>
+<h1 number="4"><span class="header-section-number">4</span> Session Info</h1>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 4.1.1 (2021-08-10)
 ## Platform: x86_64-apple-darwin17.0 (64-bit)
-## Running under: macOS Catalina 10.15.7
+## Running under: macOS Big Sur 11.6
 ## 
 ## Matrix products: default
-## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
 ## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
 ## 
 ## locale:
 ## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
 ## 
 ## attached base packages:
-## [1] stats4    stats     graphics  grDevices utils     datasets  methods  
-## [8] base     
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] biomaRt_2.50.0              data.table_1.14.2          
-##  [3] RColorBrewer_1.1-2          pheatmap_1.0.12            
-##  [5] ggrepel_0.9.1               dplyr_1.0.7                
-##  [7] tidyr_1.1.4                 ggplot2_3.3.5              
-##  [9] DESeq2_1.34.0               SummarizedExperiment_1.24.0
-## [11] Biobase_2.54.0              MatrixGenerics_1.6.0       
-## [13] matrixStats_0.61.0          GenomicRanges_1.46.0       
-## [15] GenomeInfoDb_1.30.0         IRanges_2.28.0             
-## [17] S4Vectors_0.32.2            BiocGenerics_0.40.0        
-## [19] rmarkdown_2.11             
+##  [1] data.table_1.14.0           pheatmap_1.0.12             biomaRt_2.50.0              RColorBrewer_1.1-2         
+##  [5] ggrepel_0.9.1               dplyr_1.0.7                 tidyr_1.1.3                 ggplot2_3.3.5              
+##  [9] DESeq2_1.34.0               SummarizedExperiment_1.24.0 Biobase_2.30.0              MatrixGenerics_1.6.0       
+## [13] matrixStats_0.61.0          GenomicRanges_1.46.0        GenomeInfoDb_1.30.0         IRanges_2.28.0             
+## [17] S4Vectors_0.32.2            BiocGenerics_0.40.0         rmarkdown_2.10             
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bitops_1.0-7           bit64_4.0.5            filelock_1.0.2        
-##  [4] progress_1.2.2         httr_1.4.2             tools_4.1.1           
-##  [7] utf8_1.2.2             R6_2.5.1               DBI_1.1.1             
-## [10] colorspace_2.0-2       withr_2.4.2            tidyselect_1.1.1      
-## [13] prettyunits_1.1.1      bit_4.0.4              curl_4.3.2            
-## [16] compiler_4.1.1         xml2_1.3.2             DelayedArray_0.20.0   
-## [19] labeling_0.4.2         scales_1.1.1           genefilter_1.76.0     
-## [22] rappdirs_0.3.3         stringr_1.4.0          digest_0.6.28         
-## [25] XVector_0.34.0         pkgconfig_2.0.3        htmltools_0.5.2       
-## [28] dbplyr_2.1.1           fastmap_1.1.0          highr_0.9             
-## [31] rlang_0.4.11           RSQLite_2.2.8          jquerylib_0.1.4       
-## [34] generics_0.1.0         farver_2.1.0           BiocParallel_1.28.0   
-## [37] RCurl_1.98-1.5         magrittr_2.0.1         GenomeInfoDbData_1.2.7
-## [40] Matrix_1.3-4           Rcpp_1.0.7             munsell_0.5.0         
-## [43] fansi_0.5.0            lifecycle_1.0.1        stringi_1.7.5         
-## [46] yaml_2.2.1             zlibbioc_1.40.0        BiocFileCache_2.2.0   
-## [49] grid_4.1.1             blob_1.2.2             parallel_4.1.1        
-## [52] crayon_1.4.1           lattice_0.20-44        Biostrings_2.62.0     
-## [55] splines_4.1.1          annotate_1.72.0        hms_1.1.1             
-## [58] KEGGREST_1.34.0        locfit_1.5-9.4         knitr_1.36            
-## [61] pillar_1.6.3           geneplotter_1.72.0     XML_3.99-0.8          
-## [64] glue_1.4.2             evaluate_0.14          BiocManager_1.30.16   
-## [67] png_0.1-7              vctrs_0.3.8            gtable_0.3.0          
-## [70] purrr_0.3.4            assertthat_0.2.1       cachem_1.0.6          
-## [73] xfun_0.26              xtable_1.8-4           survival_3.2-11       
-## [76] tibble_3.1.5           AnnotationDbi_1.56.2   memoise_2.0.0         
-## [79] ellipsis_0.3.2</code></pre>
+##  [1] bitops_1.0-7           bit64_4.0.5            filelock_1.0.2         progress_1.2.2         httr_1.4.2            
+##  [6] tools_4.1.1            bslib_0.2.5.1          utf8_1.2.2             R6_2.5.0               DBI_1.1.1             
+## [11] colorspace_2.0-2       withr_2.4.2            tidyselect_1.1.1       prettyunits_1.1.1      bit_4.0.4             
+## [16] curl_4.3.2             compiler_4.1.1         cli_3.0.1              xml2_1.3.2             DelayedArray_0.20.0   
+## [21] labeling_0.4.2         sass_0.4.0             scales_1.1.1           genefilter_1.76.0      rappdirs_0.3.3        
+## [26] stringr_1.4.0          digest_0.6.27          XVector_0.34.0         pkgconfig_2.0.3        htmltools_0.5.1.1     
+## [31] dbplyr_2.1.1           fastmap_1.1.0          highr_0.9              rlang_0.4.11           rstudioapi_0.13       
+## [36] RSQLite_2.2.7          jquerylib_0.1.4        generics_0.1.0         farver_2.1.0           jsonlite_1.7.2        
+## [41] BiocParallel_1.28.0    RCurl_1.98-1.5         magrittr_2.0.1         GenomeInfoDbData_1.2.7 Matrix_1.3-4          
+## [46] Rcpp_1.0.7             munsell_0.5.0          fansi_0.5.0            lifecycle_1.0.0        stringi_1.7.3         
+## [51] yaml_2.2.1             zlibbioc_1.16.0        BiocFileCache_2.2.0    grid_4.1.1             blob_1.2.2            
+## [56] parallel_4.1.1         crayon_1.4.1           lattice_0.20-44        splines_4.1.1          annotate_1.48.0       
+## [61] hms_1.1.0              locfit_1.5-9.4         knitr_1.33             pillar_1.6.2           geneplotter_1.72.0    
+## [66] XML_3.99-0.6           glue_1.4.2             evaluate_0.14          vctrs_0.3.8            gtable_0.3.0          
+## [71] purrr_0.3.4            assertthat_0.2.1       cachem_1.0.5           xfun_0.25              xtable_1.8-4          
+## [76] survival_3.2-11        tibble_3.1.3           AnnotationDbi_1.32.3   memoise_2.0.0          ellipsis_0.3.2</code></pre>
 <hr />
 <p>These materials have been adapted and extended from materials listed above. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
 </div>

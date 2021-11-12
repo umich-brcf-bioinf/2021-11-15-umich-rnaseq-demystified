@@ -309,10 +309,10 @@ Now that you have the ENSEMBL information and a gene symbol to match to our resu
 ```{r updateDETableTidyr}
 ## TODO: CHECK TIDYVERSE SOLUTION
 
-res_WT_anno <- res_WT %>%
+res_WT_anno <- as.data.frame(res_WT) %>%
   mutate(genes = row.names(res_WT_anno))
 
-res_WT_anno <- join()
+#res_WT_anno <- join()
 
 ```
     Alternatively, if you are more familiar with base functions:

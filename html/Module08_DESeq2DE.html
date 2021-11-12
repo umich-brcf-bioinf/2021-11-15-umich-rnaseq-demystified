@@ -15,8 +15,8 @@
 
 <title>Day 2 - Module 08: Count normalizations and DESeq2 model fitting</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -420,7 +420,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
     </li>
   </ul>
 </li>
@@ -475,16 +481,16 @@ code.r{
 </ul>
 </blockquote>
 <div id="differential-expression-workflow" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Differential Expression Workflow</h1>
+<h1 number="1"><span class="header-section-number">1</span> Differential Expression Workflow</h1>
 <p>Here we will proceed with count normalizations and fit our DESeq2 model.</p>
 <p><img src="images/wayfinder/wayfinder-04.png" style="width:75.0%" /></p>
 <hr />
 </div>
 <div id="count-normalizations" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Count normalizations</h1>
+<h1 number="2"><span class="header-section-number">2</span> Count normalizations</h1>
 <p>Since counts of mapped reads for each gene is proportional to the expression of RNA in addition to many “uninteresting” other factors, normalization is the process of scaling raw count values to account for the “uninteresting” factors and ensure expression levels are more comparable.</p>
 <div id="normalization-goals" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Normalization goals</h2>
+<h2 number="2.1"><span class="header-section-number">2.1</span> Normalization goals</h2>
 <p>Two common factors that need to be accounted for during normalization are <strong>sequencing depth</strong> and <strong>gene length</strong>. Common normalization approaches (such as FPKM, RPKM, CPM, TPM, etc.) account for one or both of these factors.</p>
 <ul>
 <li><strong>Sequencing depth</strong> normalization is necessary to account for the proportion of reads per gene expected for more deeply sequenced samples (like in pink below) versus a less deeply sequenced sample (like in green below).</li>
@@ -506,7 +512,7 @@ code.r{
 <p><strong>Check-in: Questions about normalizations?</strong></p>
 </div>
 <div id="deseq2-normalizations" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> DESeq2 normalizations</h2>
+<h2 number="2.2"><span class="header-section-number">2.2</span> DESeq2 normalizations</h2>
 <p>DESeq2 has an <a href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106">internal normalization process</a> that accounts for <strong>RNA composition</strong>. A few highly differentially expressed genes, differences in the number of genes expressed between samples, or contamination are not accounted for by depth or gene length normalization methods. Accounting for RNA composition is particularly important for differential expression analyses, regardless of the tool used.</p>
 <p>For data exploration and visualizations, it is helpful to generate an object of independently normalized counts. We will use the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#count-data-transformations">rlog transformation</a> that accounts for sequencing depth for each sample and RNA composition differences in the overall experiment for downstream quality control visualizations.</p>
 <p>The rlog transformation produces log2 scale data that has also been normalized to overall library size as well as variance across genes at different mean expression levels. For larger numbers of samples, there is an alternative transformation method, <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#count-data-transformations">vst</a> that can be used instead for count normalizations.</p>
@@ -518,31 +524,28 @@ code.r{
 <p>*Note: We see a message here that our data did not fit the default ‘parametric’ dispersion model so a local regression was substituted. If we had more time, we might look at a dispersion plot with the <code>plotDispEsts(dds)</code> function, but as <a href="https://support.bioconductor.org/p/107937/">this bioconductor thread</a> discusses, other visualizations of our data might be more helpful and/or easier to interpret.</p>
 <p>Next, we’ll look at the results of the transformation.</p>
 <pre class="r"><code>head(assay(rld), 2)</code></pre>
-<pre><code>##                    Sample_116498 Sample_116499 Sample_116500 Sample_116501
-## ENSMUSG00000000001     12.639049     12.609976     12.791192     12.619063
-## ENSMUSG00000000028      7.847671      8.152787      7.949574      8.203993
-##                    Sample_116502 Sample_116503 Sample_116504 Sample_116505
-## ENSMUSG00000000001     12.721280     12.668801      12.53167      12.50798
-## ENSMUSG00000000028      8.464987      8.506084      10.82552      10.89710
-##                    Sample_116506 Sample_116507 Sample_116508 Sample_116509
-## ENSMUSG00000000001      12.47565      12.72717      12.51363      12.46995
-## ENSMUSG00000000028      11.00659      11.15996      11.06722      11.09489</code></pre>
+<pre><code>##                    Sample_116498 Sample_116499 Sample_116500 Sample_116501 Sample_116502 Sample_116503 Sample_116504
+## ENSMUSG00000000001     12.639049     12.609976     12.791192     12.619063     12.721280     12.668801      12.53167
+## ENSMUSG00000000028      7.847671      8.152787      7.949574      8.203993      8.464987      8.506084      10.82552
+##                    Sample_116505 Sample_116506 Sample_116507 Sample_116508 Sample_116509
+## ENSMUSG00000000001      12.50798      12.47565      12.72717      12.51363      12.46995
+## ENSMUSG00000000028      10.89710      11.00659      11.15996      11.06722      11.09489</code></pre>
 <p>Looking at the rld values, we can see that they are now in log scale. Since we set <code>blind=TRUE</code>, the transformation is blind to the sample information we specified in the design formula. The normalized counts are helpful for visualization methods during expression-level quality assessment but <strong>aren’t used in the model fitting</strong>.</p>
 </div>
 </div>
 <div id="deseq2-model-fitting" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> DESeq2 Model Fitting</h1>
+<h1 number="3"><span class="header-section-number">3</span> DESeq2 Model Fitting</h1>
 <p>Next, we’ll fit our standard model using the <code>DESeq</code> function and take a look at the objects we generate.</p>
 <pre class="r"><code>dds &lt;- DESeq(dds)</code></pre>
 <p>This command applies the model to our data, using the sample information supplied when generating the <code>dds</code> object so it takes some time to run.</p>
 <pre class="r"><code>resultsNames(dds)</code></pre>
-<pre><code>## [1] &quot;Intercept&quot;                    &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;     
-## [3] &quot;Gtype.Tx_ko.control_vs_wt.Tx&quot; &quot;Gtype.Tx_wt.control_vs_wt.Tx&quot;</code></pre>
+<pre><code>## [1] &quot;Intercept&quot;                    &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;      &quot;Gtype.Tx_ko.control_vs_wt.Tx&quot;
+## [4] &quot;Gtype.Tx_wt.control_vs_wt.Tx&quot;</code></pre>
 <p>The results include three pairwise comparisons to the specified control as default but other information is now stored in the <code>dds</code> object so we can generate additional pairwise comparisons.</p>
 <pre class="r"><code>head(dds)</code></pre>
 <p><strong>Checkpoint</strong>: <em>If you see the same results when you execute <code>resultsNames(dds)</code>, please indicate with the green ‘yes’ button. Otherwise, please use the red ‘x’ button to get help before the break</em></p>
 <div id="optional-exercise" class="section level4" number="3.0.0.1">
-<h4><span class="header-section-number">3.0.0.1</span> [Optional Exercise]</h4>
+<h4 number="3.0.0.1"><span class="header-section-number">3.0.0.1</span> [Optional Exercise]</h4>
 <p>If you executed the commands in the option exercise from Module 07, you can fit a seperate DESeq2 model for the patient sample example, which included a covariate in our model.</p>
 <details>
 <summary>
@@ -554,7 +557,7 @@ code.r{
 </div>
 </div>
 <div id="summary" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Summary</h1>
+<h1 number="4"><span class="header-section-number">4</span> Summary</h1>
 <p>In this section, we:</p>
 <ul>
 <li>Learned about count normalizations and uses<br />
@@ -568,9 +571,9 @@ code.r{
 <hr />
 </div>
 <div id="sources" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> Sources</h1>
+<h1 number="5"><span class="header-section-number">5</span> Sources</h1>
 <div id="training-resources-used-to-develop-materials" class="section level2" number="5.1">
-<h2><span class="header-section-number">5.1</span> Training resources used to develop materials</h2>
+<h2 number="5.1"><span class="header-section-number">5.1</span> Training resources used to develop materials</h2>
 <ul>
 <li>HBC DGE setup: <a href="https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html</a></li>
 <li>HBC Count Normalization: <a href="https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html</a></li>

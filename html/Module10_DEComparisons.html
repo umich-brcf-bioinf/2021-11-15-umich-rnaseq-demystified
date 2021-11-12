@@ -15,8 +15,8 @@
 
 <title>Day 3 - Module 10: DE Comparisons Results</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
-<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -420,7 +420,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
     </li>
   </ul>
 </li>
@@ -477,20 +483,20 @@ code.r{
 </ul>
 </blockquote>
 <div id="differential-expression-workflow" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Differential Expression Workflow</h1>
+<h1 number="1"><span class="header-section-number">1</span> Differential Expression Workflow</h1>
 <p>Here we will finally test for differential expression between our comparisons of interest.</p>
 <p><img src="images/wayfinder/wayfinder-06.png" style="width:75.0%" /></p>
 <hr />
 </div>
 <div id="generating-de-results" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Generating DE results</h1>
+<h1 number="2"><span class="header-section-number">2</span> Generating DE results</h1>
 <p><em>[Question]: Before we start, what assumptions do you have/have you heard about differential expression comparisons? (Post below or raise zoom ‘hand’ to speak)</em></p>
 <p>Now that we have reviewed the plots by sample and determined that our data passed our quality control checks, specifically that the patterns we observe are likely due to our experimental treatments over technical or other confounding factors, we can focus on differential expression testing.</p>
 <p>This illustration from the HCB training materials illustrates the basis of the differential expression procedure, where our goal is to compare the distribution of an expressed gene across samples in each treatment groups. <img src="images/de_theory.png" /> <em>Image credit: Paul Pavlidis, UBC</em></p>
 <p>Only where the distributions of each group are sufficiently separated will a gene be considered differentially expressed.</p>
 <p>This is where having sufficient replicates to overcome within group variance is important, as the more replicates we have in each group the better we can determine the distributions of expression for each group.</p>
 <div id="deseq2-statistical-testing" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> DESeq2 statistical testing</h2>
+<h2 number="2.1"><span class="header-section-number">2.1</span> DESeq2 statistical testing</h2>
 <p>We have already fit our DESeq2 model, specifing our model as <code>~ Gtype.Tx</code> and our next step is to identify genes with significantly different expression between our contrasts of interest. To determine significance, a statistical test is required.</p>
 <p>The first step for any statistical test is to define the <em>null hypothesis</em>. In this case, the null hypothesis would be that there is no difference in the expression of a gene between two groups of samples, such as illustrated at the bottom of the first figure in this module. The next step is to use a statistical test to determine if, based on the observed data, the null hypothesis can be rejected.</p>
 <p>To do this, <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#theory-behind-deseq2">DESeq2 applies the Wald test</a> to compare two groups. A Wald test statistic is computed as well as the probability that the observed value or more extreme test statistic would be observed. This probability is called the p-value of the test.</p>
@@ -498,21 +504,21 @@ code.r{
 <p>For a more detailed overview of the statistical comparisons , please refer to <a href="https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html">this HBC tutorial</a> or the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#theory-behind-deseq2">DESeq2 vignette</a>.</p>
 </div>
 <div id="optional---dispersion-estimates" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Optional - Dispersion estimates</h2>
+<h2 number="2.2"><span class="header-section-number">2.2</span> Optional - Dispersion estimates</h2>
 <p>As mentioned in the last module, we can visualize the <strong>dispersion estimates</strong> with the <code>plotDispEsts</code> function. This plot shows the the DESeq2 normalization results for our data, which centers on shrinking the variance across all genes to better fit the expected spread at a given expression level.</p>
 <pre class="r"><code>plotDispEsts(dds)</code></pre>
 <p>If we ran the command above, we would see the raw data plotted in black, the fitted (or expected) dispersion in red, and the normalized data with scaled variance in blue. Since we have fairly small sample sizes for each condition, we see shrinkage for many genes but a reasonable correlation between the expression level and dispersions.</p>
 <p>This <a href="https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html">HBC tutorial</a> has a more detailed overview of estimating size factors, estimating gene dispersion, and the shrinkage procedure, as well as examples of concerning dispersion plots that may suggest reassessing quality of the experimental data.</p>
 </div>
 <div id="results-table-output" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Results table output</h2>
+<h2 number="2.3"><span class="header-section-number">2.3</span> Results table output</h2>
 <p>In the results table that we’ll generate (similar to example shown below), the row name are gene symbols and there are six columns of values that are <a href="https://support.illumina.com/help/BS_App_RNASeq_DE_OLH_1000000071939/Content/Source/Informatics/Apps/DESeq2ResultFile_swBS.htm#:~:text=baseMean%E2%80%94The%20average%20of%20the,factors%2C%20taken%20over%20all%20samples.&amp;text=log2FoldChange%E2%80%93The%20effect%20size%20estimate,the%20comparison%20and%20control%20groups">described in more detail in an Illumina post</a>.</p>
 <p><img src="images/DEResultsExample.png" /></p>
 <p>The first column, <strong>‘baseMean’</strong> is the average of the normalized count values, divided by size factors and taken over all samples, and can be interpreted as the relative expression level of that gene across all samples.</p>
 <p>The second column, <strong>‘log2FoldChange’</strong>, is the log2 transformed ratio of the expression of the numerator group (first group) over the denominator group (second group after “vs”). The third column, <strong>‘lfcSE’</strong> is the standard error for the log2 fold change estimate.</p>
 <p>The fourth column, <strong>‘stat’</strong>, is the calculated Wald statistic for that gene, while the fifth column ‘pvalue’ is the <em>nominal</em> significance for that gene.</p>
 <div id="multiple-hypothesis-testing-and-fdr-correction" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Multiple hypothesis testing and FDR correction</h3>
+<h3 number="2.3.1"><span class="header-section-number">2.3.1</span> Multiple hypothesis testing and FDR correction</h3>
 <p>The sixth column, <strong>‘padj’</strong>, is the <em>adjusted p-value</em> and is what we use for determining significantly differently expressed genes.</p>
 <p><em>[Question]: Why do we use values from this column instead of the ‘pvalue’ column?</em></p>
 <p>Each p-value is the result of a single test for a single gene. The more genes we test, the greater chance we have of seeing a significant results. This is the multiple testing problem. If we used the p-value directly from the Wald test with a significance cut-off of p &lt; 0.05, that means there is a 5% chance it is a false positives. So if we are testing 20,000 genes for differential expression, we would expect to see ~1,000 significant genes just by chance. This is problematic because we would need to sift through our “significant” genes to identify which ones are true positives.</p>
@@ -520,7 +526,7 @@ code.r{
 <p><strong>Note</strong>: From the <code>results</code> function help page and <a href="https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html">HBC tutorial that includes overview of multiple hypothesis correction</a>, we can change the multiple hypothesis correction method to an alternative option using the <code>pAdjustMethod =</code> argument.</p>
 <p>The default FDR rate cutoff for DESeq2 is <code>alpha = 0.05</code>. By setting the cutoff to &lt; 0.05, we expect that the proportion of false positives amongst our differentially expressed genes is now controlled to 5%. For example, if we call 500 genes as differentially expressed with this FDR cutoff, we expect only 25 of them to be false positives. DESeq2 vignette’s includes a <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#independent-filtering-and-multiple-testing">further discussion of filtering and multiple testing</a></p>
 <div id="note-on-padj-values-set-to-na" class="section level4" number="2.3.1.1">
-<h4><span class="header-section-number">2.3.1.1</span> Note on ‘padj’ values set to NA</h4>
+<h4 number="2.3.1.1"><span class="header-section-number">2.3.1.1</span> Note on ‘padj’ values set to NA</h4>
 <p>As discussed in the <a href="https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html">HBC tutorial</a> as well as the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#i-want-to-benchmark-deseq2-comparing-to-other-de-tools.">DESeq2 vignette</a></p>
 <ul>
 <li>If within a row, all samples have zero counts, the baseMean column will be zero, and the log2 fold change estimates, p-value and adjusted p-value will all be set to NA.<br />
@@ -533,11 +539,11 @@ code.r{
 </div>
 </div>
 <div id="generating-results" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Generating results</h2>
+<h2 number="2.4"><span class="header-section-number">2.4</span> Generating results</h2>
 <p>We can check what comparisons were automatically generated during fitting using the <code>resultsNames()</code>.</p>
 <pre class="r"><code>resultsNames(dds)</code></pre>
-<pre><code>## [1] &quot;Intercept&quot;                    &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;     
-## [3] &quot;Gtype.Tx_ko.control_vs_wt.Tx&quot; &quot;Gtype.Tx_wt.control_vs_wt.Tx&quot;</code></pre>
+<pre><code>## [1] &quot;Intercept&quot;                    &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;      &quot;Gtype.Tx_ko.control_vs_wt.Tx&quot;
+## [4] &quot;Gtype.Tx_wt.control_vs_wt.Tx&quot;</code></pre>
 <p>Since we are interested in comparing each knockout versus its corresponding wild-type control, only one of the automatically generated comparisons is relevant. We can pull the <code>Tx_ko.Tx_vs_wt.Tx</code> comparison results using the <code>results</code> function and assign those result to a new object.</p>
 <pre class="r"><code>Comparison &lt;- &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;
 res_Tx &lt;- results(dds, name=Comparison)</code></pre>
@@ -546,26 +552,18 @@ res_Tx &lt;- results(dds, name=Comparison)</code></pre>
 <pre><code>## log2 fold change (MLE): Gtype.Tx ko.Tx vs wt.Tx 
 ## Wald test p-value: Gtype.Tx ko.Tx vs wt.Tx 
 ## DataFrame with 6 rows and 6 columns
-##                      baseMean log2FoldChange     lfcSE      stat      pvalue
-##                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;   &lt;numeric&gt;
-## ENSMUSG00000000001 6255.78733       0.079621 0.0934295  0.852204 3.94101e-01
-## ENSMUSG00000000028 1337.98982       0.226230 0.1161800  1.947239 5.15061e-02
-## ENSMUSG00000000031    3.77363       0.579460 1.1621131  0.498626 6.18043e-01
-## ENSMUSG00000000037   27.56347      -0.555188 0.4306035 -1.289324 1.97285e-01
-## ENSMUSG00000000049    2.25696       0.187564 1.6951093  0.110650 9.11894e-01
-## ENSMUSG00000000056 2194.17848      -1.306315 0.1778575 -7.344731 2.06174e-13
-##                           padj
-##                      &lt;numeric&gt;
-## ENSMUSG00000000001 6.64152e-01
-## ENSMUSG00000000028 2.15863e-01
-## ENSMUSG00000000031          NA
-## ENSMUSG00000000037 4.66009e-01
-## ENSMUSG00000000049          NA
-## ENSMUSG00000000056 3.20181e-11</code></pre>
+##                      baseMean log2FoldChange     lfcSE      stat      pvalue        padj
+##                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;   &lt;numeric&gt;   &lt;numeric&gt;
+## ENSMUSG00000000001 6255.78733       0.079621 0.0934295  0.852204 3.94101e-01 6.64152e-01
+## ENSMUSG00000000028 1337.98982       0.226230 0.1161800  1.947239 5.15061e-02 2.15863e-01
+## ENSMUSG00000000031    3.77363       0.579460 1.1621131  0.498626 6.18043e-01          NA
+## ENSMUSG00000000037   27.56347      -0.555188 0.4306035 -1.289324 1.97285e-01 4.66009e-01
+## ENSMUSG00000000049    2.25696       0.187564 1.6951093  0.110650 9.11894e-01          NA
+## ENSMUSG00000000056 2194.17848      -1.306315 0.1778575 -7.344731 2.06174e-13 3.20181e-11</code></pre>
 <p>Note that in our comparison,the log2FoldChange column compares the expression of the numerator group (<code>ko.Tx</code>) over the denominator group (<code>wt.Tx</code>). If the value is positive, that means the expression of that gene is greater across the <code>ko.Tx</code> samples than across the <code>wt.Tx</code> samples. If the value is negative, that means the expression of that gene is greater across the <code>wt.Tx</code> samples.</p>
 </div>
 <div id="how-to-generate-additional-contrasts" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> How to generate additional contrasts</h2>
+<h2 number="2.5"><span class="header-section-number">2.5</span> How to generate additional contrasts</h2>
 <p>Since our dds object already has the fitted data, if there are comparisons that are not included in the <code>resultsName</code>, we can generate Wald test results by specifying those comparisons as an additional argument to the results function.</p>
 <pre class="r"><code>?results</code></pre>
 <p>As the function description specifies, we need to provide a list of three elements: the name of the factor in the model design, the name of the numerator for the fold-change, and the name of denominator.</p>
@@ -574,28 +572,20 @@ head(res_WT)</code></pre>
 <pre><code>## log2 fold change (MLE): Gtype.Tx ko.control vs wt.control 
 ## Wald test p-value: Gtype.Tx ko.control vs wt.control 
 ## DataFrame with 6 rows and 6 columns
-##                      baseMean log2FoldChange     lfcSE      stat      pvalue
-##                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;   &lt;numeric&gt;
-## ENSMUSG00000000001 6255.78733    -0.01370173 0.0931866 -0.147035 0.883104082
-## ENSMUSG00000000028 1337.98982     0.52267884 0.1359753  3.843924 0.000121082
-## ENSMUSG00000000031    3.77363    -1.15621509 1.6006132 -0.722358 0.470074665
-## ENSMUSG00000000037   27.56347    -0.27921011 0.4764764 -0.585989 0.557882649
-## ENSMUSG00000000049    2.25696     4.01133495 1.8890848  2.123428 0.033718026
-## ENSMUSG00000000056 2194.17848    -0.00821319 0.1773220 -0.046318 0.963056826
-##                          padj
-##                     &lt;numeric&gt;
-## ENSMUSG00000000001 0.96100310
-## ENSMUSG00000000028 0.00391537
-## ENSMUSG00000000031         NA
-## ENSMUSG00000000037 0.80447495
-## ENSMUSG00000000049         NA
-## ENSMUSG00000000056 0.98888983</code></pre>
+##                      baseMean log2FoldChange     lfcSE      stat      pvalue       padj
+##                     &lt;numeric&gt;      &lt;numeric&gt; &lt;numeric&gt; &lt;numeric&gt;   &lt;numeric&gt;  &lt;numeric&gt;
+## ENSMUSG00000000001 6255.78733    -0.01370173 0.0931866 -0.147035 0.883104082 0.96100310
+## ENSMUSG00000000028 1337.98982     0.52267884 0.1359753  3.843924 0.000121082 0.00391537
+## ENSMUSG00000000031    3.77363    -1.15621509 1.6006132 -0.722358 0.470074665         NA
+## ENSMUSG00000000037   27.56347    -0.27921011 0.4764764 -0.585989 0.557882649 0.80447495
+## ENSMUSG00000000049    2.25696     4.01133495 1.8890848  2.123428 0.033718026         NA
+## ENSMUSG00000000056 2194.17848    -0.00821319 0.1773220 -0.046318 0.963056826 0.98888983</code></pre>
 <p>Now that we’ve generated our differential comparisons and have an understanding of our results, including multiple hypothesis correction, we can proceed with generating summary figures and tables for our differential expression analysis.</p>
 <hr />
 </div>
 </div>
 <div id="summary" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> Summary</h1>
+<h1 number="3"><span class="header-section-number">3</span> Summary</h1>
 <p>In this section, we:</p>
 <ul>
 <li>Performed statistical tests for comparisons of interest<br />
@@ -608,7 +598,7 @@ head(res_WT)</code></pre>
 <hr />
 </div>
 <div id="sources-used" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Sources Used</h1>
+<h1 number="4"><span class="header-section-number">4</span> Sources Used</h1>
 <ul>
 <li>HBC DGE training module, part 1: <a href="https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html</a></li>
 <li>HBC DGE training module, part 2: <a href="https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/05_DGE_DESeq2_analysis2.html</a></li>
