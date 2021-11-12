@@ -1,5 +1,5 @@
 ---
-title: "Day 1 - Module 05: MultQC and Counts"
+title: "Day 2 - Module 05: MultQC and Counts"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -12,6 +12,14 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
 
 # MultiQC, Count Matrix, Wrap-Up
 
@@ -25,9 +33,9 @@ In this module, we will learn:
 
 # Differential Expression Workflow
 
-Here we will take the results from the previous module and operate on them a bit further. This will wrap up the day 1 exercises, leaving us well-poised to begin differential expression, which we will discuss on day 2.
+Here we will take the results from the previous module and operate on them a bit further. This will wrap up the preceding exercises, leaving us well-poised to begin differential expression, which we will discuss today and tomorrow.
 
-![](images/wayfinder_06.png)
+![](images/wayfinder/wayfinder-03.png)
 <br>
 <br>
 <br>

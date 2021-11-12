@@ -42,10 +42,12 @@ navbar:
           href: Module09_SampleQCViz.html
     - text: "Diff Expression"
       menu:
-        - text: "DE Comparisons and Gene Annotations"
+        - text: "Comparisons"
           href: Module10_DEComparisons.html
-        # - text: "DE Visualizations and output files"
-        #   href: Module11_DEVisualizations.html
+        - text: "DE Visiualization and Annotation"
+          href: Module11_DEVisualizations.html
+        - text: "Bonus content"
+          href: Module11X_BonusContent.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
 

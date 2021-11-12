@@ -1,5 +1,5 @@
 ---
-title: "Day 1 - Module 05: Additional Details"
+title: "Day 2 - Module 05: Additional Details"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -12,6 +12,14 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
 
 # Additional Information
 

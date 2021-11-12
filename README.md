@@ -1,136 +1,55 @@
+<style type="text/css">
+
+body, td {
+   font-size: 18px;
+}
+</style>
+
 # RNA-seq Demystified
 
-## [Setup instructions](setup_instructions)
+#### [Setup instructions](workshop_setup/setup_instructions.html)
 
-## [Slack workspace](https://umcoderspaces.slack.com)
+#### [Slack workspace](https://umcoderspaces.slack.com)
 
+---
 
 ## Schedule
 
-
-<table>
-<thead>
-<tr>
-<th>Time</th>
-<th>Topic</th>
-<th>Details</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Day 1 : Travis (&amp; Chris)</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>9:00</td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module00_Introduction.html">Workshop Introduction</a></td>
-<td></td>
-</tr>
-<tr>
-<td>9:20</td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module01_Warming_Up.html">Warming Up</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td><td rowspan="2"><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-04.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module02_QC.html">Quality Control</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module02optional_Cutadapt_MultiQC.html">Optional - Trimming and MultiQC</a></td>
-<td></td>
-</tr>
-<tr>
-<td>10:30</td>
-<td><strong>Break</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td><td rowspan="2"><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-05.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module03_Reference_Genomes.html">Reference Genomes</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module04_Alignment.html">Sequence Alignment and Gene Quantification with STAR/RSEM</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td><td rowspan="2"><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-06.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module05_MultiQC_and_Count_Matrix.html">MultiQC and Count Matrix</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module05optional_Additional_Details.html">Optional - Additional Information</a></td>
-<td></td>
-</tr>
-<tr>
-<td>1:00</td>
-<td><strong>Day  1 concludes</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>Day 2 : Dana (&amp; Chris)</strong></td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>9:00</td>
-<td>Intro Day 2</td>
-<td></td>
-</tr>
-<tr>
-<td>9:10</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td><td rowspan="3"><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-07.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module06_DEAnalysisSetup.html">Introduction to DESeq2</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module07_DESeq2Init.html">DESeq2 Initialization</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a></td>
-<td></td>
-</tr>
-<tr>
-<td>10:30</td>
-<td><strong>Break</strong></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-08.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module09_SampleQCViz.html">Sample Visualizations for QC</a></td>
-</tr>
-<tr>
-<td></td><td rowspan="2"><img src="/2021-fall-umich-rnaseq-demystified/images/wayfinder/wayfinder-09.png" width="200"></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module11_DEVisualizations.html">DE Visualizations and output files</a></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module11X_BonusContent.html">Optional - Additional QC Visualizations</a></td>
-<td></td>
-</tr>
-<tr>
-<td>12:45</td>
-<td><a href="/2021-fall-umich-rnaseq-demystified/html/Module99_Wrap_up.html">Wrap-up</a></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+#### Day 1 (Chris & Travis)
+| Time | Topic : Details |
+| :---  | :---- |
+|  9:00 | [Introductions and Startup](Module00_Introduction.html) |
+|  9:30 | **Sequence QC:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Quality Control (FASTQs)](Module00_Introduction.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Trimming and MultiQC](Module02optional_Cutadapt_MultiQC.html) |
+| 11:00 | Break |
+| 11:15 | **Alignment:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Reference genomes](Module03_Reference_Genomes.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Alignment](Module04_Alignment.html) |
+|  1:00 | Day 1 concludes |
+#### Day 2 (Travis & Dana)
+| | |
+| :---  | :---- |
+|  9:00 | Review |
+|  9:10 | **Quantification:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Count matrix / Alignment QC](Module05_MultiQC_and_Count_Matrix.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Additional details and exercise](Module05optional_Additional_Details.html) |
+| 11:00 | Break |
+| 11:15 | **Groups and Modeling:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Intro to DESeq2](Module06_DEAnalysisSetup.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[DESeq2 Initialization](Module07_DESeq2Init.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Count normalization and model fitting](Module08_DESeq2DE.html) |
+|  1:00 | Day 2 concludes |
+#### Day 3 (Dana)
+| | |
+| :---  | :---- |
+|  9:00 | Review |
+|  9:10 | **Expression plots:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Sample visualizations for QC](Module09_SampleQCViz.html) |
+| 11:00 | Break |
+| 11:15 | **Differential Expression:** |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Comparisons](Module10_DEComparisons.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[DE Visiualization and Annotation](Module11_DEVisualizations.html)|
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Bonus Content](Module11X_BonusContent.html)|
+| 12:45 | [Wrap-up](Module99_Wrap_up.html)
+|  1:00 | Day 3 concludes |

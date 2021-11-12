@@ -12,6 +12,14 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
 
 # QC
 
@@ -25,7 +33,7 @@ In this Quality Control (QC) module, we will learn:
 
 An overview of the steps of entire differential expression experiment and analysis workflow is shown below. In this lesson, we will go over the highlighted part of the workflow.
 
-![](images/wayfinder_04.png)
+![](images/wayfinder/wayfinder-01.png)
 <br>
 <br>
 <br>

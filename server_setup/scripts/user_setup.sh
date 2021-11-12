@@ -11,5 +11,7 @@ conda init
 (
 grep "$CONDA_PREFIX" ~/.bashrc || echo "conda activate ${CONDA_PREFIX}" >> ~/.bashrc
 
-cp -r /rsd/data/shell_data ~
+cd ~
+cp -a /rsd/data .
+ln -s /rsd/.cheat_data
 )

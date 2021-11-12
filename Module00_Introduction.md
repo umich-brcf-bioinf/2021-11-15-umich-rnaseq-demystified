@@ -1,5 +1,5 @@
 ---
-title: "RNA-seq Demystified Workshop"
+title: "RNA-Seq Demystified Workshop"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
@@ -40,12 +40,15 @@ pre {
 - https://brcf.medicine.umich.edu/bioinformatics
 
 ## About the workshop team
-| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg)| ![](images/Module00_headshots/headshot_damki.jpg)|
-|:-:|:-:|:-:|:-:|
-| **Chris** | **Marci** | **Travis** | **Dana** |
-| | | | |
-| ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
-| **Becky** | **Nick** | **Raymond** | **Weisheng** |
+| ![](images/Module00_headshots/headshot_cgates.jpg) | ![](images/Module00_headshots/headshot_mbradenb.jpg)| ![](images/Module00_headshots/headshot_trsaari.jpg) |
+|:-:|:-:|:-:|
+| **Chris** | **Marci** | **Travis** |
+| | | |
+| ![](images/Module00_headshots/headshot_damki.jpg) | ![](images/Module00_headshots/headshot_rtagett.jpg) | ![](images/Module00_headshots/headshot_grkenney.jpg) | 
+|  **Dana** | **Becky** | **Grace** |
+| | | |
+| ![](images/Module00_headshots/headshot_ncarruth.jpg)| ![](images/Module00_headshots/headshot_rcavalca.jpg)| ![](images/Module00_headshots/headshot_weishwu.jpg)|
+| **Nick** | **Raymond** | **Weisheng** |
 <br/>
 
 ## Workshop sponsors
@@ -99,9 +102,9 @@ pre {
 It is important that you can see:
 
  - Zoom (instructor's shared screen + reactions)
+ - Your terminal/command window (days 1-2) or R/Studio (days 2-3)
  - Slack
  - Lesson plan web page
- - Your terminal/command window (day 1) or R/Studio (day 2)
 
 ![arranged screens](images/Module00_arranged_screens.png?)
 <br/>
@@ -218,7 +221,7 @@ What is one thing you hope to learn today or tomorrow?
 
 
 ## Workshop topics at a glance
-![](images/wayfinder_00-0.png)
+![](images/wayfinder/wayfinder-00.png)
 
 # Any questions?
  -

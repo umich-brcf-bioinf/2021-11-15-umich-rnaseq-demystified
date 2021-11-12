@@ -1,5 +1,5 @@
 ---
-title: "Day 1 - Module 02: More QC"
+title: "Day 2 - Module 02: More QC"
 author: "UM Bioinformatics Core"
 output:
         html_document:
@@ -12,6 +12,14 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
 
 # More QC - Cutadapt
 
@@ -25,7 +33,7 @@ In this module we will learn:
 
 As a reminder, our overall differential expression workflow is shown below. In this lesson, we will go over the highlighed portion of the workflow.
 
-![](images/wayfinder_04.png)
+![](images/wayfinder/wayfinder-01.png)
 <br>
 <br>
 <br>

@@ -12,6 +12,14 @@ output:
             markdown: GFM
             code_download: true
 ---
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
 
 # Alignment
 
@@ -25,7 +33,7 @@ In this module, we will learn:
 
 We'll discuss the alignment and gene quantification steps which gather the necessary data that we will need prior to testing for differential expression, the topic of Day 2.
 
-![](images/wayfinder_05.png)
+![](images/wayfinder/wayfinder-02.png)
 <br>
 <br>
 <br>
