@@ -1,8 +1,10 @@
 ---
-title: "Day 2 - Module 02: More QC"
+title: "Day 1 - Module 02: More QC"
 author: "UM Bioinformatics Core"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4

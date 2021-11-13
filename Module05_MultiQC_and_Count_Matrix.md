@@ -1,8 +1,10 @@
 ---
-title: "Day 2 - Module 05: MultQC and Counts"
+title: "Day 2 - Module 05: MultiQC and Counts"
 author: "UM Bioinformatics Core"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4
