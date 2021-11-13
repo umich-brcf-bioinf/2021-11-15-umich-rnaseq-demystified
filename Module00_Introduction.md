@@ -3,6 +3,8 @@ title: "RNA-Seq Demystified Workshop"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4
@@ -98,18 +100,6 @@ pre {
 - We will be recording this session. Recordings will be available to participants  
   following the workshop.
 
-## Arranging your screens
-It is important that you can see:
-
- - Zoom (instructor's shared screen + reactions)
- - Your terminal/command window (days 1-2) or R/Studio (days 2-3)
- - Slack
- - Lesson plan web page
-
-![arranged screens](images/Module00_arranged_screens.png?)
-<br/>
-<br/>
-
 
 ## <img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/>
 
@@ -196,6 +186,19 @@ What is one thing you hope to learn today or tomorrow?
     communication patterns or **red-X** if you need clarification.
 <br/>
 <br/>
+
+## Arranging your screens
+It is important that you can see:
+
+ - Zoom (instructor's shared screen + reactions)
+ - Your terminal/command window (days 1-2) or R/Studio (days 2-3)
+ - Slack
+ - Lesson plan web page
+
+![arranged screens](images/Module00_arranged_screens.png?)
+<br/>
+<br/>
+
 
 # Workshop goals and topics
 
