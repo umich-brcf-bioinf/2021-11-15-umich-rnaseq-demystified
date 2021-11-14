@@ -36,7 +36,7 @@ render_site('Module00_Introduction.md')
 
 render_site('Module01_Warming_Up.md')
 render_site('Module02_QC.md')
-render_site('Module02optional_Cutadapt_MultiQC.md')
+render_site('Module02optional_Cutadapt_MoreQC.md')
 render_site('Module03_Reference_Genomes.md')
 render_site('Module04_Alignment.md')
 render_site('Module05_MultiQC_and_Count_Matrix.md')

@@ -23,7 +23,7 @@ pre {
 }
 </style>
 
-# MultiQC, Count Matrix, Wrap-Up
+# MultiQC, Count Matrix
 
 In this module, we will learn:
 

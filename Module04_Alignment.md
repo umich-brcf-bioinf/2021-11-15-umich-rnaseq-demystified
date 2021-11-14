@@ -70,13 +70,7 @@ Credit: https://raw.githubusercontent.com/hbctraining/Intro-to-rnaseq-hpc-O2/mas
 
 RSEM (RNA-seq by Expectation Maximization) determines gene and isoform abundance using an expectation maximization (EM) algorithm to determine the probability that any particular read originated from a particular transcript. From there, gene-level quantification is reported by effectively collapsing the isoform quantifications over all isoforms belonging to the gene.
 
-The primary issue that RSEM attempts to solve is that reads can align to multiple isoforms (when, for example, they share an exon), and that creates ambiguity in deciding which isoform a read gets assigned to for quantification. See the image below for an illustration of this problem.
-
-<center>
-
-![Image of alignment track and gene isoforms](images/Mdm4_locus.png)
-
-</center>
+The primary issue that RSEM attempts to solve is that reads can align to multiple isoforms (when, for example, they share an exon), and that creates ambiguity in deciding which isoform a read gets assigned to for quantification. RSEM uses the EM algorithm described above to handle this ambiguity appropriately.
 
 # Running RSEM+STAR
 

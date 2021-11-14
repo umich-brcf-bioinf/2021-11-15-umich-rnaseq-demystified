@@ -13,8 +13,8 @@ navbar:
           href: Module01_Warming_Up.html
         - text: "Quality Control"
           href: Module02_QC.html
-        - text: "Optional: Cutadapt/MultiQC"
-          href: Module02optional_Cutadapt_MultiQC.html
+        - text: "Optional: Cutadapt/MoreQC"
+          href: Module02optional_Cutadapt_MoreQC.html
     - text: "Alignment"
       menu:
         - text: "Reference Genomes"
@@ -50,4 +50,3 @@ navbar:
           href: Module11X_BonusContent.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
-

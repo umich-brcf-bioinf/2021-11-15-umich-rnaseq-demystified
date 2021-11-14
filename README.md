@@ -20,8 +20,9 @@ body, td {
 | :---  | :---- |
 |  9:00 | [Introductions and Startup](Module00_Introduction.html) |
 |  9:30 | **Sequence QC:** |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Quality Control (FASTQs)](Module00_Introduction.html) |
-|       | &nbsp;&nbsp;&nbsp;&nbsp;[Trimming and MultiQC](Module02optional_Cutadapt_MultiQC.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Warming Up](Module01_Warming_Up.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Quality Control (FASTQs)](Module02_QC.html) |
+|       | &nbsp;&nbsp;&nbsp;&nbsp;[Trimming and MultiQC](Module02optional_Cutadapt_MoreQC.html) |
 | 11:00 | Break |
 | 11:15 | **Alignment:** |
 |       | &nbsp;&nbsp;&nbsp;&nbsp;[Reference genomes](Module03_Reference_Genomes.html) |
