@@ -167,7 +167,7 @@ scp command format, with the address for AWS remote
 
 ```
 # Usage: scp [source] [destination]
-scp <username>@bfx-workshop01.med.umich.edu:~/example_data/out_multiqc_rsem/multiqc_report.html ~/rsd-workshop/multiqc_report_rsem.html
+scp <username>@bfx-workshop01.med.umich.edu:~/example_data/out_multiqc_all/multiqc_report.html ~/rsd-workshop/multiqc_report_all.html
 ```
 
 </details>
