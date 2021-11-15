@@ -14,8 +14,8 @@
 
 <title>Day 1 - Module 01: Warming up</title>
 
-<script src="site_libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
@@ -38,6 +38,7 @@
 <script src="site_libs/navigation-1.1/sourceembed.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -345,7 +346,7 @@ div.tocify {
       <a href="Module02_QC.html">Quality Control</a>
     </li>
     <li>
-      <a href="Module02optional_Cutadapt_MultiQC.html">Optional: Cutadapt/MultiQC</a>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
     </li>
   </ul>
 </li>
@@ -419,7 +420,13 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Module10_DEComparisons.html">DE Comparisons and Gene Annotations</a>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
     </li>
   </ul>
 </li>
@@ -529,29 +536,11 @@ ls ~/data/refs
 ls ~/data/reads
 # Create a folder for our analysis
 mkdir ~/analysis</code></pre>
-<p><br> <br> <br></p>
-</div>
-<div id="bonus-exercise" class="section level2" number="1.5">
-<h2 number="1.5"><span class="header-section-number">1.5</span> Bonus exercise:</h2>
-<ol style="list-style-type: decimal">
-<li>Ensure we’re on remote aws instance</li>
-<li>run the command <code>fortune | cowsay | lolcat</code></li>
-</ol>
-<p>Optional and only for fun!</p>
-<p>These programs are installed ‘games’ for entertainment purposes.</p>
-<details>
-<summary>
-Details about <code>fortune | cowsay | lolcat</code>
-</summary>
-<p><code>fortune</code> prints a random fortune</p>
-<p><code>cowsay</code> is a talking cow</p>
-<p><code>lolcat</code> is like <code>cat</code> but with a fun twist</p>
-</details>
 <p><br> <br> <br> <br> <br> <br> <img src="images/building-blocks-checkmark.png" width="800" /> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br></p>
 </div>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDE6IFdhcm1pbmcgdXAiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgojIFdhcm1pbmcgVXAKCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsOgoKKiBjb3ZlciBiYXNpYyBtYXRlcmlhbHMgbmVlZGVkCiogZmFtaWxpYXJpemUgb3Vyc2VsdmVzIHdpdGggcmVtb3RlIGNvbXB1dGluZwoqIHByZXBhcmUgZm9yIGxhdGVyIG1vZHVsZXMKCiMjIEJ1aWxkaW5nIEJsb2NrcwoKPGJyPgo8YnI+Cjxicj4KPGltZyBzcmM9ImltYWdlcy9idWlsZGluZy1ibG9ja3MucG5nIiB3aWR0aD0iODAwIiAvPgo8YnI+Cjxicj4KPGJyPgoKCiMjIEV4YW1wbGUgRmlsZXMgRXhlcmNpc2U6CgoxLiBEb3dubG9hZCB0aGUgemlwcGVkIGFyY2hpdmUgZnJvbSB0aGUgc2xhY2sgY2hhbm5lbAoyLiBMb2NhdGUsIG1vdmUgKGlmIGRlc2lyZWQpLCBhbmQgdW56aXAgaXQKMy4gUmVtZW1iZXIgaG93IHRvIGFjY2VzcyB0aGVzZSBmaWxlcwoKPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KCiMjIExvY2FsIHZzIHJlbW90ZSBleGVyY2lzZToKCjEuIEJlY29tZSBmYW1pbGlhciB3aXRoIHRoZSBkaWZmZXJlbnQgYXBwZWFyYW5jZSBvZiB0aGUgbG9jYWwgc2hlbGwKMi4gQnJpZWZseSBleHBsb3JlIHlvdXIgbG9jYWwgZmlsZXMKMy4gTG9nIGluIHRvIHRoZSBhd3MgaW5zdGFuY2Ugd2l0aCBgc3NoIDx1c2VybmFtZT5AYmZ4LXdvcmtzaG9wMDEubWVkLnVtaWNoLmVkdWAKNC4gQmVjb21lIGZhbWlsaWFyIHdpdGggYXBwZWFyYW5jZSBvZiB0aGUgcmVtb3RlIHNoZWxsCjUuIEJyaWVmbHkgZXhwbG9yZSByZW1vdGUgZmlsZXMKNi4gVXNlIGBleGl0YCB0byBsb2cgb2ZmLCByZXR1cm4gdG8gbG9jYWwgc2hlbGwKCjxicj4KPGJyPgo8YnI+CgpgYGAKIyBGYW1pbGlhcml6ZSB3aXRoIGxvY2FsIHNoZWxsIGFwcGVhcmFuY2UKIyBCcmllZmx5IGV4cGxvcmUgeW91ciBsb2NhbCBmaWxlcwpscyAtbAojIExvZyBpbiB0byB0aGUgYXdzIGluc3RhbmNlIHZpYSBzc2gKc3NoIDx1c2VybmFtZT5AYmZ4LXdvcmtzaG9wMDEubWVkLnVtaWNoLmVkdQojIEZhbWlsaWFyaXplIHlvdXJzZWxmIHdpdGggZGlmZmVyZW5jZXMgYmV0d2VlbiBsb2NhbCBhbmQgcmVtb3RlIHNoZWxsCiMgQnJpZWZseSBleHBsb3JlIHJlbW90ZSBmaWxlcwpscyAtbAojIExvZyBvZmYsIHJldHVybiB0byBsb2NhbCBzaGVsbApleGl0CmBgYAoKCjxicj4KPGJyPgo8YnI+Cgo8ZGV0YWlscz4KPHN1bW1hcnk+Q2xpY2sgaGVyZSBmb3IgZGVtb25zdHJhdGlvbiBvZiBsb2NhbCAoZ2l0LWJhc2ggb24gV2luZG93cykgdnMgcmVtb3RlIChBV1MpPC9zdW1tYXJ5PgoKPGltZyBzcmM9ImltYWdlcy9sb2NhbF92X3JlbW90ZS5naWYiIHdpZHRoPSI4MDAiIC8+Cgo8L2RldGFpbHM+Cgo8YnI+Cjxicj4KPGJyPgoKIyMgT3JpZW50YXRpb24gZXhlcmNpc2UKCk5vdGU6IFdlIHdpbGwgcHJvdmlkZSBhZGRpdGlvbmFsIHRpbWUgZHVyaW5nIHRoaXMgZXhlcmNpc2UgdG8gZW5zdXJlIHRoYXQgZXZlcnlvbmUgaXMgcHJlcGFyZWQgdG8gbW92ZSBmb3J3YXJkLgoKT3JpZW50YXRpb24gZXhlcmNpc2U6CgoxLiBMb2cgaW4gKG9yIGNvbmZpcm0gbG9nZ2VkIGluKSB0byBhd3MgaW5zdGFuY2UKMi4gRW5zdXJlIGluIGhvbWUgZGlyZWN0b3J5IHdpdGggYGNkYAo0LiBVc2UgYGxzYCB0byB2aWV3IHJlZmVyZW5jZXMKNS4gVXNlIGBsc2AgdG8gdmlldyBpbnB1dCBmYXN0cSBmaWxlcwo2LiBVc2UgYG1rZGlyYCB0byBjcmVhdGUgYSBmb2xkZXIgZm9yIG91ciBhbmFseXNpcwoKPGJyPgo8YnI+Cjxicj4KCmBgYAojIExvZyBpbiB0byBhd3MgcmVtb3RlCnNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHUKIyBFbnN1cmUgd2UgYXJlIGluIGhvbWUgZGlyZWN0b3J5CmNkCiMgVmlldyBvdXIgcmVmZXJlbmNlcwpscyB+L2RhdGEvcmVmcwojIFZpZXcgb3VyIGlucHV0IGZhc3RxIGZpbGVzCmxzIH4vZGF0YS9yZWFkcwojIENyZWF0ZSBhIGZvbGRlciBmb3Igb3VyIGFuYWx5c2lzCm1rZGlyIH4vYW5hbHlzaXMKYGBgCgo8YnI+Cjxicj4KPGJyPgoKIyMgQm9udXMgZXhlcmNpc2U6CgoxLiBFbnN1cmUgd2UncmUgb24gcmVtb3RlIGF3cyBpbnN0YW5jZQoyLiBydW4gdGhlIGNvbW1hbmQgYGZvcnR1bmUgfCBjb3dzYXkgfCBsb2xjYXRgCgpPcHRpb25hbCBhbmQgb25seSBmb3IgZnVuIQoKVGhlc2UgcHJvZ3JhbXMgYXJlIGluc3RhbGxlZCAnZ2FtZXMnIGZvciBlbnRlcnRhaW5tZW50IHB1cnBvc2VzLgoKPGRldGFpbHM+CjxzdW1tYXJ5PkRldGFpbHMgYWJvdXQgYGZvcnR1bmUgfCBjb3dzYXkgfCBsb2xjYXRgPC9zdW1tYXJ5PgoKYGZvcnR1bmVgIHByaW50cyBhIHJhbmRvbSBmb3J0dW5lCgpgY293c2F5YCBpcyBhIHRhbGtpbmcgY293CgpgbG9sY2F0YCBpcyBsaWtlIGBjYXRgIGJ1dCB3aXRoIGEgZnVuIHR3aXN0Cgo8L2RldGFpbHM+Cgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8aW1nIHNyYz0iaW1hZ2VzL2J1aWxkaW5nLWJsb2Nrcy1jaGVja21hcmsucG5nIiB3aWR0aD0iODAwIiAvPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDE6IFdhcm1pbmcgdXAiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKIyBXYXJtaW5nIFVwCgpJbiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKCiogY292ZXIgYmFzaWMgbWF0ZXJpYWxzIG5lZWRlZAoqIGZhbWlsaWFyaXplIG91cnNlbHZlcyB3aXRoIHJlbW90ZSBjb21wdXRpbmcKKiBwcmVwYXJlIGZvciBsYXRlciBtb2R1bGVzCgojIyBCdWlsZGluZyBCbG9ja3MKCjxicj4KPGJyPgo8YnI+CjxpbWcgc3JjPSJpbWFnZXMvYnVpbGRpbmctYmxvY2tzLnBuZyIgd2lkdGg9IjgwMCIgLz4KPGJyPgo8YnI+Cjxicj4KCgojIyBFeGFtcGxlIEZpbGVzIEV4ZXJjaXNlOgoKMS4gRG93bmxvYWQgdGhlIHppcHBlZCBhcmNoaXZlIGZyb20gdGhlIHNsYWNrIGNoYW5uZWwKMi4gTG9jYXRlLCBtb3ZlIChpZiBkZXNpcmVkKSwgYW5kIHVuemlwIGl0CjMuIFJlbWVtYmVyIGhvdyB0byBhY2Nlc3MgdGhlc2UgZmlsZXMKCjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIyBMb2NhbCB2cyByZW1vdGUgZXhlcmNpc2U6CgoxLiBCZWNvbWUgZmFtaWxpYXIgd2l0aCB0aGUgZGlmZmVyZW50IGFwcGVhcmFuY2Ugb2YgdGhlIGxvY2FsIHNoZWxsCjIuIEJyaWVmbHkgZXhwbG9yZSB5b3VyIGxvY2FsIGZpbGVzCjMuIExvZyBpbiB0byB0aGUgYXdzIGluc3RhbmNlIHdpdGggYHNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHVgCjQuIEJlY29tZSBmYW1pbGlhciB3aXRoIGFwcGVhcmFuY2Ugb2YgdGhlIHJlbW90ZSBzaGVsbAo1LiBCcmllZmx5IGV4cGxvcmUgcmVtb3RlIGZpbGVzCjYuIFVzZSBgZXhpdGAgdG8gbG9nIG9mZiwgcmV0dXJuIHRvIGxvY2FsIHNoZWxsCgo8YnI+Cjxicj4KPGJyPgoKYGBgCiMgRmFtaWxpYXJpemUgd2l0aCBsb2NhbCBzaGVsbCBhcHBlYXJhbmNlCiMgQnJpZWZseSBleHBsb3JlIHlvdXIgbG9jYWwgZmlsZXMKbHMgLWwKIyBMb2cgaW4gdG8gdGhlIGF3cyBpbnN0YW5jZSB2aWEgc3NoCnNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHUKIyBGYW1pbGlhcml6ZSB5b3Vyc2VsZiB3aXRoIGRpZmZlcmVuY2VzIGJldHdlZW4gbG9jYWwgYW5kIHJlbW90ZSBzaGVsbAojIEJyaWVmbHkgZXhwbG9yZSByZW1vdGUgZmlsZXMKbHMgLWwKIyBMb2cgb2ZmLCByZXR1cm4gdG8gbG9jYWwgc2hlbGwKZXhpdApgYGAKCgo8YnI+Cjxicj4KPGJyPgoKPGRldGFpbHM+CjxzdW1tYXJ5PkNsaWNrIGhlcmUgZm9yIGRlbW9uc3RyYXRpb24gb2YgbG9jYWwgKGdpdC1iYXNoIG9uIFdpbmRvd3MpIHZzIHJlbW90ZSAoQVdTKTwvc3VtbWFyeT4KCjxpbWcgc3JjPSJpbWFnZXMvbG9jYWxfdl9yZW1vdGUuZ2lmIiB3aWR0aD0iODAwIiAvPgoKPC9kZXRhaWxzPgoKPGJyPgo8YnI+Cjxicj4KCiMjIE9yaWVudGF0aW9uIGV4ZXJjaXNlCgpOb3RlOiBXZSB3aWxsIHByb3ZpZGUgYWRkaXRpb25hbCB0aW1lIGR1cmluZyB0aGlzIGV4ZXJjaXNlIHRvIGVuc3VyZSB0aGF0IGV2ZXJ5b25lIGlzIHByZXBhcmVkIHRvIG1vdmUgZm9yd2FyZC4KCk9yaWVudGF0aW9uIGV4ZXJjaXNlOgoKMS4gTG9nIGluIChvciBjb25maXJtIGxvZ2dlZCBpbikgdG8gYXdzIGluc3RhbmNlCjIuIEVuc3VyZSBpbiBob21lIGRpcmVjdG9yeSB3aXRoIGBjZGAKNC4gVXNlIGBsc2AgdG8gdmlldyByZWZlcmVuY2VzCjUuIFVzZSBgbHNgIHRvIHZpZXcgaW5wdXQgZmFzdHEgZmlsZXMKNi4gVXNlIGBta2RpcmAgdG8gY3JlYXRlIGEgZm9sZGVyIGZvciBvdXIgYW5hbHlzaXMKCjxicj4KPGJyPgo8YnI+CgpgYGAKIyBMb2cgaW4gdG8gYXdzIHJlbW90ZQpzc2ggPHVzZXJuYW1lPkBiZngtd29ya3Nob3AwMS5tZWQudW1pY2guZWR1CiMgRW5zdXJlIHdlIGFyZSBpbiBob21lIGRpcmVjdG9yeQpjZAojIFZpZXcgb3VyIHJlZmVyZW5jZXMKbHMgfi9kYXRhL3JlZnMKIyBWaWV3IG91ciBpbnB1dCBmYXN0cSBmaWxlcwpscyB+L2RhdGEvcmVhZHMKIyBDcmVhdGUgYSBmb2xkZXIgZm9yIG91ciBhbmFseXNpcwpta2RpciB+L2FuYWx5c2lzCmBgYAoKCjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+CjxpbWcgc3JjPSJpbWFnZXMvYnVpbGRpbmctYmxvY2tzLWNoZWNrbWFyay5wbmciIHdpZHRoPSI4MDAiIC8+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cg==</div>
 
 
 </div>

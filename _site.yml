@@ -13,8 +13,8 @@ navbar:
           href: Module01_Warming_Up.html
         - text: "Quality Control"
           href: Module02_QC.html
-        - text: "Optional: Cutadapt/MultiQC"
-          href: Module02optional_Cutadapt_MultiQC.html
+        - text: "Optional: Cutadapt/MoreQC"
+          href: Module02optional_Cutadapt_MoreQC.html
     - text: "Alignment"
       menu:
         - text: "Reference Genomes"
@@ -42,10 +42,11 @@ navbar:
           href: Module09_SampleQCViz.html
     - text: "Diff Expression"
       menu:
-        - text: "DE Comparisons and Gene Annotations"
+        - text: "Comparisons"
           href: Module10_DEComparisons.html
-        # - text: "DE Visualizations and output files"
-        #   href: Module11_DEVisualizations.html
+        - text: "DE Visiualization and Annotation"
+          href: Module11_DEVisualizations.html
+        - text: "Bonus content"
+          href: Module11X_BonusContent.html
     - text: "Wrap up"
       href: Module99_Wrap_up.html
-

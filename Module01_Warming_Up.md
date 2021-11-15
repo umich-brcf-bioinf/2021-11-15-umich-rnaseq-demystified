@@ -3,6 +3,8 @@ title: "Day 1 - Module 01: Warming up"
 author: "UM Bioinformatics Core"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4
@@ -124,29 +126,6 @@ ls ~/data/reads
 mkdir ~/analysis
 ```
 
-<br>
-<br>
-<br>
-
-## Bonus exercise:
-
-1. Ensure we're on remote aws instance
-2. run the command `fortune | cowsay | lolcat`
-
-Optional and only for fun!
-
-These programs are installed 'games' for entertainment purposes.
-
-<details>
-<summary>Details about `fortune | cowsay | lolcat`</summary>
-
-`fortune` prints a random fortune
-
-`cowsay` is a talking cow
-
-`lolcat` is like `cat` but with a fun twist
-
-</details>
 
 <br>
 <br>

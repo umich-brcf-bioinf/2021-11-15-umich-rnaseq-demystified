@@ -4,6 +4,8 @@ author: "UM Bioinformatics Core"
 date: "`r Sys.Date()`"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4
@@ -307,10 +309,19 @@ Now that you have the ENSEMBL information and a gene symbol to match to our resu
 
     First, create a new table called `res_WT_anno` that includes a column with the ENSEMBL ids named `genes` using the `mutate` function. Then use the `left_join` function to combine the `GeneKey` table with the `res_WT` DE results. 
 ```{r updateDETableTidyr}
+<<<<<<< HEAD
 res_WT_anno <- as.data.frame(res_WT) %>%
   mutate(genes = row.names(res_WT)) %>%
   left_join(GeneKey, by =c("genes" = "ensembl_gene_id")) %>%
   relocate(c("genes", "external_gene_name")) # optionally, re-order columns to make output more readable
+=======
+## TODO: CHECK TIDYVERSE SOLUTION
+
+res_WT_anno <- as.data.frame(res_WT) %>%
+  mutate(genes = row.names(res_WT_anno))
+
+#res_WT_anno <- join()
+>>>>>>> 41ed7e1c38e3ab7b8bcaf450536e7cf346287650
 
 head(res_WT_anno)
 ```

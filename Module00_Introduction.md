@@ -1,8 +1,10 @@
 ---
-title: "RNA-seq Demystified Workshop"
+title: "RNA-Seq Demystified Workshop"
 author: "UM Bioinformatics Core Workshop Team"
 output:
         html_document:
+            includes:
+                in_header: header.html
             theme: paper
             toc: true
             toc_depth: 4
@@ -98,18 +100,6 @@ pre {
 - We will be recording this session. Recordings will be available to participants  
   following the workshop.
 
-## Arranging your screens
-It is important that you can see:
-
- - Zoom (instructor's shared screen + reactions)
- - Slack
- - Lesson plan web page
- - Your terminal/command window (day 1) or R/Studio (day 2)
-
-![arranged screens](images/Module00_arranged_screens.png?)
-<br/>
-<br/>
-
 
 ## <img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/>
 
@@ -165,7 +155,7 @@ breakout room.
 
 ![Posting messages to Slack](images/Module00_slack.png)
 
-  - Slack messages will be posted to the **2021-august-rnaseq-demystified** channel.  
+  - Slack messages will be posted to the **2021-november-rsd-workshop** channel.  
     Click on the channel in the left pane (1) to select this channel.
   - You can type in the **message field** (2); click **send** (3) to
     post your message to everyone.
@@ -196,6 +186,19 @@ What is one thing you hope to learn today or tomorrow?
     communication patterns or **red-X** if you need clarification.
 <br/>
 <br/>
+
+## Arranging your screens
+It is important that you can see:
+
+ - Zoom (instructor's shared screen + reactions)
+ - Your terminal/command window (days 1-2) or R/Studio (days 2-3)
+ - Slack
+ - Lesson plan web page
+
+![arranged screens](images/Module00_arranged_screens.png?)
+<br/>
+<br/>
+
 
 # Workshop goals and topics
 
