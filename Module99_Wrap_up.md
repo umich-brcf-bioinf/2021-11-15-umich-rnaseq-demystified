@@ -33,26 +33,28 @@ pre {
 We hope you now have more familiarity with key concepts, data types, tools, and how they all
 connect to enable gene expression analysis from bulk RNA-Seq data.
 
-- Day 1: UNIX, sequence file types, QC, process of producing a count table
-- Day 2: R, DESeq2, QC visualizations, process of differential expression analysis
+- Day 1: UNIX/Bash, sequence files, QC, trimming, alignment
+- Day 2: Count table, advanced QC, R, DESeq2
+- Day 3: QC visualizations, Differential expression analysis
+
 - Learning bioinformatic analyses more like a process than a task. Resources to
   consider:
-  - [Training resources/workshops](https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/)
-  - [UMcoderspaces Slack](https://umcoderspaces.slack.com)
+  - <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">Training resources/workshops</a>
+  - <a href="https://umcoderspaces.slack.com" target="_blank">UMcoderspaces Slack</a>
+  - <a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces</a>
 
 ---
 
 ## Housekeeping
 
-- Please take our optional [post-workshop survey](https://forms.gle/XcSnsfDMF6hwBJXBA) (5-10 minutes) <br />
-  https://forms.gle/XcSnsfDMF6hwBJXBA
+- Please take our optional <a href="https://forms.gle/XcSnsfDMF6hwBJXBA" target="_blank">post-workshop survey</a> (5-10 minutes) <br />
 
-- We will email you a link to the session recordings by next week.
+- We will email you a link to the final session recordings by next week.
 
 - The website/notes for this workshop and [UMcoderspaces Slack channel](https://umcoderspaces.slack.com) channel
   will be available.
 
-- BASH/RStudio workshop compute environment (at Amazon) will be available until this Friday.
+- BASH/RStudio workshop compute environment (at Amazon) will be available until next Monday.
   - You can install necessary programs to run programs locally. Note
     that for typical data, the Day 1 programs assume your computer has sizable
     compute and storage capacity. (i.e. It may not be practical to run these on
