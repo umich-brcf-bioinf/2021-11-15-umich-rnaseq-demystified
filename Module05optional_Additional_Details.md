@@ -68,6 +68,8 @@ You may be familiar with clock speed of a processor from your experience while b
 Clock speeds on all modern processors are sufficient for basically all bioinformatics software. Clock speed is generally not a major consideration in choices today.
 </details>
 
+<br>
+<br>
 
 ### Memory
 
@@ -125,6 +127,9 @@ Some software is specific to an operating system - developers may focus their ti
 
 </details>
 
+<br>
+<br>
+
 ### Local vs Remote
 
 In this workshop, we've used remote computing systems for our analysis. We've seen how we can connect to a remote computer and use it for our purposes. You're likely most familiar with local computing, using a machine that is physically in the same room as you. However, now we can recognize some benefits of remote computing.
@@ -149,6 +154,9 @@ Today we've been aiming for simplicity and transparency, so managed our jobs man
 
 </details>
 
+<br>
+<br>
+
 ### Software Management
 
 There are many methods for managing software. As a system accumulates changes over time, and as the resulting software installations become more complex (esp. across multi-user systems), the need for software management systems becomes more apparent.
@@ -162,30 +170,29 @@ Miniconda is a minimal installation of conda, that provides a lightweight option
 
 <br>
 <br>
-<br>
-<br>
-<br>
 
 
 # Summary
 
 Things that we have learned:
-* Important aspects of hardware, software, and compute environments to consider
-* Important file formats and their contents
-* Reference files necessary / where to find
-* How to use FastQC, assess quality of reads
-* How to transfer files from remote to local computer
-* How to prepare a reference for alignment and quantification with RSEM + STAR
-* How to combine expression results across samples into a count matrix
-* How to use MultiQC to summarize large volumes of QC data.
+
+- Important aspects of hardware, software, and compute environments to consider
+- Important file formats and their contents
+- Reference files necessary / where to find
+- How to use FastQC, assess quality of reads
+- How to transfer files from remote to local computer
+- How to prepare a reference for alignment and quantification with RSEM + STAR
+- How to combine expression results across samples into a count matrix
+- How to use MultiQC to summarize large volumes of QC data.
+
+<br>
+<br>
 
 ![Results Summary](images/results-summary.png)
 
 <br>
 <br>
-<br>
-<br>
-<br>
+
 
 # Conda Exercises
 
@@ -198,9 +205,10 @@ As mentioned above, when doing data analysis tasks, it can become onerous to cre
 Conda is a tool that we've used for managing our software environment for this workshop. We're all currently using the same conda environment that we (the instructors) built ahead of time.
 
 Conda must-know:
-* A tool for managing software environments
-* Create an environment
-* Activate and deactivate an environment
+
+- A tool for managing software environments
+- Create an environment
+- Activate and deactivate an environment
 
 ## Conda Activate / Deactivate Exercise
 

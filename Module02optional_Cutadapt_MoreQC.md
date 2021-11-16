@@ -70,13 +70,17 @@ As mentioned above, cutadapt has many capabilities. Depending on the parameters 
 
 ## Cutadapt Exercise
 
-1. View the help page of the cutadapt tool
-2. Construct a cutadapt command to trim the adapters from paired-end reads
-3. View the output of cutadapt, and verify that it's correct
+1. Create a directory for our trimmed reads
+2. View the help page of the cutadapt tool
+3. Construct a cutadapt command to trim the adapters from paired-end reads
+4. View the output of cutadapt, and verify that it's correct
 
 ```
+# Create a directory for the trimmed reads
+mkdir out_trimmed
 # View the help page of Cutadapt
 cutadapt --help
+
 # Construct a cutadapt command to trim adapters from paired-end reads
 cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/sample_01_R1.trimmed.fastq.gz -p out_trimmed/sample_01_R2.trimmed.fastq.gz ../data/reads/sample_01_R1.fastq.gz ../data/reads/sample_01_R2.fastq.gz
 # View the output of cutadapt, (verify presence of output files and peek into the files)
