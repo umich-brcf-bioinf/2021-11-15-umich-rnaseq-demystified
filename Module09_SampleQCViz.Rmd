@@ -65,13 +65,17 @@ Prior to testing for differential expression between our comparisons of interest
 
 # Sample Visualizatons for Quality Control     
 
-Yesterday we discussed aspects of quality control assessment at the sequencing data level. Today we will outline sample-level and gene-level quality control assessments to determine what we should expect from our downstream differential expression comparisons.
+On Monday, we discussed aspects of quality control assessment at the sequencing data level. Today we will outline sample-level and gene-level quality control assessments to determine what we should expect for our downstream differential expression comparisons.
 
-To do this, we will first assess the similarity of our samples by using principal component analysis (PCA). This will allow us to determine how well patterns in the data fits our expectations from the experiments design and possible sources of variation in the dataset.
+To do this, we will first assess the similarity of our samples by using principal component analysis (PCA). This will allow us to determine how well patterns in the data fits our expectations from the experiments design and possible sources of variation.
 
-Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which can be found in the bonus content module.
+Other common visualizations that we generate for our analyses include expression heatmaps, sample correlation heatmaps, and boxplots of raw and/or normalized counts, the code for which can be found as bonus content through the materials for today and in the bonus content module.
 
-**TODO: DOUBLE CHHECK INTRO AFTER CHANGING VISUALIZATION**
+Before we get started, we'll download one more file that we'll be using to work through some group exercises:
+
+```{r DownloadRmd}
+download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/master/data/DESeq2_Exercises.Rmd", "./DESeq2_Exercises.Rmd")
+```
 
 ## Principle Component Analysis (PCA) Plots
 

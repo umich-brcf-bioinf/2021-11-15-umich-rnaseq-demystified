@@ -106,10 +106,11 @@ A related experimental design consideration is how much sequencing depth should 
 
 Generally, for the human and mouse genomes, the recommendation is 30-40 million reads per sample for polyA library preps, we the expectation is that ~25,000 protein-coding genes would be measured. This recommendation is to capture both highly expressed (abundant) and more lowly expressed (rarer) transcripts. However, as the image above shows, sequencing depth has less of an impact than number of replicates in detecting differentially expressed genes (DEGs).
 
-#### [Exercise]
+#### [Exercise]: Building a better understanding of differential expression analysis
 
-1) Post a question to slack about differential expression analysis that we haven't addressed OR
-2) Add a reaction to your favorite question(s)
+1) Post a comment below regarding what key question/misconception regarding designing an RNA-seq experiment we were able to address **OR**   
+1) Post a question that that was NOT addressed but that you hope we will address in the later modules **OR**    
+1) Add a thumbs up to your favorite comment(s) to upvote it    
 
 ----
 
@@ -132,7 +133,7 @@ Next, use your unique name and the same password used yesterday to log-in to the
 
 ## Best practices for file organization
 
-As discussed in [Software Carpentry](https://umcarpentries.org/intro-curriculum-r/) and other forums, including a review by [Nobel, 2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424), file organization is an important part of reproducible research.
+As discussed in the [Software Carpentry materials](https://umcarpentries.org/intro-curriculum-r/) and other forums, including a review by [Nobel, 2009](https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1000424), file organization and data stewardship are an important parts of reproducible research.
 
 To follow best practices for file organization for bioinformatics/computational projects, we will need to make sure there are separate locations for:
 
@@ -166,11 +167,7 @@ Next, we'll create a new code file, using the toolbar at the top of our window a
 
 From the drop down menu, select the first option named 'R Script'.
 
-**TODO: Add screen shot highlighting 'new file' button**
-
 A new window should pop up in your console. We'll then use the blue floppy disc icon save our 'Untitled1' file as "DE_Analysis.R".
-
-**TODO: Add screen shot highlighting 'save' button**
 
 This new "DE_Analysis.R" will serve as a record of the analysis steps we follow for the remainder of the workshop.
 
@@ -189,7 +186,7 @@ dir.create("data", showWarnings = FALSE)
 
 **Checkpoint**: *Please use the green 'check' if you see 'data' within your '2021-Nov-umich-rnaseq-demystified' directory and use the red 'x' button in your zoom reaction panel if you'd like the steps repeated*
 
-Next, we'll download the files we'll need for today by copying and pasting the follow.
+Next, we'll download the files we'll need for today by copying and pasting the following commands.
 ```{r DownloadData, eval = FALSE}
 
 download.file("https://raw.githubusercontent.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/master/data/SampleInfo_trimmed.csv", "data/SampleInfo_trimmed.csv")
@@ -242,7 +239,7 @@ library(data.table)
 
 *Note: We expect to see some red messages in your console while these packages are loading*
 
-As discussed in the computation foundations/prerequsite sessions, R/RStudio has great resources for getting help, including [code 'cheatsheets'](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
+R/RStudio has great resources for getting help, including [code 'cheatsheets'](https://www.rstudio.com/wp-content/uploads/2016/10/r-cheat-sheet-3.pdf) and package vignettes, like for [tidyr](https://cran.r-project.org/web/packages/tidyr/vignettes/tidy-data.html).
 
 We previously loaded several libraries into our R session, we can check the tools documentation out using the `?` operator.
 ```{r CheckDocumentaion}
@@ -265,7 +262,7 @@ head(CountTable, n=2) # look at the top of the table
 
 Now that the file is read into R, note that we've created a data frame that includes 'gene ids' in ENSEMBL format as rownames and count data from twelve different samples.
 
-#### [Exercise]
+#### [Exercise]: RSEM outputs versus DESeq2 input requirements
 
 If we think back to the RSEM outputs, the 'expected_counts' table may include fractions due to how the alignment tool resolves reads that map to multiple locuses). Since DESeq2 requires whole numbers, if we try to use the RSEM ouputs directly, DESeq2 will give us an error.
 
@@ -276,9 +273,9 @@ tail(CountTable, n=2)
 
 *[Question]: To resolve this discrepancy between the RSEM outputs and expected input for DESeq2, what could we do?*
 
-To round down all the columns of our `CountTable` that include count data (all columns since we set the gene names to be our row names), we can use the `floor()` function.
+To round down all the columns of our `CountTable` that include count data (all columns since we set the gene names to be our row names), we can use the `round`()` function.
 ```{r RoundRawCounts}
-CountTable <- floor(CountTable)
+CountTable <- round(CountTable)
 tail(CountTable, n=2) # now whole numbers
 ```
 

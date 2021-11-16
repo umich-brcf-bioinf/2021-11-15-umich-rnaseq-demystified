@@ -1,0 +1,26 @@
+---
+title: "Exercises for RNA-seq Demystified Workshop, 11/15-11/17"
+author: "UM Bioinformatics Core"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+In an R Markdown file, you can write both plain text (without comment symbols!) and code in the same file. R Markdown files can also be `knitted` to output to different formats (including pdf, html, Word document).
+
+To execute code, write it in a grey formatted code block (blank ones will be included for all exercises). Then place a cursor on the line or highlight the lines you want to run and hit enter, just like you would in an .R code file. 
+
+```{r demo}
+mean(c(3,4,5,6)) # command to get the mean of a list of numbers
+getwd() # command to print your working directory
+```
+
+
+
+
