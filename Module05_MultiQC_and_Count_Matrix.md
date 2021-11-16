@@ -129,6 +129,9 @@ Source: [MultiQC example report](https://multiqc.info/examples/rna-seq/multiqc_r
 3. View the MultiQC report
 
 ```
+# Ensure that we're in our analysis directory, note the contents
+cd ~/analysis
+ls -l
 # View MultiQC help page
 multiqc --help
 # Construct a MultiQC command and execute it
@@ -151,7 +154,7 @@ What would happen if we pointed multiQC at our trimmed read directory? What abou
 
 ```
 # A MultiQC command to analyze the trimmed read results
-multiqc --outdir out_multiqc_cutadapt out_trimmed/
+multiqc --outdir out_multiqc_cutadapt out_fastqc_trimmed/
 # A multiQC command for both trimmed and aligned read summary statistics
 multiqc --outdir out_multiqc_all  .
 ```
