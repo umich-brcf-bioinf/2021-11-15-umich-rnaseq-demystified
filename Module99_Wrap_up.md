@@ -91,10 +91,9 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
 #### Training and support
   - Learning bioinformatic analyses more like a process than a task. Resources 
     to consider:
-    - <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">Training resources/workshops</a>
-    - <a href="https://umcoderspaces.slack.com" target="_blank">UMcoderspaces Slack</a>
-    - <a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces</a>
-    - For intro lessons and workshops in Bash / Git / R / Python consider <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.
+    - UM Bioinformatics Core links to <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">training resources/workshops</a>
+    - <a href="https://umcoderspaces.slack.com" target="_blank">UM CoderSpaces Slack</a> and <a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces "office hours"</a>.
+    - For intro lessons and workshops in Bash / Git / R / Python : <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.
     - For more info on NGS analysis, we can highly recommend training materials from <a href="https://bioinformatics.sph.harvard.edu/training" target="_blank">Harvard Chan Bioinformatics Core</a>.
 
 ---
