@@ -58,7 +58,7 @@ Here we will finally test for differential expression between our comparisons of
 
 # Generating DE results
 
-*[Question]: Before we start, what assumptions do you have/have you heard about differential expression comparisons? (Post below or raise zoom 'hand' to speak)*
+*[Question]: Before we start, what do you think is the post challenging part of a differential expression analysis? (Post in thread below or raise zoom 'hand' to answer)*
 
 Now that we have reviewed the plots by sample and determined that our data passed our quality control checks, specifically that the patterns we observe are likely due to our experimental treatments over technical or other confounding factors, we can focus on differential expression testing.
 
@@ -86,21 +86,19 @@ For a more detailed overview of the statistical comparisons , please refer to [t
 
 ## Optional - Dispersion estimates
 
-As mentioned in the last module, we can visualize the **dispersion estimates** with the `plotDispEsts` function. This plot shows the the DESeq2 normalization results for our data, which centers on shrinking the variance across all genes to better fit the expected spread at a given expression level.  
-
+<details>
+    <summary>*Click for code for customized PCA plot of raw data*</summary>
+    We can visualize the **dispersion estimates** with the `plotDispEsts` function. This plot shows the the DESeq2 normalization results for our data, which centers on shrinking the variance across all genes to better fit the expected spread at a given expression level.
 ```{r CheckDispersions, eval=FALSE}
 plotDispEsts(dds)
 ```
-
-If we ran the command above, we would see the raw data plotted in black, the fitted (or expected) dispersion in red, and the normalized data with scaled variance in blue. Since we have fairly small sample sizes for each condition, we see shrinkage for many genes but a reasonable correlation between the expression level and dispersions.
-
-This [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html) has a more detailed overview of estimating size factors, estimating gene dispersion, and the shrinkage procedure, as well as examples of concerning dispersion plots that may suggest reassessing quality of the experimental data. 
-
+    If we ran the command above, we would see the raw data plotted in black, the fitted (or expected) dispersion in red, and the normalized data with scaled variance in blue. Since we have fairly small sample sizes for each condition, we see shrinkage for many genes but a reasonable correlation between the expression level and dispersions.
+    This [HBC tutorial](https://hbctraining.github.io/DGE_workshop/lessons/04_DGE_DESeq2_analysis.html) has a more detailed overview of estimating size factors, estimating gene dispersion, and the shrinkage procedure, as well as examples of concerning dispersion plots that may suggest reassessing quality of the experimental data. 
+</details>
 
 ## Results table output
 
-
-In the results table that we'll generate (similar to example shown below), the row name are gene symbols and there are six columns of values that are [described in more detail in an Illumina post](https://support.illumina.com/help/BS_App_RNASeq_DE_OLH_1000000071939/Content/Source/Informatics/Apps/DESeq2ResultFile_swBS.htm#:~:text=baseMean%E2%80%94The%20average%20of%20the,factors%2C%20taken%20over%20all%20samples.&text=log2FoldChange%E2%80%93The%20effect%20size%20estimate,the%20comparison%20and%20control%20groups). 
+In the results table we'll generate (similar to example shown below), the row name are gene symbols and there are six columns of values that are [described in more detail in an Illumina post](https://support.illumina.com/help/BS_App_RNASeq_DE_OLH_1000000071939/Content/Source/Informatics/Apps/DESeq2ResultFile_swBS.htm#:~:text=baseMean%E2%80%94The%20average%20of%20the,factors%2C%20taken%20over%20all%20samples.&text=log2FoldChange%E2%80%93The%20effect%20size%20estimate,the%20comparison%20and%20control%20groups). 
 
 ![](images/DEResultsExample.png)
 
@@ -114,9 +112,11 @@ The fourth column, **'stat'**, is the calculated Wald statistic for that gene, w
 
 The sixth column, **'padj'**, is the *adjusted p-value* and is what we use for determining significantly differently expressed genes. 
 
-*[Question]: Why do we use values from this column instead of the 'pvalue' column?*
+*[Question]: Why do we use values from this column instead of the 'pvalue' column? (Post in thread below or raise zoom 'hand' to answer)*
 
-Each p-value is the result of a single test for a single gene. The more genes we test, the greater chance we have of seeing a significant results. This is the multiple testing problem. If we used the p-value directly from the Wald test with a significance cut-off of p < 0.05, that means there is a 5% chance it is a false positives. So if we are testing 20,000 genes for differential expression, we would expect to see ~1,000 significant genes just by chance. This is problematic because we would need to sift through our “significant” genes to identify which ones are true positives.
+Each p-value is the result of a single test for a single gene. The more genes we test, the greater chance we have of seeing a significant results. This is the multiple testing problem. 
+
+If we used the p-value directly from the Wald test with a significance cut-off of p < 0.05, that means there is a 5% chance it is a false positives. So if we are testing 20,000 genes for differential expression, we would expect to see ~1,000 significant genes just by chance. This is problematic because we would need to sift through our “significant” genes to identify which ones are true positives.
 
 DESeq2 reduces the number of genes that will be tested by removing genes with low number of counts and outlier samples (gene-level QC, see note below). However, we need to correct for [multiple hypothesis testing](https://multithreaded.stitchfix.com/blog/2015/10/15/multiple-hypothesis-testing/) to reduce the number of false positives, and while there are a few common approaches, the default method is False Discovery Rate(FDR)/Benjamini-Hochberg correction which is symbolized as 'BH' in DESeq2. [Benjamini and Hochberg (1995)](https://rss.onlinelibrary.wiley.com/doi/10.1111/j.2517-6161.1995.tb02031.x) defined the concept of FDR and created an algorithm to control it below a specified level. An interpretation of the BH method is implemented in DESeq2 in which genes are ranked by p-value, then each ranked p-value is multiplied by the number of total tests divided by rank.
 
@@ -140,13 +140,13 @@ We can check what comparisons were automatically generated during fitting using 
 resultsNames(dds)
 ```
 
-Since we are interested in comparing each knockout versus its corresponding wild-type control, only one of the automatically generated comparisons is relevant. We can pull the `Tx_ko.Tx_vs_wt.Tx` comparison results using the `results` function and assign those result to a new object.
+Since we are interested in comparing each knockout versus its corresponding wild-type control, one of the automatically generated comparisons is relevant. We can pull the `Tx_ko.Tx_vs_wt.Tx` comparison results using the `results` function and assign those result to a new object.
 ```{r SetsResult}
 Comparison <- "Gtype.Tx_ko.Tx_vs_wt.Tx"
 res_Tx <- results(dds, name=Comparison)
 ```
 
-*[Question]: How would we look at our results?*
+*[Question]: How would we look at our results?(Post in thread below or raise zoom 'hand' to answer)*
 
 ```{r ResultsKD}
 head(res_Tx)
@@ -166,7 +166,6 @@ As the function description specifies, we need to provide a list of three elemen
 res_WT <- results(dds, contrast=c("Gtype.Tx", "ko.control", "wt.control")) 
 head(res_WT)
 ```
-
 
 
 Now that we've generated our differential comparisons and have an understanding of our results, including multiple hypothesis correction, we can proceed with generating summary figures and tables for our differential expression analysis.
