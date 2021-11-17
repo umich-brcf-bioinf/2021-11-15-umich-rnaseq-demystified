@@ -33,9 +33,7 @@ pre {
 We hope you now have more familiarity with key concepts, data types, tools, and how they all
 connect to enable gene expression analysis from bulk RNA-Seq data.
 
-- Day 1: UNIX/Bash, sequence files, QC, trimming, alignment
-- Day 2: Count table, advanced QC, R, DESeq2
-- Day 3: QC visualizations, Differential expression analysis
+![](images/wayfinder/wayfinder-99.png)
 
 ---
 
@@ -96,6 +94,8 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
     - <a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">Training resources/workshops</a>
     - <a href="https://umcoderspaces.slack.com" target="_blank">UMcoderspaces Slack</a>
     - <a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces</a>
+    - For intro lessons and workshops in Bash / Git / R / Python consider <a href="https://software-carpentry.org/lessons/" target="_blank">Software Carpentry</a> and the <a href="https://umcarpentries.org/" target="_blank">UM Software Carpentry Group</a>.
+    - For more info on NGS analysis, we can highly recommend training materials from <a href="https://bioinformatics.sph.harvard.edu/training" target="_blank">Harvard Chan Bioinformatics Core</a>.
 
 ---
 
