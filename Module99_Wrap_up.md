@@ -56,9 +56,7 @@ connect to enable gene expression analysis from bulk RNA-Seq data.
   (You will need to substitute your actual workshop username and type workshop password when prompted.)
   ```
   mkdir 2021-11-15-rnaseq-demystified-workshop
-  scp -r \
-      YOUR_USERNAME@bfx-workshop01.med.umich.edu:"data analysis *-umich-rnaseq-demystified" \
-      2021-11-15-rnaseq-demystified-workshop
+  scp -r YOUR_USERNAME@bfx-workshop01.med.umich.edu:"data analysis *-umich-rnaseq-demystified" 2021-11-15-rnaseq-demystified-workshop
   ```
   - Note that the full download is about 2Gb, so depending on your internet 
     speeds it could take while.
