@@ -11,7 +11,7 @@
 
 <meta name="author" content="UM Bioinformatics Core" />
 
-<meta name="date" content="2021-11-15" />
+<meta name="date" content="2021-11-16" />
 
 <title>Day 2 - Module 08: Count normalizations and DESeq2 model fitting</title>
 
@@ -457,7 +457,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Day 2 - Module 08: Count normalizations and DESeq2 model fitting</h1>
 <h4 class="author">UM Bioinformatics Core</h4>
-<h4 class="date">2021-11-15</h4>
+<h4 class="date">2021-11-16</h4>
 
 </div>
 
@@ -527,15 +527,12 @@ code.r{
 <p>*Note: We see a message here that our data did not fit the default ‘parametric’ dispersion model so a local regression was substituted. If we had more time, we might look at a dispersion plot with the <code>plotDispEsts(dds)</code> function, but as <a href="https://support.bioconductor.org/p/107937/">this bioconductor thread</a> discusses, other visualizations of our data might be more helpful and/or easier to interpret.</p>
 <p>Next, we’ll look at the results of the transformation.</p>
 <pre class="r"><code>head(assay(rld), 2)</code></pre>
-<pre><code>##                    Sample_116498 Sample_116499 Sample_116500 Sample_116501 Sample_116502
-## ENSMUSG00000000001     12.635215     12.609457      12.76686     12.616921     12.705707
-## ENSMUSG00000000028      8.096766      8.350835       8.17923      8.391328      8.616073
-##                    Sample_116503 Sample_116504 Sample_116505 Sample_116506 Sample_116507
-## ENSMUSG00000000001     12.661095      12.54194      12.52138      12.49388      12.71019
-## ENSMUSG00000000028      8.653318      10.71402      10.77955      10.88032      11.01995
-##                    Sample_116508 Sample_116509
-## ENSMUSG00000000001      12.52632      12.48844
-## ENSMUSG00000000028      10.93564      10.96100</code></pre>
+<pre><code>##                    Sample_116498 Sample_116499 Sample_116500 Sample_116501 Sample_116502 Sample_116503
+## ENSMUSG00000000001     12.635215     12.609457      12.76686     12.616921     12.705707     12.661095
+## ENSMUSG00000000028      8.096766      8.350835       8.17923      8.391328      8.616073      8.653318
+##                    Sample_116504 Sample_116505 Sample_116506 Sample_116507 Sample_116508 Sample_116509
+## ENSMUSG00000000001      12.54194      12.52138      12.49388      12.71019      12.52632      12.48844
+## ENSMUSG00000000028      10.71402      10.77955      10.88032      11.01995      10.93564      10.96100</code></pre>
 <p>Looking at the rld values, we can see that they are now in log scale. Since we set <code>blind=TRUE</code>, the transformation is blind to the sample information we specified in the design formula. The normalized counts are helpful for visualization methods during expression-level quality assessment but <strong>aren’t used in the model fitting</strong>.</p>
 </div>
 </div>
