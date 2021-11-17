@@ -245,11 +245,32 @@ conda deactivate
     * cutadapt
     * fastqc
     * multiqc
-
 2. Create an environment that has the aligner & quantification program that we've used. Use the `bioconda` channel
     * star
     * rsem
 
+<br>
+<br>
+
+<details>
+<summary>Solutions for Conda Create Exercises</summary>
+
+Create a conda environment with Cutadapt, FastQC, and MultiQC. Use the bioconda channel.
+
+```
+conda create -n qc -c bioconda cutadapt fastqc multiqc
+```
+
+Create a conda environment with STAR and RSEM. Use the bioconda channel.
+
+```
+conda create -n align -c bioconda star rsem
+```
+
+</details>
+
+<br>
+<br>
 
 ---
 

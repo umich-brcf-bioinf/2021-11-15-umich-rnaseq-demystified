@@ -459,15 +459,9 @@ pre {
 <h2>Wrapping up</h2>
 <p>We hope you now have more familiarity with key concepts, data types, tools, and how they all connect to enable gene expression analysis from bulk RNA-Seq data.</p>
 <ul>
-<li><p>Day 1: UNIX/Bash, sequence files, QC, trimming, alignment</p></li>
-<li><p>Day 2: Count table, advanced QC, R, DESeq2</p></li>
-<li><p>Day 3: QC visualizations, Differential expression analysis</p></li>
-<li><p>Learning bioinformatic analyses more like a process than a task. Resources to consider:</p>
-<ul>
-<li><a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">Training resources/workshops</a></li>
-<li><a href="https://umcoderspaces.slack.com" target="_blank">UMcoderspaces Slack</a></li>
-<li><a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces</a></li>
-</ul></li>
+<li>Day 1: UNIX/Bash, sequence files, QC, trimming, alignment</li>
+<li>Day 2: Count table, advanced QC, R, DESeq2</li>
+<li>Day 3: QC visualizations, Differential expression analysis</li>
 </ul>
 <hr />
 </div>
@@ -477,18 +471,61 @@ pre {
 <li><p>Please take our optional <a href="https://forms.gle/XcSnsfDMF6hwBJXBA" target="_blank">post-workshop survey</a> (5-10 minutes) <br /></p></li>
 <li><p>We will email you a link to the final session recordings by next week.</p></li>
 <li><p>The website/notes for this workshop and <a href="https://umcoderspaces.slack.com">UMcoderspaces Slack channel</a> channel will be available.</p></li>
-<li><p>BASH/RStudio workshop compute environment (at Amazon) will be available until next Monday.</p>
+</ul>
+<hr />
+</div>
+<div id="looking-ahead" class="section level2">
+<h2>Looking ahead</h2>
+<div id="workshop-environment" class="section level4">
+<h4>Workshop environment</h4>
 <ul>
-<li>You can install necessary programs to run programs locally. Note that for typical data, the Day 1 programs assume your computer has sizable compute and storage capacity. (i.e. It may not be practical to run these on your laptop.)</li>
+<li><p>BASH/RStudio workshop compute environment will be available until next Monday.</p></li>
+<li><p>You can download files from the workshop environment from your terminal/command line window as below. (You will need to substitute your actual workshop username and type workshop password when prompted.)</p>
+<pre><code>mkdir 2021-11-15-rnaseq-demystified-workshop
+scp -r \
+    YOUR_USERNAME@bfx-workshop01.med.umich.edu:&quot;data analysis *-umich-rnaseq-demystified&quot; \
+    2021-11-15-rnaseq-demystified-workshop</code></pre>
+<ul>
+<li>Note that the full download is about 2Gb, so depending on your internet speeds it could take while.</li>
+</ul></li>
+</ul>
+</div>
+<div id="installing-software-locally" class="section level4">
+<h4>Installing software locally</h4>
+<ul>
+<li>You can install necessary programs to run programs locally. Note that for typical data, the compute intensive steps (Day 1) assume your computer has powerful compute (many CPUs and lots of RAM) and sizable storage capacity. (i.e. It may not be practical to run these on your laptop.)</li>
 <li>Installing bioinformatics software is non-trivial and comprehensive instructions to setup a complete compute environment are outside the scope of this workshop. (We are considering offering a Computational Reproducibility workshop that would cover this.) For the intrepid, see relevant links below:
 <ul>
 <li><a href="https://conda.io/projects/conda/en/latest/user-guide/install/index.html#regular-installation">Installing Conda</a></li>
 <li><a href="https://github.com/umich-brcf-bioinf/2021-11-15-umich-rnaseq-demystified/blob/master/server_setup/conda_setup/workshop-rsd.yaml">Conda environment YAML</a></li>
 <li><a href="workshop_setup/setup_instructions_advanced.html">Setting up R/R-Studio</a></li>
 </ul></li>
+</ul>
+</div>
+<div id="great-lakes-at-university-of-michigan" class="section level4">
+<h4><em>Great Lakes</em> at University of Michigan</h4>
+<ul>
+<li>Advanced Research Computing (ARC) at University of Michigan hosts a high-performance computing (HPC) platform called <em>Great Lakes</em> which combines high-end computers, fast/resilient storage, and pre-installed software. GreatLakes may be a good resource for folks who need to run the more compute intensive steps and a substantial block of compute and storage is subsidized by ARC making it essentially free to many researchers.
+<ul>
+<li>About <a href="https://arc.umich.edu/greatlakes/" target="_blank">Great Lakes HPC</a>.</li>
+<li>About the ARC <a href="https://arc.umich.edu/umrcp/" target="_blank">Research Computing Package</a>.</li>
+<li>Videos on <a href="https://www.mivideo.it.umich.edu/channel/ARC-TS%2BTraining/181860561/" target="_blank">getting started with Great Lakes</a>. (available to UM folks)</li>
+<li>Upcoming <a href="https://arc.umich.edu/events/" target="_blank">ARC workshops</a>.</li>
+</ul></li>
+</ul>
+</div>
+<div id="training-and-support" class="section level4">
+<h4>Training and support</h4>
+<ul>
+<li>Learning bioinformatic analyses more like a process than a task. Resources to consider:
+<ul>
+<li><a href="https://brcf.medicine.umich.edu/cores/bioinformatics-core/training/" target="_blank">Training resources/workshops</a></li>
+<li><a href="https://umcoderspaces.slack.com" target="_blank">UMcoderspaces Slack</a></li>
+<li><a href="https://datascience.isr.umich.edu/events/coderspaces/" target="_blank">UM CoderSpaces</a></li>
 </ul></li>
 </ul>
 <hr />
+</div>
 </div>
 <div id="thank-you" class="section level2">
 <h2>Thank you</h2>
