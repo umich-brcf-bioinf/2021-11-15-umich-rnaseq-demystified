@@ -241,8 +241,28 @@ To transfer our plot to our local computer, we need a few things:
 1. A tool on our local machine that will do the transfer for us
 1. A destination for the file
 
-First, let's 
+First, let's remind ourselves of the value of `PlotPath` (which we used to output our file above)
+```{r PathInfo, eval = FALSE }
+# what's the remote path structure?
+pwd()
+# what's the subdirectory/file name?
+paste0(plotPath, 'PCAplot_Fancy_rlog_', Comparison, '.pdf')
+```
 
+Since our working directory is `/2021-11-15-umich-rnaseq-demystified` and we saved the plot to the subdirectory `figures` the full file name and path information for the file we want to transfer is: `~/2021-11-15-umich-rnaseq-demystified/figures/PCAplot_Fancy_rlog_Gtype.Tx_ko.Tx_vs_wt.Tx.pdf`
+
+Next, we need to open a terminal/console window on our **local** computer. 
+
+Then, we should check that we have a program called `scp` by typing the program name on the command line and hitting `Enter`. We should see a usage statement for the program, which shows a number of options enclosed in `[` symbols, then `source ... target`.
+
+Then, we can determine the full local path for where we want the file to be saved on our computer **OR** we can create and/or navigate to a folder before running the transfer in our local terminal/console window.
+
+Next, we'll type scp and then specify our `source` and `destination` (as the `.` to indicate our current folder) in our local terminal/console window. *Note: you will need to substitute <USERNAME> for the username you were provided/used to log into the RStudio server*
+```{r TransferExample, eval=FALSE}
+scp <USERNAME>@bfx-workshop01.med.umich.edu:~/2021-11-15-umich-rnaseq-demystified/figures/PCAplot_Fancy_rlog_Gtype.Tx_ko.Tx_vs_wt.Tx.pdf .
+```
+
+We will be prompted for our password. After we enter it, we should see the download progress. If you look in the destination directory on your local machine (using your local file navigator), you should now see the file saved.
 
 ### Optional - Scree Plot example 
 
