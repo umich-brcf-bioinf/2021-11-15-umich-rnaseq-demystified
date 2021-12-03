@@ -36,8 +36,13 @@ for user in ${users[@]}; do
     echo ${user} : add user
     export user
     export pass=${user_passwd[$user]}
-    export uhome=/home/${user}
-    sudo useradd -s /bin/bash -m -p $(openssl passwd -1 $pass) -g $PRIMARY_GROUP $user
+    export uhome=/home/workshop/${user}
+    sudo useradd \
+	    -s /bin/bash \
+	    -m -d ${uhome} \
+	    -p $(openssl passwd -1 $pass) \
+	    -g $PRIMARY_GROUP \
+	    $user
     sudo -H -u $user bash -c "bash /rsd/workshop_setup/scripts/user_setup.sh $CONDA_SETUP $CONDA_PREFIX"
     added_users+=($user)
 done
