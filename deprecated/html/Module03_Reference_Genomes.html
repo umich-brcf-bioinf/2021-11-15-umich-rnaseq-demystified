@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 1 - Module 03: Reference Genomes</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 1 - Module 03: Reference Genomes</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="reference-genomes" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Reference Genomes</h1>
+<p>In this module, we will learn:</p>
+<ul>
+<li>what a reference genome is and what it contains</li>
+<li>details about the FASTA and GTF formats</li>
+<li>to appreciate the differences in gene identifiers</li>
+<li>how to download a reference genome</li>
+</ul>
+</div>
+<div id="differential-expression-workflow" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Differential Expression Workflow</h1>
+<p>Here we will set the stage for the next steps by discussing reference genomes, which are integral to genome alignments and gene/isoform quantification. Along the way we will touch on some things to be aware of.</p>
+<p><img src="images/wayfinder/wayfinder-02.png" /> <br> <br> <br> <br></p>
+</div>
+<div id="reference-genomes-1" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Reference Genomes</h1>
+<p>A reference genome consists of the <strong>reference sequence</strong> and, optionally, any number of <strong>genomic annotations</strong> that describe attributes about that sequence. Examples of annotations include:</p>
+<ul>
+<li>Gene models consisting of the location and other information about genes.</li>
+<li>Variants consisting of the location of common or rare genetic variants, their alleles, and frequencies.</li>
+<li>Small RNAs consisting of the location and other information about various types of small RNAs.</li>
+</ul>
+<p>Of particular relevance to us for this workshop are the reference sequence and gene models.</p>
+<div id="reference-sequence" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Reference Sequence</h2>
+<p>Reference sequence is stored in <a href="https://en.wikipedia.org/wiki/FASTA_format">FASTA</a> files. They are similar to FASTQ files in their storage of sequence information, but their format is a little different in a couple ways:</p>
+<ol style="list-style-type: decimal">
+<li>Records are separated by lines beginning with <code>&gt;</code> instead of <code>@</code>.</li>
+<li>Only the sequence is stored in a FASTA file, there is no notion of quality attached to the nucleotides.</li>
+</ol>
+<pre><code>&gt;chrM
+GATCACAGGTCTATCACCCTATTAACCACTCACGGGAGCTCTCCATGCAT
+TTGGTATTTTCGTCTGGGGGGTGTGCACGCGATAGCATTGCGAGACGCTG
+GAGCCGGAGCACCCTATGTCGCAGTATCTGTCTTTGATTCCTGCCTCATT
+CTATTATTTATCGCACCTACGTTCAATATTACAGGCGAACATACCTACTA
+AAGTGTGTTAATTAATTAATGCTTGTAGGACATAATAATAACAATTGAAT
+GTCTGCACAGCCGCTTTCCACACAGACATCATAACAAAAAATTTCCACCA
+AACCCCCCCCTCCCCCCGCTTCTGGCCACAGCACTTAAACACATCTCTGC
+CAAACCCCAAAAACAAAGAACCCTAACACCAGCCTAACCAGATTTCAAAT
+TTTATCTTTAGGCGGTATGCACTTTTAACAGTCACCCCCCAACTAACACA</code></pre>
+</div>
+<div id="gene-models" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Gene Models</h2>
+<p>Well-characterized organisms (e.g. human, mouse, zebrafish) have fairly mature gene models. These are stored in <a href="https://uswest.ensembl.org/info/website/upload/gff.html">GTF</a> format, which gives location and other information about each gene feature. Below are two examples:</p>
+<pre><code>chr1    unknown exon    11874   12227   .   +   .   gene_id &quot;DDX11L1&quot;; gene_name &quot;DDX11L1&quot;; transcript_id &quot;NR_046018&quot;; tss_id &quot;TSS16932&quot;;
+chr1    unknown exon    12613   12721   .   +   .   gene_id &quot;DDX11L1&quot;; gene_name &quot;DDX11L1&quot;; transcript_id &quot;NR_046018&quot;; tss_id &quot;TSS16932&quot;;
+chr1    unknown exon    13221   14409   .   +   .   gene_id &quot;DDX11L1&quot;; gene_name &quot;DDX11L1&quot;; transcript_id &quot;NR_046018&quot;; tss_id &quot;TSS16932&quot;;
+chr1    unknown exon    14362   14829   .   -   .   gene_id &quot;WASH7P&quot;; gene_name &quot;WASH7P&quot;; transcript_id &quot;NR_024540&quot;; tss_id &quot;TSS8568&quot;;
+
+
+1   havana  gene    11869   14409   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_version &quot;5&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;havana&quot;; gene_biotype &quot;transcribed_unprocessed_pseudogene&quot;;
+1   havana  transcript  11869   14409   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_version &quot;5&quot;; transcript_id &quot;ENST00000456328&quot;; transcript_version &quot;2&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;havana&quot;; gene_biotype &quot;transcribed_unprocessed_pseudogene&quot;; transcript_name &quot;DDX11L1-202&quot;; transcript_source &quot;havana&quot;; transcript_biotype &quot;lncRNA&quot;; tag &quot;basic&quot;; transcript_support_level &quot;1&quot;;
+1   havana  exon    11869   12227   .   +   .   gene_id &quot;ENSG00000223972&quot;; gene_version &quot;5&quot;; transcript_id &quot;ENST00000456328&quot;; transcript_version &quot;2&quot;; exon_number &quot;1&quot;; gene_name &quot;DDX11L1&quot;; gene_source &quot;havana&quot;; gene_biotype &quot;transcribed_unprocessed_pseudogene&quot;; transcript_name &quot;DDX11L1-202&quot;; transcript_source &quot;havana&quot;; transcript_biotype &quot;lncRNA&quot;; exon_id &quot;ENSE00002234944&quot;; exon_version &quot;1&quot;; tag &quot;basic&quot;; transcript_support_level &quot;1&quot;;</code></pre>
+<p>The GTF format stores specific information in each column:</p>
+<table>
+<colgroup>
+<col width="35%" />
+<col width="64%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td>Chromosome</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td>Source, e.g. ensembl, havana</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td>Gene feature, e.g. exon, intron, mRNA, transcript</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td>Start location, 1-based</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td>End location, 1-based</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td>Score</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td>Strand</td>
+</tr>
+<tr class="even">
+<td align="center">8</td>
+<td>Frame, relating to codons</td>
+</tr>
+<tr class="odd">
+<td align="center">9</td>
+<td>Attribute, a semicolon separated list of key/value pairs giving additional information about the feature.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="minutiae-very-briefly" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Minutiae, Very Briefly</h2>
+<p>Bioinformatics is a relatively new, fast-changing, field and its data standards and formats are no different. Consequently there are some oddities and tedious items of note which we would like to only briefly touch on here.</p>
+<div id="genome-builds" class="section level3" number="3.3.1">
+<h3 number="3.3.1"><span class="header-section-number">3.3.1</span> Genome Builds</h3>
+<p>On occassion new reference genomes are released, and the genome build number changes. You may be familiar with the UCSC manner of naming human genome builds: hg18, hg19, hg38. ENSEMBL, naturally, has their own way of referring to genome builds: GRCh36, GRCh37, and GRCh38. Notice with the most recent human reference, the numbering now aligns between UCSC and ENSEMBL.</p>
+<p>Different organisms have their own versioning.</p>
+</div>
+<div id="annotation-sources" class="section level3" number="3.3.2">
+<h3 number="3.3.2"><span class="header-section-number">3.3.2</span> Annotation Sources</h3>
+<p><a href="https://www.ncbi.nlm.nih.gov/refseq/rsg/">NCBI RefSeq</a>, <a href="https://www.ensembl.org/info/genome/genebuild/index.html">ENSEMBL</a>, and <a href="https://academic.oup.com/bioinformatics/article/22/9/1036/200093">UCSC Known Genes</a> are the three primary gene annotation databases (different organisms have their own databases). We will not go into exactly how the gene annotations are different, but we note that the are, and <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-015-1308-8">others have examined the consequences of this</a>.</p>
+</div>
+<div id="gene-ids" class="section level3" number="3.3.3">
+<h3 number="3.3.3"><span class="header-section-number">3.3.3</span> Gene IDs</h3>
+<p>The two GTF examples above highlight different ways of referring to the same gene. In the first GTF we see:</p>
+<ul>
+<li>DDX11L1, the gene symbol, controlled by the <a href="https://www.genenames.org/">Human Gene Nomenclature Committee (HUGO)</a>.</li>
+<li>NR_046018, the RefSeq transcript ID</li>
+</ul>
+<p>And in the second GTF we see:</p>
+<ul>
+<li>ENSG00000223972, the ENSEMBL gene ID</li>
+<li>DDX11L1, the gene symbol, thankfully the same</li>
+<li>ENST00000456328, the ENSEMBL transcript ID</li>
+</ul>
+<p>Translating between different gene IDs is possible, as we will see in Day Two with <code>biomaRt</code>. But in terms of <strong>best practice</strong> it is generally a good idea to avoid using the gene symbol as the primary gene identifier because not everyone refers to the same gene by the same symbol.</p>
+</div>
+</div>
+</div>
+<div id="getting-a-reference-genome" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Getting a Reference Genome</h1>
+<p>The <a href="https://support.illumina.com/sequencing/sequencing_software/igenome.html">Illumina iGenomes</a> resource is one of the easiest, and most comprehensive, ways to download a reference genome. iGenomes includes both the reference sequence and gene models.</p>
+<p>Reference genomes can be <strong>very large</strong>, depending on the organism, and so we will not download one to the Amazon instance we are using for this workshop. We’ve included instructions for downloading these, in case you want to download these to the server where you intend to later do a similar RNA-seq analysis (e.g. on High-Performance Compute, GreatLakes).</p>
+<details>
+<summary>
+How would I download references with iGenomes?
+</summary>
+<p>As noted, it’s not recommended to download the iGenomes references to the AWS instance. However, if you wanted to know in general how you would do that, the process is described here.</p>
+<p>First go to the <a href="https://support.illumina.com/sequencing/sequencing_software/igenome.html">iGenomes</a> page, find the build you want from the source you want, right click the genome build you want to download, and select “Copy link location”:</p>
+<div class="figure">
+<img src="images/genome_copy_link.png" alt="" />
+<p class="caption">iGenomes image for copying link location</p>
+</div>
+<p>Then on the remote server you would go to the directory you’d like to download the genome to and type (that URL is what we copied):</p>
+<pre><code>$ wget http://igenomes.illumina.com.s3-website-us-east-1.amazonaws.com/Homo_sapiens/NCBI/GRCh38/Homo_sapiens_NCBI_GRCh38.tar.gz</code></pre>
+<p>After the download finishes (it may take a while as it is tens of GB large), you can unpack it with:</p>
+<pre><code>$ tar -xf Homo_sapiens_NCBI_GRCh38.tar.gz</code></pre>
+</details>
+<div id="which-reference-is-right-for-me" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Which Reference is Right for Me?</h2>
+<p>The key is to be consistent in your research. Switching from ENSEMBL to UCSC will create many headaches because of the change in gene identifiers, and differences in the gene models themselves. Often people choose the one they’re most comfortable with, which is often a function of historical accident. The key is not to overthink it.</p>
+<p>Another important note is not to mix the sources. If you download reference sequence from UCSC, don’t use an ENSEMBL GTF (and vice versa). One of the quirky differences between the two databases is that ENSEMBL refers to chromosome only by their number, i.e. <code>1</code>, whereas UCSC refers to chromsomes as <code>chr1</code>. This makes reference FASTAs from one source incompatible with gene builds from another.</p>
+<hr />
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDM6IFJlZmVyZW5jZSBHZW5vbWVzIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCiMgUmVmZXJlbmNlIEdlbm9tZXMKCkluIHRoaXMgbW9kdWxlLCB3ZSB3aWxsIGxlYXJuOgoKKiB3aGF0IGEgcmVmZXJlbmNlIGdlbm9tZSBpcyBhbmQgd2hhdCBpdCBjb250YWlucwoqIGRldGFpbHMgYWJvdXQgdGhlIEZBU1RBIGFuZCBHVEYgZm9ybWF0cwoqIHRvIGFwcHJlY2lhdGUgdGhlIGRpZmZlcmVuY2VzIGluIGdlbmUgaWRlbnRpZmllcnMKKiBob3cgdG8gZG93bmxvYWQgYSByZWZlcmVuY2UgZ2Vub21lCgojIERpZmZlcmVudGlhbCBFeHByZXNzaW9uIFdvcmtmbG93CgpIZXJlIHdlIHdpbGwgc2V0IHRoZSBzdGFnZSBmb3IgdGhlIG5leHQgc3RlcHMgYnkgZGlzY3Vzc2luZyByZWZlcmVuY2UgZ2Vub21lcywgd2hpY2ggYXJlIGludGVncmFsIHRvIGdlbm9tZSBhbGlnbm1lbnRzIGFuZCBnZW5lL2lzb2Zvcm0gcXVhbnRpZmljYXRpb24uIEFsb25nIHRoZSB3YXkgd2Ugd2lsbCB0b3VjaCBvbiBzb21lIHRoaW5ncyB0byBiZSBhd2FyZSBvZi4KCiFbXShpbWFnZXMvd2F5ZmluZGVyL3dheWZpbmRlci0wMi5wbmcpCjxicj4KPGJyPgo8YnI+Cjxicj4KCiMgUmVmZXJlbmNlIEdlbm9tZXMKCkEgcmVmZXJlbmNlIGdlbm9tZSBjb25zaXN0cyBvZiB0aGUgKipyZWZlcmVuY2Ugc2VxdWVuY2UqKiBhbmQsIG9wdGlvbmFsbHksIGFueSBudW1iZXIgb2YgKipnZW5vbWljIGFubm90YXRpb25zKiogdGhhdCBkZXNjcmliZSBhdHRyaWJ1dGVzIGFib3V0IHRoYXQgc2VxdWVuY2UuIEV4YW1wbGVzIG9mIGFubm90YXRpb25zIGluY2x1ZGU6CgoqIEdlbmUgbW9kZWxzIGNvbnNpc3Rpbmcgb2YgdGhlIGxvY2F0aW9uIGFuZCBvdGhlciBpbmZvcm1hdGlvbiBhYm91dCBnZW5lcy4KKiBWYXJpYW50cyBjb25zaXN0aW5nIG9mIHRoZSBsb2NhdGlvbiBvZiBjb21tb24gb3IgcmFyZSBnZW5ldGljIHZhcmlhbnRzLCB0aGVpciBhbGxlbGVzLCBhbmQgZnJlcXVlbmNpZXMuCiogU21hbGwgUk5BcyBjb25zaXN0aW5nIG9mIHRoZSBsb2NhdGlvbiBhbmQgb3RoZXIgaW5mb3JtYXRpb24gYWJvdXQgdmFyaW91cyB0eXBlcyBvZiBzbWFsbCBSTkFzLgoKT2YgcGFydGljdWxhciByZWxldmFuY2UgdG8gdXMgZm9yIHRoaXMgd29ya3Nob3AgYXJlIHRoZSByZWZlcmVuY2Ugc2VxdWVuY2UgYW5kIGdlbmUgbW9kZWxzLgoKIyMgUmVmZXJlbmNlIFNlcXVlbmNlCgpSZWZlcmVuY2Ugc2VxdWVuY2UgaXMgc3RvcmVkIGluIFtGQVNUQV0oaHR0cHM6Ly9lbi53aWtpcGVkaWEub3JnL3dpa2kvRkFTVEFfZm9ybWF0KSBmaWxlcy4gVGhleSBhcmUgc2ltaWxhciB0byBGQVNUUSBmaWxlcyBpbiB0aGVpciBzdG9yYWdlIG9mIHNlcXVlbmNlIGluZm9ybWF0aW9uLCBidXQgdGhlaXIgZm9ybWF0IGlzIGEgbGl0dGxlIGRpZmZlcmVudCBpbiBhIGNvdXBsZSB3YXlzOgoKMS4gUmVjb3JkcyBhcmUgc2VwYXJhdGVkIGJ5IGxpbmVzIGJlZ2lubmluZyB3aXRoIGA+YCBpbnN0ZWFkIG9mIGBAYC4KMi4gT25seSB0aGUgc2VxdWVuY2UgaXMgc3RvcmVkIGluIGEgRkFTVEEgZmlsZSwgdGhlcmUgaXMgbm8gbm90aW9uIG9mIHF1YWxpdHkgYXR0YWNoZWQgdG8gdGhlIG51Y2xlb3RpZGVzLgoKYGBgCj5jaHJNCkdBVENBQ0FHR1RDVEFUQ0FDQ0NUQVRUQUFDQ0FDVENBQ0dHR0FHQ1RDVENDQVRHQ0FUClRUR0dUQVRUVFRDR1RDVEdHR0dHR1RHVEdDQUNHQ0dBVEFHQ0FUVEdDR0FHQUNHQ1RHCkdBR0NDR0dBR0NBQ0NDVEFUR1RDR0NBR1RBVENUR1RDVFRUR0FUVENDVEdDQ1RDQVRUCkNUQVRUQVRUVEFUQ0dDQUNDVEFDR1RUQ0FBVEFUVEFDQUdHQ0dBQUNBVEFDQ1RBQ1RBCkFBR1RHVEdUVEFBVFRBQVRUQUFUR0NUVEdUQUdHQUNBVEFBVEFBVEFBQ0FBVFRHQUFUCkdUQ1RHQ0FDQUdDQ0dDVFRUQ0NBQ0FDQUdBQ0FUQ0FUQUFDQUFBQUFBVFRUQ0NBQ0NBCkFBQ0NDQ0NDQ0NUQ0NDQ0NDR0NUVENUR0dDQ0FDQUdDQUNUVEFBQUNBQ0FUQ1RDVEdDCkNBQUFDQ0NDQUFBQUFDQUFBR0FBQ0NDVEFBQ0FDQ0FHQ0NUQUFDQ0FHQVRUVENBQUFUClRUVEFUQ1RUVEFHR0NHR1RBVEdDQUNUVFRUQUFDQUdUQ0FDQ0NDQ0NBQUNUQUFDQUNBCmBgYAoKIyMgR2VuZSBNb2RlbHMKCldlbGwtY2hhcmFjdGVyaXplZCBvcmdhbmlzbXMgKGUuZy4gaHVtYW4sIG1vdXNlLCB6ZWJyYWZpc2gpIGhhdmUgZmFpcmx5IG1hdHVyZSBnZW5lIG1vZGVscy4gVGhlc2UgYXJlIHN0b3JlZCBpbiBbR1RGXShodHRwczovL3Vzd2VzdC5lbnNlbWJsLm9yZy9pbmZvL3dlYnNpdGUvdXBsb2FkL2dmZi5odG1sKSBmb3JtYXQsIHdoaWNoIGdpdmVzIGxvY2F0aW9uIGFuZCBvdGhlciBpbmZvcm1hdGlvbiBhYm91dCBlYWNoIGdlbmUgZmVhdHVyZS4gQmVsb3cgYXJlIHR3byBleGFtcGxlczoKCgogICAgY2hyMQl1bmtub3duCWV4b24JMTE4NzQJMTIyMjcJLgkrCS4JZ2VuZV9pZCAiRERYMTFMMSI7IGdlbmVfbmFtZSAiRERYMTFMMSI7IHRyYW5zY3JpcHRfaWQgIk5SXzA0NjAxOCI7IHRzc19pZCAiVFNTMTY5MzIiOwogICAgY2hyMQl1bmtub3duCWV4b24JMTI2MTMJMTI3MjEJLgkrCS4JZ2VuZV9pZCAiRERYMTFMMSI7IGdlbmVfbmFtZSAiRERYMTFMMSI7IHRyYW5zY3JpcHRfaWQgIk5SXzA0NjAxOCI7IHRzc19pZCAiVFNTMTY5MzIiOwogICAgY2hyMQl1bmtub3duCWV4b24JMTMyMjEJMTQ0MDkJLgkrCS4JZ2VuZV9pZCAiRERYMTFMMSI7IGdlbmVfbmFtZSAiRERYMTFMMSI7IHRyYW5zY3JpcHRfaWQgIk5SXzA0NjAxOCI7IHRzc19pZCAiVFNTMTY5MzIiOwogICAgY2hyMQl1bmtub3duCWV4b24JMTQzNjIJMTQ4MjkJLgktCS4JZ2VuZV9pZCAiV0FTSDdQIjsgZ2VuZV9uYW1lICJXQVNIN1AiOyB0cmFuc2NyaXB0X2lkICJOUl8wMjQ1NDAiOyB0c3NfaWQgIlRTUzg1NjgiOwoKCiAgICAxCWhhdmFuYQlnZW5lCTExODY5CTE0NDA5CS4JKwkuCWdlbmVfaWQgIkVOU0cwMDAwMDIyMzk3MiI7IGdlbmVfdmVyc2lvbiAiNSI7IGdlbmVfbmFtZSAiRERYMTFMMSI7IGdlbmVfc291cmNlICJoYXZhbmEiOyBnZW5lX2Jpb3R5cGUgInRyYW5zY3JpYmVkX3VucHJvY2Vzc2VkX3BzZXVkb2dlbmUiOwogICAgMQloYXZhbmEJdHJhbnNjcmlwdAkxMTg2OQkxNDQwOQkuCSsJLglnZW5lX2lkICJFTlNHMDAwMDAyMjM5NzIiOyBnZW5lX3ZlcnNpb24gIjUiOyB0cmFuc2NyaXB0X2lkICJFTlNUMDAwMDA0NTYzMjgiOyB0cmFuc2NyaXB0X3ZlcnNpb24gIjIiOyBnZW5lX25hbWUgIkREWDExTDEiOyBnZW5lX3NvdXJjZSAiaGF2YW5hIjsgZ2VuZV9iaW90eXBlICJ0cmFuc2NyaWJlZF91bnByb2Nlc3NlZF9wc2V1ZG9nZW5lIjsgdHJhbnNjcmlwdF9uYW1lICJERFgxMUwxLTIwMiI7IHRyYW5zY3JpcHRfc291cmNlICJoYXZhbmEiOyB0cmFuc2NyaXB0X2Jpb3R5cGUgImxuY1JOQSI7IHRhZyAiYmFzaWMiOyB0cmFuc2NyaXB0X3N1cHBvcnRfbGV2ZWwgIjEiOwogICAgMQloYXZhbmEJZXhvbgkxMTg2OQkxMjIyNwkuCSsJLglnZW5lX2lkICJFTlNHMDAwMDAyMjM5NzIiOyBnZW5lX3ZlcnNpb24gIjUiOyB0cmFuc2NyaXB0X2lkICJFTlNUMDAwMDA0NTYzMjgiOyB0cmFuc2NyaXB0X3ZlcnNpb24gIjIiOyBleG9uX251bWJlciAiMSI7IGdlbmVfbmFtZSAiRERYMTFMMSI7IGdlbmVfc291cmNlICJoYXZhbmEiOyBnZW5lX2Jpb3R5cGUgInRyYW5zY3JpYmVkX3VucHJvY2Vzc2VkX3BzZXVkb2dlbmUiOyB0cmFuc2NyaXB0X25hbWUgIkREWDExTDEtMjAyIjsgdHJhbnNjcmlwdF9zb3VyY2UgImhhdmFuYSI7IHRyYW5zY3JpcHRfYmlvdHlwZSAibG5jUk5BIjsgZXhvbl9pZCAiRU5TRTAwMDAyMjM0OTQ0IjsgZXhvbl92ZXJzaW9uICIxIjsgdGFnICJiYXNpYyI7IHRyYW5zY3JpcHRfc3VwcG9ydF9sZXZlbCAiMSI7CgoKVGhlIEdURiBmb3JtYXQgc3RvcmVzIHNwZWNpZmljIGluZm9ybWF0aW9uIGluIGVhY2ggY29sdW1uOgoKfCBDb2x1bW4gfCBEZXNjcmlwdGlvbiB8CnwgOi0tLS06IHwgLS0tLS0tLS0tLS0gfAp8IDEgfCBDaHJvbW9zb21lIHwKfCAyIHwgU291cmNlLCBlLmcuIGVuc2VtYmwsIGhhdmFuYSB8CnwgMyB8IEdlbmUgZmVhdHVyZSwgZS5nLiBleG9uLCBpbnRyb24sIG1STkEsIHRyYW5zY3JpcHQgfAp8IDQgfCBTdGFydCBsb2NhdGlvbiwgMS1iYXNlZCB8CnwgNSB8IEVuZCBsb2NhdGlvbiwgMS1iYXNlZCB8CnwgNiB8IFNjb3JlIHwKfCA3IHwgU3RyYW5kIHwKfCA4IHwgRnJhbWUsIHJlbGF0aW5nIHRvIGNvZG9ucyB8CnwgOSB8IEF0dHJpYnV0ZSwgYSBzZW1pY29sb24gc2VwYXJhdGVkIGxpc3Qgb2Yga2V5L3ZhbHVlIHBhaXJzIGdpdmluZyBhZGRpdGlvbmFsIGluZm9ybWF0aW9uIGFib3V0IHRoZSBmZWF0dXJlLiB8CgojIyBNaW51dGlhZSwgVmVyeSBCcmllZmx5CgpCaW9pbmZvcm1hdGljcyBpcyBhIHJlbGF0aXZlbHkgbmV3LCBmYXN0LWNoYW5naW5nLCBmaWVsZCBhbmQgaXRzIGRhdGEgc3RhbmRhcmRzIGFuZCBmb3JtYXRzIGFyZSBubyBkaWZmZXJlbnQuIENvbnNlcXVlbnRseSB0aGVyZSBhcmUgc29tZSBvZGRpdGllcyBhbmQgdGVkaW91cyBpdGVtcyBvZiBub3RlIHdoaWNoIHdlIHdvdWxkIGxpa2UgdG8gb25seSBicmllZmx5IHRvdWNoIG9uIGhlcmUuCgojIyMgR2Vub21lIEJ1aWxkcwoKT24gb2NjYXNzaW9uIG5ldyByZWZlcmVuY2UgZ2Vub21lcyBhcmUgcmVsZWFzZWQsIGFuZCB0aGUgZ2Vub21lIGJ1aWxkIG51bWJlciBjaGFuZ2VzLiBZb3UgbWF5IGJlIGZhbWlsaWFyIHdpdGggdGhlIFVDU0MgbWFubmVyIG9mIG5hbWluZyBodW1hbiBnZW5vbWUgYnVpbGRzOiBoZzE4LCBoZzE5LCBoZzM4LiBFTlNFTUJMLCBuYXR1cmFsbHksIGhhcyB0aGVpciBvd24gd2F5IG9mIHJlZmVycmluZyB0byBnZW5vbWUgYnVpbGRzOiBHUkNoMzYsIEdSQ2gzNywgYW5kIEdSQ2gzOC4gTm90aWNlIHdpdGggdGhlIG1vc3QgcmVjZW50IGh1bWFuIHJlZmVyZW5jZSwgdGhlIG51bWJlcmluZyBub3cgYWxpZ25zIGJldHdlZW4gVUNTQyBhbmQgRU5TRU1CTC4KCkRpZmZlcmVudCBvcmdhbmlzbXMgaGF2ZSB0aGVpciBvd24gdmVyc2lvbmluZy4KCiMjIyBBbm5vdGF0aW9uIFNvdXJjZXMKCltOQ0JJIFJlZlNlcV0oaHR0cHM6Ly93d3cubmNiaS5ubG0ubmloLmdvdi9yZWZzZXEvcnNnLyksIFtFTlNFTUJMXShodHRwczovL3d3dy5lbnNlbWJsLm9yZy9pbmZvL2dlbm9tZS9nZW5lYnVpbGQvaW5kZXguaHRtbCksIGFuZCBbVUNTQyBLbm93biBHZW5lc10oaHR0cHM6Ly9hY2FkZW1pYy5vdXAuY29tL2Jpb2luZm9ybWF0aWNzL2FydGljbGUvMjIvOS8xMDM2LzIwMDA5MykgYXJlIHRoZSB0aHJlZSBwcmltYXJ5IGdlbmUgYW5ub3RhdGlvbiBkYXRhYmFzZXMgKGRpZmZlcmVudCBvcmdhbmlzbXMgaGF2ZSB0aGVpciBvd24gZGF0YWJhc2VzKS4gV2Ugd2lsbCBub3QgZ28gaW50byBleGFjdGx5IGhvdyB0aGUgZ2VuZSBhbm5vdGF0aW9ucyBhcmUgZGlmZmVyZW50LCBidXQgd2Ugbm90ZSB0aGF0IHRoZSBhcmUsIGFuZCBbb3RoZXJzIGhhdmUgZXhhbWluZWQgdGhlIGNvbnNlcXVlbmNlcyBvZiB0aGlzXShodHRwczovL2JtY2dlbm9taWNzLmJpb21lZGNlbnRyYWwuY29tL2FydGljbGVzLzEwLjExODYvczEyODY0LTAxNS0xMzA4LTgpLgoKIyMjIEdlbmUgSURzCgpUaGUgdHdvIEdURiBleGFtcGxlcyBhYm92ZSBoaWdobGlnaHQgZGlmZmVyZW50IHdheXMgb2YgcmVmZXJyaW5nIHRvIHRoZSBzYW1lIGdlbmUuIEluIHRoZSBmaXJzdCBHVEYgd2Ugc2VlOgoKKiBERFgxMUwxLCB0aGUgZ2VuZSBzeW1ib2wsIGNvbnRyb2xsZWQgYnkgdGhlIFtIdW1hbiBHZW5lIE5vbWVuY2xhdHVyZSBDb21taXR0ZWUgKEhVR08pXShodHRwczovL3d3dy5nZW5lbmFtZXMub3JnLykuCiogTlJfMDQ2MDE4LCB0aGUgUmVmU2VxIHRyYW5zY3JpcHQgSUQKCkFuZCBpbiB0aGUgc2Vjb25kIEdURiB3ZSBzZWU6CgoqIEVOU0cwMDAwMDIyMzk3MiwgdGhlIEVOU0VNQkwgZ2VuZSBJRAoqIEREWDExTDEsIHRoZSBnZW5lIHN5bWJvbCwgdGhhbmtmdWxseSB0aGUgc2FtZQoqIEVOU1QwMDAwMDQ1NjMyOCwgdGhlIEVOU0VNQkwgdHJhbnNjcmlwdCBJRAoKVHJhbnNsYXRpbmcgYmV0d2VlbiBkaWZmZXJlbnQgZ2VuZSBJRHMgaXMgcG9zc2libGUsIGFzIHdlIHdpbGwgc2VlIGluIERheSBUd28gd2l0aCBgYmlvbWFSdGAuIEJ1dCBpbiB0ZXJtcyBvZiAqKmJlc3QgcHJhY3RpY2UqKiBpdCBpcyBnZW5lcmFsbHkgYSBnb29kIGlkZWEgdG8gYXZvaWQgdXNpbmcgdGhlIGdlbmUgc3ltYm9sIGFzIHRoZSBwcmltYXJ5IGdlbmUgaWRlbnRpZmllciBiZWNhdXNlIG5vdCBldmVyeW9uZSByZWZlcnMgdG8gdGhlIHNhbWUgZ2VuZSBieSB0aGUgc2FtZSBzeW1ib2wuCgojIEdldHRpbmcgYSBSZWZlcmVuY2UgR2Vub21lCgpUaGUgW0lsbHVtaW5hIGlHZW5vbWVzXShodHRwczovL3N1cHBvcnQuaWxsdW1pbmEuY29tL3NlcXVlbmNpbmcvc2VxdWVuY2luZ19zb2Z0d2FyZS9pZ2Vub21lLmh0bWwpIHJlc291cmNlIGlzIG9uZSBvZiB0aGUgZWFzaWVzdCwgYW5kIG1vc3QgY29tcHJlaGVuc2l2ZSwgd2F5cyB0byBkb3dubG9hZCBhIHJlZmVyZW5jZSBnZW5vbWUuIGlHZW5vbWVzIGluY2x1ZGVzIGJvdGggdGhlIHJlZmVyZW5jZSBzZXF1ZW5jZSBhbmQgZ2VuZSBtb2RlbHMuCgpSZWZlcmVuY2UgZ2Vub21lcyBjYW4gYmUgKip2ZXJ5IGxhcmdlKiosIGRlcGVuZGluZyBvbiB0aGUgb3JnYW5pc20sIGFuZCBzbyB3ZSB3aWxsIG5vdCBkb3dubG9hZCBvbmUgdG8gdGhlIEFtYXpvbiBpbnN0YW5jZSB3ZSBhcmUgdXNpbmcgZm9yIHRoaXMgd29ya3Nob3AuIFdlJ3ZlIGluY2x1ZGVkIGluc3RydWN0aW9ucyBmb3IgZG93bmxvYWRpbmcgdGhlc2UsIGluIGNhc2UgeW91IHdhbnQgdG8gZG93bmxvYWQgdGhlc2UgdG8gdGhlIHNlcnZlciB3aGVyZSB5b3UgaW50ZW5kIHRvIGxhdGVyIGRvIGEgc2ltaWxhciBSTkEtc2VxIGFuYWx5c2lzIChlLmcuIG9uIEhpZ2gtUGVyZm9ybWFuY2UgQ29tcHV0ZSwgR3JlYXRMYWtlcykuCgo8ZGV0YWlscz4KPHN1bW1hcnk+SG93IHdvdWxkIEkgZG93bmxvYWQgcmVmZXJlbmNlcyB3aXRoIGlHZW5vbWVzPzwvc3VtbWFyeT4KCkFzIG5vdGVkLCBpdCdzIG5vdCByZWNvbW1lbmRlZCB0byBkb3dubG9hZCB0aGUgaUdlbm9tZXMgcmVmZXJlbmNlcyB0byB0aGUgQVdTIGluc3RhbmNlLiBIb3dldmVyLCBpZiB5b3Ugd2FudGVkIHRvIGtub3cgaW4gZ2VuZXJhbCBob3cgeW91IHdvdWxkIGRvIHRoYXQsIHRoZSBwcm9jZXNzIGlzIGRlc2NyaWJlZCBoZXJlLgoKRmlyc3QgZ28gdG8gdGhlIFtpR2Vub21lc10oaHR0cHM6Ly9zdXBwb3J0LmlsbHVtaW5hLmNvbS9zZXF1ZW5jaW5nL3NlcXVlbmNpbmdfc29mdHdhcmUvaWdlbm9tZS5odG1sKSBwYWdlLCBmaW5kIHRoZSBidWlsZCB5b3Ugd2FudCBmcm9tIHRoZSBzb3VyY2UgeW91IHdhbnQsIHJpZ2h0IGNsaWNrIHRoZSBnZW5vbWUgYnVpbGQgeW91IHdhbnQgdG8gZG93bmxvYWQsIGFuZCBzZWxlY3QgIkNvcHkgbGluayBsb2NhdGlvbiI6CgohW2lHZW5vbWVzIGltYWdlIGZvciBjb3B5aW5nIGxpbmsgbG9jYXRpb25dKGltYWdlcy9nZW5vbWVfY29weV9saW5rLnBuZykKClRoZW4gb24gdGhlIHJlbW90ZSBzZXJ2ZXIgeW91IHdvdWxkIGdvIHRvIHRoZSBkaXJlY3RvcnkgeW91J2QgbGlrZSB0byBkb3dubG9hZCB0aGUgZ2Vub21lIHRvIGFuZCB0eXBlICh0aGF0IFVSTCBpcyB3aGF0IHdlIGNvcGllZCk6CgpgYGAKJCB3Z2V0IGh0dHA6Ly9pZ2Vub21lcy5pbGx1bWluYS5jb20uczMtd2Vic2l0ZS11cy1lYXN0LTEuYW1hem9uYXdzLmNvbS9Ib21vX3NhcGllbnMvTkNCSS9HUkNoMzgvSG9tb19zYXBpZW5zX05DQklfR1JDaDM4LnRhci5negpgYGAKCkFmdGVyIHRoZSBkb3dubG9hZCBmaW5pc2hlcyAoaXQgbWF5IHRha2UgYSB3aGlsZSBhcyBpdCBpcyB0ZW5zIG9mIEdCIGxhcmdlKSwgeW91IGNhbiB1bnBhY2sgaXQgd2l0aDoKCmBgYAokIHRhciAteGYgSG9tb19zYXBpZW5zX05DQklfR1JDaDM4LnRhci5negpgYGAKCjwvZGV0YWlscz4KCgojIyBXaGljaCBSZWZlcmVuY2UgaXMgUmlnaHQgZm9yIE1lPwoKVGhlIGtleSBpcyB0byBiZSBjb25zaXN0ZW50IGluIHlvdXIgcmVzZWFyY2guIFN3aXRjaGluZyBmcm9tIEVOU0VNQkwgdG8gVUNTQyB3aWxsIGNyZWF0ZSBtYW55IGhlYWRhY2hlcyBiZWNhdXNlIG9mIHRoZSBjaGFuZ2UgaW4gZ2VuZSBpZGVudGlmaWVycywgYW5kIGRpZmZlcmVuY2VzIGluIHRoZSBnZW5lIG1vZGVscyB0aGVtc2VsdmVzLiBPZnRlbiBwZW9wbGUgY2hvb3NlIHRoZSBvbmUgdGhleSdyZSBtb3N0IGNvbWZvcnRhYmxlIHdpdGgsIHdoaWNoIGlzIG9mdGVuIGEgZnVuY3Rpb24gb2YgaGlzdG9yaWNhbCBhY2NpZGVudC4gVGhlIGtleSBpcyBub3QgdG8gb3ZlcnRoaW5rIGl0LgoKQW5vdGhlciBpbXBvcnRhbnQgbm90ZSBpcyBub3QgdG8gbWl4IHRoZSBzb3VyY2VzLiBJZiB5b3UgZG93bmxvYWQgcmVmZXJlbmNlIHNlcXVlbmNlIGZyb20gVUNTQywgZG9uJ3QgdXNlIGFuIEVOU0VNQkwgR1RGIChhbmQgdmljZSB2ZXJzYSkuIE9uZSBvZiB0aGUgcXVpcmt5IGRpZmZlcmVuY2VzIGJldHdlZW4gdGhlIHR3byBkYXRhYmFzZXMgaXMgdGhhdCBFTlNFTUJMIHJlZmVycyB0byBjaHJvbW9zb21lIG9ubHkgYnkgdGhlaXIgbnVtYmVyLCBpLmUuIGAxYCwgd2hlcmVhcyBVQ1NDIHJlZmVycyB0byBjaHJvbXNvbWVzIGFzIGBjaHIxYC4gVGhpcyBtYWtlcyByZWZlcmVuY2UgRkFTVEFzIGZyb20gb25lIHNvdXJjZSBpbmNvbXBhdGlibGUgd2l0aCBnZW5lIGJ1aWxkcyBmcm9tIGFub3RoZXIuCgotLS0KClRoZXNlIG1hdGVyaWFscyBoYXZlIGJlZW4gYWRhcHRlZCBhbmQgZXh0ZW5kZWQgZnJvbSBtYXRlcmlhbHMgY3JlYXRlZCBieSB0aGUgW0hhcnZhcmQgQ2hhbiBCaW9pbmZvcm1hdGljcyBDb3JlIChIQkMpXShodHRwOi8vYmlvaW5mb3JtYXRpY3Muc3BoLmhhcnZhcmQuZWR1LykuIFRoZXNlIGFyZSBvcGVuIGFjY2VzcyBtYXRlcmlhbHMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBbQ3JlYXRpdmUgQ29tbW9ucyBBdHRyaWJ1dGlvbiBsaWNlbnNlIChDQyBCWSA0LjApXShodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS80LjAvKSwgd2hpY2ggcGVybWl0cyB1bnJlc3RyaWN0ZWQgdXNlLCBkaXN0cmlidXRpb24sIGFuZCByZXByb2R1Y3Rpb24gaW4gYW55IG1lZGl1bSwgcHJvdmlkZWQgdGhlIG9yaWdpbmFsIGF1dGhvciBhbmQgc291cmNlIGFyZSBjcmVkaXRlZC4K</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module03_Reference_Genomes.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

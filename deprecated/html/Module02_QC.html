@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 1 - Module 02: QC</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 1 - Module 02: QC</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="qc" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> QC</h1>
+<p>In this Quality Control (QC) module, we will learn:</p>
+<ul>
+<li>what a FASTQ file is</li>
+<li>how to use FastQC to assess the quality of sequencing reads</li>
+<li>how to interpret FastQC reports</li>
+</ul>
+</div>
+<div id="differential-expression-workflow" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Differential Expression Workflow</h1>
+<p>An overview of the steps of entire differential expression experiment and analysis workflow is shown below. In this lesson, we will go over the highlighted part of the workflow.</p>
+<p><img src="images/wayfinder/wayfinder-01.png" /> <br> <br> <br> <br></p>
+</div>
+<div id="rna-seq-data" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> RNA-seq Data</h1>
+<p>Analysis of RNA-seq requires the use of many types of data. The three most common that we will encounter are:</p>
+<ul>
+<li>Sequence data</li>
+<li>Genome feature data</li>
+<li>Alignment data</li>
+</ul>
+<p>We will introduce each data type and their formats in more detail as they enter the workflow, but for now some general notes about the formats we will encounter:</p>
+<ul>
+<li>File formats represent the data in a structured manner.</li>
+<li>Some file formats are not human-readable; they are binary, and we will see what that means when we discuss alignments.</li>
+<li>Many file formats are human readable, but very large. <strong>These files should not be viewed in Word or Excel.</strong></li>
+</ul>
+<div id="fastq-files" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> FASTQ Files</h2>
+<p>Raw sequenced reads are stored in <a href="https://en.wikipedia.org/wiki/FASTQ_format">FASTQ</a> format. This is a plain text, human readable file format that stores information about each read. For a single read there are four lines:</p>
+<pre><code>@A00437:266:HVFMYDSXX:1:1101:1181:1000 1:N:0:AGCCTATC+TGCGTAAC
+TTTATTGTTGATGGTTATTTTTTGTTTATGGTTATTTTGTGTTTATGGTTATTTTTTGTTTATGGTTATTTTTTA
++
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF</code></pre>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center">Line</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td>Begins with <code>@</code> and has information about the read. From AGC will contain flowcell and barcode information.</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td>The RNA sequence.</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td>Always begins with <code>+</code> and may contain the same information as line 1.</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td>A string of characters representing the quality scores. Always the same number of characters as line 2.</td>
+</tr>
+</tbody>
+</table>
+<div id="base-quality-scores" class="section level3" number="3.1.1">
+<h3 number="3.1.1"><span class="header-section-number">3.1.1</span> Base Quality Scores</h3>
+<p>The fourth line encodes the quality of each nucleotide in the read. The most common encoding is referred to as PHRED-33, and the following maps characters to qualities:</p>
+<pre><code>Quality encoding: !&quot;#$%&amp;&#39;()*+,-./0123456789:;&lt;=&gt;?@ABCDEFGHI
+                  |         |         |         |         |
+   Quality score: 0........10........20........30........40</code></pre>
+<p>The above example is a rather boring read with all bases having <code>F</code>, meaning a score of 37, which is good. Each quality score represents the probability that the corresponding nucleotide call is incorrect. The quality score is logarithmic and is calculated as:</p>
+<pre><code>Q = -10 x log10(P), where P is the probability that the base call is erroneous</code></pre>
+<p>Another way to interpret the scores is in terms of the following table:</p>
+<table>
+<thead>
+<tr class="header">
+<th>PHRED Quality Score</th>
+<th>Probability of incorrect base call</th>
+<th>Base call accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>10</td>
+<td>1 in 10</td>
+<td>90%</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>1 in 100</td>
+<td>99%</td>
+</tr>
+<tr class="odd">
+<td>30</td>
+<td>1 in 1000</td>
+<td>99.9%</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td>1 in 10000</td>
+<td>99.99%</td>
+</tr>
+</tbody>
+</table>
+<p>It would clearly be painstaking to go through all the base quality scores of all the millions of reads obtained from a sequencing run, so we typically don’t evaluate the FASTQ files by sight. Instead, we use tools that take in FASTQ files and summarize the base quality scores (and other characteristics) to determine the overall quality of the reads from the sequencer.</p>
+</div>
+</div>
+</div>
+<div id="quality-assessment-with-fastqc" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Quality Assessment with FastQC</h1>
+<div class="figure">
+<img src="images/fastqc_logo.png" alt="" />
+<p class="caption">FastQC</p>
+</div>
+<p>The first step in many high-throughput sequencing analyses is to examine the quality of the raw reads with <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/">FastQC</a>. It analyzes various aspects of each FASTQ file and provides a quick impression of the overall quality metrics which are useful to determine before proceeding with downstream analysis. The following modules are present in an easy to read HTML report.</p>
+<ul>
+<li>Read quality score per base (by interpreting the PHRED33 scores)</li>
+<li>Per tile sequencing quality (related to sequencing clusters on the flowcell)</li>
+<li>Read lengths</li>
+<li>GC content</li>
+<li>Adapter content</li>
+<li>Overrepresented sequences</li>
+</ul>
+<p>Toward the end of this module, we’ll run FastQC. For now, we’ll discuss the output files it produces and view some examples.</p>
+<div id="fastqc-output-files" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> FastQC output files</h2>
+<p>FastQC outputs an HTML report and a zipped archive of intermediate files. These will appear like this:</p>
+<pre><code>sample_01_R1.trimmed_fastqc.html
+sample_01_R1.trimmed_fastqc.zip</code></pre>
+<p>For most situations, opening the HTML report and inspecting the results will provide the information necessary to make decisions about your data.</p>
+<p>First we’ll take a look at some of the figures found in a typical FastQC report, then we’ll view an example of an HTML report and try to make interpretations from this. Finally, we’ll run FastQC to produce some of these files from our example dataset.</p>
+</div>
+<div id="interpreting-fastqc" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Interpreting FastQC</h2>
+<p>FastQC reports are organized around the the different modules characterizing different aspects of the reads. The FastQC <a href="https://www.bioinformatics.babraham.ac.uk/projects/fastqc/Help/">help page</a> has detailed descriptions for each module.</p>
+<p>The report summary is a PASS, WARN, FAIL overview of the modules. It’s important to not take them too seriously in all cases as there are a number of assumptions that go into the thresholds that may not apply in your particular experiment.</p>
+<p>An important note: For computational reasons, FastQC only evaluates the first 100,000 reads in a FASTQ file. The assumption is that the first 100,000 reads sufficiently represent the full library.</p>
+<div id="per-base-sequence-quality" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Per base sequence quality</h3>
+<p>A per base boxplot of the quality scores with helpful coloring for good, fair, and poor qualities. If a sample has quality scores that degrade at the 3’ end of a read (as in the second example below), the sample doesn’t necessarily have to be dropped. Some aligners, e.g. STAR, will automatically trim poor quality read ends.</p>
+<center>
+<p><img src="images/fastqc_per_base.png" width="800"/></p>
+<p>An example of a good quality run.</p>
+</center>
+<center>
+<p><img src="images/fastqc_poor_per_base.png" width="800" /></p>
+<p>An example of a poor quality run.</p>
+</center>
+</div>
+<div id="sequence-duplication" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Sequence Duplication</h3>
+<p>High sequence duplication, indicated by a skew to the right of the blue curve in the plots below, can be caused by low complexity libraries, too many cycles of PCR amplification, or too little starting material.</p>
+<p>On the other hand, if the library was prepared with an enrichment step (e.g. ChIP-seq), then sequence duplication might not be unexpected.</p>
+<center>
+<p><img src="images/fastqc_duplication.png" width="800" /></p>
+<p>An example of a sample with low sequence duplication levels.</p>
+</center>
+<center>
+<p><img src="images/fastqc_poor_duplication.png" width="800" /></p>
+<p>An example of a sample with high sequence duplication levels.</p>
+</center>
+</div>
+<div id="overrepresented-sequences" class="section level3" number="4.2.3">
+<h3 number="4.2.3"><span class="header-section-number">4.2.3</span> Overrepresented sequences</h3>
+<p>Overrepresented sequences are those making up more than 0.1% of the total (of the 100,000 reads sampled). Finding an overrepresented sequence is an indication of something biologically meaningful (e.g. an enrichment step in the library prep process), or it is an issue stemming from the library preparation process (e.g. adapters, a failure to fully remove polyA tails, or contamination).</p>
+<center>
+<p><img src="images/fastqc_overrepresented.png" width="800" /></p>
+<p>We see that there is a high number of reads with polyA tails. This could be a result of an inefficient removal of polyA tails.</p>
+</center>
+</div>
+<div id="adapter-content" class="section level3" number="4.2.4">
+<h3 number="4.2.4"><span class="header-section-number">4.2.4</span> Adapter Content</h3>
+<p>Adapter sequence typically is not present in standard RNA-seq libraries. However, if the fragment sizes resulting from library prep are smaller than the read length on the sequencer, then it is possible to get “read-through” of the adapter.</p>
+<p>This can be dealt with by adding a step to the workflow that trims the reads of adapter content with a tool such as <a href="https://cutadapt.readthedocs.io/en/stable/">cutadapt</a>. We will see this in a later module.</p>
+</div>
+</div>
+<div id="examining-a-fastqc-report" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> Examining a FastQC report</h2>
+<p>From the zipped folder you downloaded earlier, find the FastQC report <code>sample_01_R1.trimmed_fastqc.html</code>.</p>
+<p>We’ll view this report and try to interpret some of the figures.</p>
+</div>
+<div id="acting-on-qc---good-or-bad-results" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> Acting on QC - Good or Bad Results?</h2>
+<p>Good QC on raw reads means that RNA quality, library preparation, and sequencing seem fine to proceed with the next steps of analysis. It <strong>does not</strong> mean that you will find differentially expressed genes downstream.</p>
+<p>The source of bad QC measures are not always easy to determine, and doesn’t necessarily mean the data cannot be used downstream. However, bad QC measures may indicate that hazards lie ahead, and that certain steps upstream of sequencing (sample handling, RNA extraction, library preparation) might need to be altered.</p>
+</div>
+<div id="fastqc-exercise" class="section level2" number="4.5">
+<h2 number="4.5"><span class="header-section-number">4.5</span> FastQC Exercise</h2>
+<p>Let’s try running FastQC on our FASTQ input files.</p>
+<ol style="list-style-type: decimal">
+<li>Navigate to <code>analysis</code> directory</li>
+<li>View FastQC help file</li>
+<li>Construct the call to FastQC</li>
+<li>Watch FastQC process the files / gather quality metrics</li>
+<li>View the output of FastQC (the filenames)</li>
+</ol>
+<pre><code># Navigate to analysis directory
+cd ~/analysis
+# View the FastQC help file
+fastqc -h
+# Contstruct the call to FastQC
+fastqc -o out_fastqc/ ../data/reads/*.fastq.gz
+# Watch the output of FastQC
+# View the output of FastQC (the filenames)</code></pre>
+<hr />
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDI6IFFDIgphdXRob3I6ICJVTSBCaW9pbmZvcm1hdGljcyBDb3JlIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KPC9zdHlsZT4KCiMgUUMKCkluIHRoaXMgUXVhbGl0eSBDb250cm9sIChRQykgbW9kdWxlLCB3ZSB3aWxsIGxlYXJuOgoKKiB3aGF0IGEgRkFTVFEgZmlsZSBpcwoqIGhvdyB0byB1c2UgRmFzdFFDIHRvIGFzc2VzcyB0aGUgcXVhbGl0eSBvZiBzZXF1ZW5jaW5nIHJlYWRzCiogaG93IHRvIGludGVycHJldCBGYXN0UUMgcmVwb3J0cwoKIyBEaWZmZXJlbnRpYWwgRXhwcmVzc2lvbiBXb3JrZmxvdwoKQW4gb3ZlcnZpZXcgb2YgdGhlIHN0ZXBzIG9mIGVudGlyZSBkaWZmZXJlbnRpYWwgZXhwcmVzc2lvbiBleHBlcmltZW50IGFuZCBhbmFseXNpcyB3b3JrZmxvdyBpcyBzaG93biBiZWxvdy4gSW4gdGhpcyBsZXNzb24sIHdlIHdpbGwgZ28gb3ZlciB0aGUgaGlnaGxpZ2h0ZWQgcGFydCBvZiB0aGUgd29ya2Zsb3cuCgohW10oaW1hZ2VzL3dheWZpbmRlci93YXlmaW5kZXItMDEucG5nKQo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIFJOQS1zZXEgRGF0YQoKQW5hbHlzaXMgb2YgUk5BLXNlcSByZXF1aXJlcyB0aGUgdXNlIG9mIG1hbnkgdHlwZXMgb2YgZGF0YS4gVGhlIHRocmVlIG1vc3QgY29tbW9uIHRoYXQgd2Ugd2lsbCBlbmNvdW50ZXIgYXJlOgoKLSBTZXF1ZW5jZSBkYXRhCi0gR2Vub21lIGZlYXR1cmUgZGF0YQotIEFsaWdubWVudCBkYXRhCgpXZSB3aWxsIGludHJvZHVjZSBlYWNoIGRhdGEgdHlwZSBhbmQgdGhlaXIgZm9ybWF0cyBpbiBtb3JlIGRldGFpbCBhcyB0aGV5IGVudGVyIHRoZSB3b3JrZmxvdywgYnV0IGZvciBub3cgc29tZSBnZW5lcmFsIG5vdGVzIGFib3V0IHRoZSBmb3JtYXRzIHdlIHdpbGwgZW5jb3VudGVyOgoKLSBGaWxlIGZvcm1hdHMgcmVwcmVzZW50IHRoZSBkYXRhIGluIGEgc3RydWN0dXJlZCBtYW5uZXIuCi0gU29tZSBmaWxlIGZvcm1hdHMgYXJlIG5vdCBodW1hbi1yZWFkYWJsZTsgdGhleSBhcmUgYmluYXJ5LCBhbmQgd2Ugd2lsbCBzZWUgd2hhdCB0aGF0IG1lYW5zIHdoZW4gd2UgZGlzY3VzcyBhbGlnbm1lbnRzLgotIE1hbnkgZmlsZSBmb3JtYXRzIGFyZSBodW1hbiByZWFkYWJsZSwgYnV0IHZlcnkgbGFyZ2UuICoqVGhlc2UgZmlsZXMgc2hvdWxkIG5vdCBiZSB2aWV3ZWQgaW4gV29yZCBvciBFeGNlbC4qKgoKIyMgRkFTVFEgRmlsZXMKClJhdyBzZXF1ZW5jZWQgcmVhZHMgYXJlIHN0b3JlZCBpbiBbRkFTVFFdKGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL0ZBU1RRX2Zvcm1hdCkgZm9ybWF0LiBUaGlzIGlzIGEgcGxhaW4gdGV4dCwgaHVtYW4gcmVhZGFibGUgZmlsZSBmb3JtYXQgdGhhdCBzdG9yZXMgaW5mb3JtYXRpb24gYWJvdXQgZWFjaCByZWFkLiBGb3IgYSBzaW5nbGUgcmVhZCB0aGVyZSBhcmUgZm91ciBsaW5lczoKCgogICAgQEEwMDQzNzoyNjY6SFZGTVlEU1hYOjE6MTEwMToxMTgxOjEwMDAgMTpOOjA6QUdDQ1RBVEMrVEdDR1RBQUMKICAgIFRUVEFUVEdUVEdBVEdHVFRBVFRUVFRUR1RUVEFUR0dUVEFUVFRUR1RHVFRUQVRHR1RUQVRUVFRUVEdUVFRBVEdHVFRBVFRUVFRUQQogICAgKwogICAgRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGCgoKfCBMaW5lIHwgRGVzY3JpcHRpb24gfAp8IDotLTogfCAtLS0tLS0tLS0tLSB8CnwgMSB8IEJlZ2lucyB3aXRoIGBAYCBhbmQgaGFzIGluZm9ybWF0aW9uIGFib3V0IHRoZSByZWFkLiBGcm9tIEFHQyB3aWxsIGNvbnRhaW4gZmxvd2NlbGwgYW5kIGJhcmNvZGUgaW5mb3JtYXRpb24uIHwKfCAyIHwgVGhlIFJOQSBzZXF1ZW5jZS4gfAp8IDMgfCBBbHdheXMgYmVnaW5zIHdpdGggYCtgIGFuZCBtYXkgY29udGFpbiB0aGUgc2FtZSBpbmZvcm1hdGlvbiBhcyBsaW5lIDEuIHwKfCA0IHwgQSBzdHJpbmcgb2YgY2hhcmFjdGVycyByZXByZXNlbnRpbmcgdGhlIHF1YWxpdHkgc2NvcmVzLiBBbHdheXMgdGhlIHNhbWUgbnVtYmVyIG9mIGNoYXJhY3RlcnMgYXMgbGluZSAyLiB8CgojIyMgQmFzZSBRdWFsaXR5IFNjb3JlcwoKVGhlIGZvdXJ0aCBsaW5lIGVuY29kZXMgdGhlIHF1YWxpdHkgb2YgZWFjaCBudWNsZW90aWRlIGluIHRoZSByZWFkLiBUaGUgbW9zdCBjb21tb24gZW5jb2RpbmcgaXMgcmVmZXJyZWQgdG8gYXMgUEhSRUQtMzMsIGFuZCB0aGUgZm9sbG93aW5nIG1hcHMgY2hhcmFjdGVycyB0byBxdWFsaXRpZXM6CgoKICAgIFF1YWxpdHkgZW5jb2Rpbmc6ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj9AQUJDREVGR0hJCiAgICAgICAgICAgICAgICAgICAgICB8ICAgICAgICAgfCAgICAgICAgIHwgICAgICAgICB8ICAgICAgICAgfAogICAgICAgUXVhbGl0eSBzY29yZTogMC4uLi4uLi4uMTAuLi4uLi4uLjIwLi4uLi4uLi4zMC4uLi4uLi4uNDAKCgpUaGUgYWJvdmUgZXhhbXBsZSBpcyBhIHJhdGhlciBib3JpbmcgcmVhZCB3aXRoIGFsbCBiYXNlcyBoYXZpbmcgYEZgLCBtZWFuaW5nIGEgc2NvcmUgb2YgMzcsIHdoaWNoIGlzIGdvb2QuIEVhY2ggcXVhbGl0eSBzY29yZSByZXByZXNlbnRzIHRoZSBwcm9iYWJpbGl0eSB0aGF0IHRoZSBjb3JyZXNwb25kaW5nIG51Y2xlb3RpZGUgY2FsbCBpcyBpbmNvcnJlY3QuIFRoZSBxdWFsaXR5IHNjb3JlIGlzIGxvZ2FyaXRobWljIGFuZCBpcyBjYWxjdWxhdGVkIGFzOgoKCiAgICBRID0gLTEwIHggbG9nMTAoUCksIHdoZXJlIFAgaXMgdGhlIHByb2JhYmlsaXR5IHRoYXQgdGhlIGJhc2UgY2FsbCBpcyBlcnJvbmVvdXMKCgpBbm90aGVyIHdheSB0byBpbnRlcnByZXQgdGhlIHNjb3JlcyBpcyBpbiB0ZXJtcyBvZiB0aGUgZm9sbG93aW5nIHRhYmxlOgoKfCBQSFJFRCBRdWFsaXR5IFNjb3JlIHwgUHJvYmFiaWxpdHkgb2YgaW5jb3JyZWN0IGJhc2UgY2FsbCB8IEJhc2UgY2FsbCBhY2N1cmFjeSB8CnwgLS0tLS0tLS0tLS0tLS0tLS0tLSB8IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gfCAtLS0tLS0tLS0tLS0tLS0tLS0gfAp8IDEwIHwgMSBpbiAxMCB8IDkwJSB8CnwgMjAgfCAxIGluIDEwMCB8IDk5JSB8CnwgMzAgfCAxIGluIDEwMDAgfCA5OS45JSB8CnwgNDAgfCAxIGluIDEwMDAwIHwgOTkuOTklIHwKCkl0IHdvdWxkIGNsZWFybHkgYmUgcGFpbnN0YWtpbmcgdG8gZ28gdGhyb3VnaCBhbGwgdGhlIGJhc2UgcXVhbGl0eSBzY29yZXMgb2YgYWxsIHRoZSBtaWxsaW9ucyBvZiByZWFkcyBvYnRhaW5lZCBmcm9tIGEgc2VxdWVuY2luZyBydW4sIHNvIHdlIHR5cGljYWxseSBkb24ndCBldmFsdWF0ZSB0aGUgRkFTVFEgZmlsZXMgYnkgc2lnaHQuIEluc3RlYWQsIHdlIHVzZSB0b29scyB0aGF0IHRha2UgaW4gRkFTVFEgZmlsZXMgYW5kIHN1bW1hcml6ZSB0aGUgYmFzZSBxdWFsaXR5IHNjb3JlcyAoYW5kIG90aGVyIGNoYXJhY3RlcmlzdGljcykgdG8gZGV0ZXJtaW5lIHRoZSBvdmVyYWxsIHF1YWxpdHkgb2YgdGhlIHJlYWRzIGZyb20gdGhlIHNlcXVlbmNlci4KCiMgUXVhbGl0eSBBc3Nlc3NtZW50IHdpdGggRmFzdFFDCgohW0Zhc3RRQ10oaW1hZ2VzL2Zhc3RxY19sb2dvLnBuZykKClRoZSBmaXJzdCBzdGVwIGluIG1hbnkgaGlnaC10aHJvdWdocHV0IHNlcXVlbmNpbmcgYW5hbHlzZXMgaXMgdG8gZXhhbWluZSB0aGUgcXVhbGl0eSBvZiB0aGUgcmF3IHJlYWRzIHdpdGggW0Zhc3RRQ10oaHR0cHM6Ly93d3cuYmlvaW5mb3JtYXRpY3MuYmFicmFoYW0uYWMudWsvcHJvamVjdHMvZmFzdHFjLykuIEl0IGFuYWx5emVzIHZhcmlvdXMgYXNwZWN0cyBvZiBlYWNoIEZBU1RRIGZpbGUgYW5kIHByb3ZpZGVzIGEgcXVpY2sgaW1wcmVzc2lvbiBvZiB0aGUgb3ZlcmFsbCBxdWFsaXR5IG1ldHJpY3Mgd2hpY2ggYXJlIHVzZWZ1bCB0byBkZXRlcm1pbmUgYmVmb3JlIHByb2NlZWRpbmcgd2l0aCBkb3duc3RyZWFtIGFuYWx5c2lzLiBUaGUgZm9sbG93aW5nIG1vZHVsZXMgYXJlIHByZXNlbnQgaW4gYW4gZWFzeSB0byByZWFkIEhUTUwgcmVwb3J0LgoKLSBSZWFkIHF1YWxpdHkgc2NvcmUgcGVyIGJhc2UgKGJ5IGludGVycHJldGluZyB0aGUgUEhSRUQzMyBzY29yZXMpCi0gUGVyIHRpbGUgc2VxdWVuY2luZyBxdWFsaXR5IChyZWxhdGVkIHRvIHNlcXVlbmNpbmcgY2x1c3RlcnMgb24gdGhlIGZsb3djZWxsKQotIFJlYWQgbGVuZ3RocwotIEdDIGNvbnRlbnQKLSBBZGFwdGVyIGNvbnRlbnQKLSBPdmVycmVwcmVzZW50ZWQgc2VxdWVuY2VzCgpUb3dhcmQgdGhlIGVuZCBvZiB0aGlzIG1vZHVsZSwgd2UnbGwgcnVuIEZhc3RRQy4gRm9yIG5vdywgd2UnbGwgZGlzY3VzcyB0aGUgb3V0cHV0IGZpbGVzIGl0IHByb2R1Y2VzIGFuZCB2aWV3IHNvbWUgZXhhbXBsZXMuCgojIyBGYXN0UUMgb3V0cHV0IGZpbGVzCgpGYXN0UUMgb3V0cHV0cyBhbiBIVE1MIHJlcG9ydCBhbmQgYSB6aXBwZWQgYXJjaGl2ZSBvZiBpbnRlcm1lZGlhdGUgZmlsZXMuIFRoZXNlIHdpbGwgYXBwZWFyIGxpa2UgdGhpczoKCiAgICBzYW1wbGVfMDFfUjEudHJpbW1lZF9mYXN0cWMuaHRtbAogICAgc2FtcGxlXzAxX1IxLnRyaW1tZWRfZmFzdHFjLnppcAoKRm9yIG1vc3Qgc2l0dWF0aW9ucywgb3BlbmluZyB0aGUgSFRNTCByZXBvcnQgYW5kIGluc3BlY3RpbmcgdGhlIHJlc3VsdHMgd2lsbCBwcm92aWRlIHRoZSBpbmZvcm1hdGlvbiBuZWNlc3NhcnkgdG8gbWFrZSBkZWNpc2lvbnMgYWJvdXQgeW91ciBkYXRhLgoKRmlyc3Qgd2UnbGwgdGFrZSBhIGxvb2sgYXQgc29tZSBvZiB0aGUgZmlndXJlcyBmb3VuZCBpbiBhIHR5cGljYWwgRmFzdFFDIHJlcG9ydCwgdGhlbiB3ZSdsbCB2aWV3IGFuIGV4YW1wbGUgb2YgYW4gSFRNTCByZXBvcnQgYW5kIHRyeSB0byBtYWtlIGludGVycHJldGF0aW9ucyBmcm9tIHRoaXMuIEZpbmFsbHksIHdlJ2xsIHJ1biBGYXN0UUMgdG8gcHJvZHVjZSBzb21lIG9mIHRoZXNlIGZpbGVzIGZyb20gb3VyIGV4YW1wbGUgZGF0YXNldC4KCgojIyBJbnRlcnByZXRpbmcgRmFzdFFDCgpGYXN0UUMgcmVwb3J0cyBhcmUgb3JnYW5pemVkIGFyb3VuZCB0aGUgdGhlIGRpZmZlcmVudCBtb2R1bGVzIGNoYXJhY3Rlcml6aW5nIGRpZmZlcmVudCBhc3BlY3RzIG9mIHRoZSByZWFkcy4gVGhlIEZhc3RRQyBbaGVscCBwYWdlXShodHRwczovL3d3dy5iaW9pbmZvcm1hdGljcy5iYWJyYWhhbS5hYy51ay9wcm9qZWN0cy9mYXN0cWMvSGVscC8pIGhhcyBkZXRhaWxlZCBkZXNjcmlwdGlvbnMgZm9yIGVhY2ggbW9kdWxlLgoKVGhlIHJlcG9ydCBzdW1tYXJ5IGlzIGEgUEFTUywgV0FSTiwgRkFJTCBvdmVydmlldyBvZiB0aGUgbW9kdWxlcy4gSXQncyBpbXBvcnRhbnQgdG8gbm90IHRha2UgdGhlbSB0b28gc2VyaW91c2x5IGluIGFsbCBjYXNlcyBhcyB0aGVyZSBhcmUgYSBudW1iZXIgb2YgYXNzdW1wdGlvbnMgdGhhdCBnbyBpbnRvIHRoZSB0aHJlc2hvbGRzIHRoYXQgbWF5IG5vdCBhcHBseSBpbiB5b3VyIHBhcnRpY3VsYXIgZXhwZXJpbWVudC4KCkFuIGltcG9ydGFudCBub3RlOiBGb3IgY29tcHV0YXRpb25hbCByZWFzb25zLCBGYXN0UUMgb25seSBldmFsdWF0ZXMgdGhlIGZpcnN0IDEwMCwwMDAgcmVhZHMgaW4gYSBGQVNUUSBmaWxlLiBUaGUgYXNzdW1wdGlvbiBpcyB0aGF0IHRoZSBmaXJzdCAxMDAsMDAwIHJlYWRzIHN1ZmZpY2llbnRseSByZXByZXNlbnQgdGhlIGZ1bGwgbGlicmFyeS4KCiMjIyBQZXIgYmFzZSBzZXF1ZW5jZSBxdWFsaXR5CgpBIHBlciBiYXNlIGJveHBsb3Qgb2YgdGhlIHF1YWxpdHkgc2NvcmVzIHdpdGggaGVscGZ1bCBjb2xvcmluZyBmb3IgZ29vZCwgZmFpciwgYW5kIHBvb3IgcXVhbGl0aWVzLiBJZiBhIHNhbXBsZSBoYXMgcXVhbGl0eSBzY29yZXMgdGhhdCBkZWdyYWRlIGF0IHRoZSAzJyBlbmQgb2YgYSByZWFkIChhcyBpbiB0aGUgc2Vjb25kIGV4YW1wbGUgYmVsb3cpLCB0aGUgc2FtcGxlIGRvZXNuJ3QgbmVjZXNzYXJpbHkgaGF2ZSB0byBiZSBkcm9wcGVkLiBTb21lIGFsaWduZXJzLCBlLmcuIFNUQVIsIHdpbGwgYXV0b21hdGljYWxseSB0cmltIHBvb3IgcXVhbGl0eSByZWFkIGVuZHMuCgo8Y2VudGVyPgoKPGltZyBzcmM9ImltYWdlcy9mYXN0cWNfcGVyX2Jhc2UucG5nIiB3aWR0aD0iODAwIi8+CgoKQW4gZXhhbXBsZSBvZiBhIGdvb2QgcXVhbGl0eSBydW4uCgo8L2NlbnRlcj4KCjxjZW50ZXI+Cgo8aW1nIHNyYz0iaW1hZ2VzL2Zhc3RxY19wb29yX3Blcl9iYXNlLnBuZyIgd2lkdGg9IjgwMCIgLz4KCkFuIGV4YW1wbGUgb2YgYSBwb29yIHF1YWxpdHkgcnVuLgoKPC9jZW50ZXI+CgojIyMgU2VxdWVuY2UgRHVwbGljYXRpb24KCkhpZ2ggc2VxdWVuY2UgZHVwbGljYXRpb24sIGluZGljYXRlZCBieSBhIHNrZXcgdG8gdGhlIHJpZ2h0IG9mIHRoZSBibHVlIGN1cnZlIGluIHRoZSBwbG90cyBiZWxvdywgY2FuIGJlIGNhdXNlZCBieSBsb3cgY29tcGxleGl0eSBsaWJyYXJpZXMsIHRvbyBtYW55IGN5Y2xlcyBvZiBQQ1IgYW1wbGlmaWNhdGlvbiwgb3IgdG9vIGxpdHRsZSBzdGFydGluZyBtYXRlcmlhbC4KCk9uIHRoZSBvdGhlciBoYW5kLCBpZiB0aGUgbGlicmFyeSB3YXMgcHJlcGFyZWQgd2l0aCBhbiBlbnJpY2htZW50IHN0ZXAgKGUuZy4gQ2hJUC1zZXEpLCB0aGVuIHNlcXVlbmNlIGR1cGxpY2F0aW9uIG1pZ2h0IG5vdCBiZSB1bmV4cGVjdGVkLgoKPGNlbnRlcj4KCjxpbWcgc3JjPSJpbWFnZXMvZmFzdHFjX2R1cGxpY2F0aW9uLnBuZyIgd2lkdGg9IjgwMCIgLz4KCkFuIGV4YW1wbGUgb2YgYSBzYW1wbGUgd2l0aCBsb3cgc2VxdWVuY2UgZHVwbGljYXRpb24gbGV2ZWxzLgoKPC9jZW50ZXI+Cgo8Y2VudGVyPgoKPGltZyBzcmM9ImltYWdlcy9mYXN0cWNfcG9vcl9kdXBsaWNhdGlvbi5wbmciIHdpZHRoPSI4MDAiIC8+CgpBbiBleGFtcGxlIG9mIGEgc2FtcGxlIHdpdGggaGlnaCBzZXF1ZW5jZSBkdXBsaWNhdGlvbiBsZXZlbHMuCgo8L2NlbnRlcj4KCiMjIyBPdmVycmVwcmVzZW50ZWQgc2VxdWVuY2VzCgpPdmVycmVwcmVzZW50ZWQgc2VxdWVuY2VzIGFyZSB0aG9zZSBtYWtpbmcgdXAgbW9yZSB0aGFuIDAuMSUgb2YgdGhlIHRvdGFsIChvZiB0aGUgMTAwLDAwMCByZWFkcyBzYW1wbGVkKS4gRmluZGluZyBhbiBvdmVycmVwcmVzZW50ZWQgc2VxdWVuY2UgaXMgYW4gaW5kaWNhdGlvbiBvZiBzb21ldGhpbmcgYmlvbG9naWNhbGx5IG1lYW5pbmdmdWwgKGUuZy4gYW4gZW5yaWNobWVudCBzdGVwIGluIHRoZSBsaWJyYXJ5IHByZXAgcHJvY2VzcyksIG9yIGl0IGlzIGFuIGlzc3VlIHN0ZW1taW5nIGZyb20gdGhlIGxpYnJhcnkgcHJlcGFyYXRpb24gcHJvY2VzcyAoZS5nLiBhZGFwdGVycywgYSBmYWlsdXJlIHRvIGZ1bGx5IHJlbW92ZSBwb2x5QSB0YWlscywgb3IgY29udGFtaW5hdGlvbikuCgo8Y2VudGVyPgoKPGltZyBzcmM9ImltYWdlcy9mYXN0cWNfb3ZlcnJlcHJlc2VudGVkLnBuZyIgd2lkdGg9IjgwMCIgLz4KCldlIHNlZSB0aGF0IHRoZXJlIGlzIGEgaGlnaCBudW1iZXIgb2YgcmVhZHMgd2l0aCBwb2x5QSB0YWlscy4gVGhpcyBjb3VsZCBiZSBhIHJlc3VsdCBvZiBhbiBpbmVmZmljaWVudCByZW1vdmFsIG9mIHBvbHlBIHRhaWxzLgoKPC9jZW50ZXI+CgojIyMgQWRhcHRlciBDb250ZW50CgpBZGFwdGVyIHNlcXVlbmNlIHR5cGljYWxseSBpcyBub3QgcHJlc2VudCBpbiBzdGFuZGFyZCBSTkEtc2VxIGxpYnJhcmllcy4gSG93ZXZlciwgaWYgdGhlIGZyYWdtZW50IHNpemVzIHJlc3VsdGluZyBmcm9tIGxpYnJhcnkgcHJlcCBhcmUgc21hbGxlciB0aGFuIHRoZSByZWFkIGxlbmd0aCBvbiB0aGUgc2VxdWVuY2VyLCB0aGVuIGl0IGlzIHBvc3NpYmxlIHRvIGdldCAicmVhZC10aHJvdWdoIiBvZiB0aGUgYWRhcHRlci4KClRoaXMgY2FuIGJlIGRlYWx0IHdpdGggYnkgYWRkaW5nIGEgc3RlcCB0byB0aGUgd29ya2Zsb3cgdGhhdCB0cmltcyB0aGUgcmVhZHMgb2YgYWRhcHRlciBjb250ZW50IHdpdGggYSB0b29sIHN1Y2ggYXMgW2N1dGFkYXB0XShodHRwczovL2N1dGFkYXB0LnJlYWR0aGVkb2NzLmlvL2VuL3N0YWJsZS8pLiBXZSB3aWxsIHNlZSB0aGlzIGluIGEgbGF0ZXIgbW9kdWxlLgoKIyMgRXhhbWluaW5nIGEgRmFzdFFDIHJlcG9ydAoKRnJvbSB0aGUgemlwcGVkIGZvbGRlciB5b3UgZG93bmxvYWRlZCBlYXJsaWVyLCBmaW5kIHRoZSBGYXN0UUMgcmVwb3J0IGBzYW1wbGVfMDFfUjEudHJpbW1lZF9mYXN0cWMuaHRtbGAuCgpXZSdsbCB2aWV3IHRoaXMgcmVwb3J0IGFuZCB0cnkgdG8gaW50ZXJwcmV0IHNvbWUgb2YgdGhlIGZpZ3VyZXMuCgojIyBBY3Rpbmcgb24gUUMgLSBHb29kIG9yIEJhZCBSZXN1bHRzPwoKR29vZCBRQyBvbiByYXcgcmVhZHMgbWVhbnMgdGhhdCBSTkEgcXVhbGl0eSwgbGlicmFyeSBwcmVwYXJhdGlvbiwgYW5kIHNlcXVlbmNpbmcgc2VlbSBmaW5lIHRvIHByb2NlZWQgd2l0aCB0aGUgbmV4dCBzdGVwcyBvZiBhbmFseXNpcy4gSXQgKipkb2VzIG5vdCoqIG1lYW4gdGhhdCB5b3Ugd2lsbCBmaW5kIGRpZmZlcmVudGlhbGx5IGV4cHJlc3NlZCBnZW5lcyBkb3duc3RyZWFtLgoKVGhlIHNvdXJjZSBvZiBiYWQgUUMgbWVhc3VyZXMgYXJlIG5vdCBhbHdheXMgZWFzeSB0byBkZXRlcm1pbmUsIGFuZCBkb2Vzbid0IG5lY2Vzc2FyaWx5IG1lYW4gdGhlIGRhdGEgY2Fubm90IGJlIHVzZWQgZG93bnN0cmVhbS4gSG93ZXZlciwgYmFkIFFDIG1lYXN1cmVzIG1heSBpbmRpY2F0ZSB0aGF0IGhhemFyZHMgbGllIGFoZWFkLCBhbmQgdGhhdCBjZXJ0YWluIHN0ZXBzIHVwc3RyZWFtIG9mIHNlcXVlbmNpbmcgKHNhbXBsZSBoYW5kbGluZywgUk5BIGV4dHJhY3Rpb24sIGxpYnJhcnkgcHJlcGFyYXRpb24pIG1pZ2h0IG5lZWQgdG8gYmUgYWx0ZXJlZC4KCiMjIEZhc3RRQyBFeGVyY2lzZQoKTGV0J3MgdHJ5IHJ1bm5pbmcgRmFzdFFDIG9uIG91ciBGQVNUUSBpbnB1dCBmaWxlcy4KCjEuIE5hdmlnYXRlIHRvIGBhbmFseXNpc2AgZGlyZWN0b3J5CjIuIFZpZXcgRmFzdFFDIGhlbHAgZmlsZQozLiBDb25zdHJ1Y3QgdGhlIGNhbGwgdG8gRmFzdFFDCjQuIFdhdGNoIEZhc3RRQyBwcm9jZXNzIHRoZSBmaWxlcyAvIGdhdGhlciBxdWFsaXR5IG1ldHJpY3MKNS4gVmlldyB0aGUgb3V0cHV0IG9mIEZhc3RRQyAodGhlIGZpbGVuYW1lcykKCmBgYAojIE5hdmlnYXRlIHRvIGFuYWx5c2lzIGRpcmVjdG9yeQpjZCB+L2FuYWx5c2lzCiMgVmlldyB0aGUgRmFzdFFDIGhlbHAgZmlsZQpmYXN0cWMgLWgKIyBDb250c3RydWN0IHRoZSBjYWxsIHRvIEZhc3RRQwpmYXN0cWMgLW8gb3V0X2Zhc3RxYy8gLi4vZGF0YS9yZWFkcy8qLmZhc3RxLmd6CiMgV2F0Y2ggdGhlIG91dHB1dCBvZiBGYXN0UUMKIyBWaWV3IHRoZSBvdXRwdXQgb2YgRmFzdFFDICh0aGUgZmlsZW5hbWVzKQpgYGAKCi0tLQoKVGhlc2UgbWF0ZXJpYWxzIGhhdmUgYmVlbiBhZGFwdGVkIGFuZCBleHRlbmRlZCBmcm9tIG1hdGVyaWFscyBjcmVhdGVkIGJ5IHRoZSBbSGFydmFyZCBDaGFuIEJpb2luZm9ybWF0aWNzIENvcmUgKEhCQyldKGh0dHA6Ly9iaW9pbmZvcm1hdGljcy5zcGguaGFydmFyZC5lZHUvKS4gVGhlc2UgYXJlIG9wZW4gYWNjZXNzIG1hdGVyaWFscyBkaXN0cmlidXRlZCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIFtDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uIGxpY2Vuc2UgKENDIEJZIDQuMCldKGh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8pLCB3aGljaCBwZXJtaXRzIHVucmVzdHJpY3RlZCB1c2UsIGRpc3RyaWJ1dGlvbiwgYW5kIHJlcHJvZHVjdGlvbiBpbiBhbnkgbWVkaXVtLCBwcm92aWRlZCB0aGUgb3JpZ2luYWwgYXV0aG9yIGFuZCBzb3VyY2UgYXJlIGNyZWRpdGVkLgo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module02_QC.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

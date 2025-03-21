@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 2 - Module 05: MultiQC and Counts</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 2 - Module 05: MultiQC and Counts</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="multiqc-count-matrix" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> MultiQC, Count Matrix</h1>
+<p>In this module, we will learn:</p>
+<ul>
+<li>about the MultiQC tool and its capabilities</li>
+<li>how to run multiQC on a remote system</li>
+<li>how MultiQC gathers information for QC purposes</li>
+<li>how MultiQC presents the results of cutadapt trimming and STAR alignment</li>
+<li>how to combine gene-level results into a count matrix</li>
+</ul>
+</div>
+<div id="differential-expression-workflow" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Differential Expression Workflow</h1>
+<p>Here we will take the results from the previous module and operate on them a bit further. This will wrap up the preceding exercises, leaving us well-poised to begin differential expression, which we will discuss today and tomorrow.</p>
+<p><img src="images/wayfinder/wayfinder-03.png" /> <br> <br> <br> <br></p>
+<div id="alignment-statistics-with-multiqc" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> Alignment Statistics with MultiQC</h2>
+<p>After aligning reads it is often helpful to know how many reads were uniquely aligned, mapped to multiple loci, or not mapped at all. The <code>sample_NLog.final.out</code> file which is output alongside the alignments in <code>sample_N.temp/</code> folder (we used the <code>--keep-intermediate-files</code> flag), reports this information:</p>
+<pre><code>                                 Started job on |   Oct 02 13:09:23
+                             Started mapping on |   Oct 02 13:09:51
+                                    Finished on |   Oct 02 13:12:47
+       Mapping speed, Million of reads per hour |   238.82
+
+                          Number of input reads |   11675504
+                      Average input read length |   146
+                                    UNIQUE READS:
+                   Uniquely mapped reads number |   10609591
+                        Uniquely mapped reads % |   90.87%
+                          Average mapped length |   146.37
+                       Number of splices: Total |   2755543
+            Number of splices: Annotated (sjdb) |   2734730
+                       Number of splices: GT/AG |   2739697
+                       Number of splices: GC/AG |   13204
+                       Number of splices: AT/AC |   1744
+               Number of splices: Non-canonical |   898
+                      Mismatch rate per base, % |   0.18%
+                         Deletion rate per base |   0.01%
+                        Deletion average length |   1.60
+                        Insertion rate per base |   0.01%
+                       Insertion average length |   1.29
+                             MULTI-MAPPING READS:
+        Number of reads mapped to multiple loci |   599915
+             % of reads mapped to multiple loci |   5.14%
+        Number of reads mapped to too many loci |   12786
+             % of reads mapped to too many loci |   0.11%
+                                  UNMAPPED READS:
+  Number of reads unmapped: too many mismatches |   20381
+       % of reads unmapped: too many mismatches |   0.17%
+            Number of reads unmapped: too short |   389960
+                 % of reads unmapped: too short |   3.34%
+                Number of reads unmapped: other |   42871
+                     % of reads unmapped: other |   0.37%
+                                  CHIMERIC READS:
+                       Number of chimeric reads |   0
+                            % of chimeric reads |   0.00%</code></pre>
+</div>
+</div>
+<div id="multiqc" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> MultiQC</h1>
+<p>While the information is incredibly useful, it can be tedious to look at the report for each sample separately, while keeping track of what trends emerge. It would be much easier to look at all the data compiled into a single report. <a href="https://multiqc.info/">MultiQC</a> is a tool that does exactly this.</p>
+<p>MultiQC is designed to interpret and aggregate reports from <a href="https://multiqc.info/#supported-tools">various tools</a> and output a single report as an HTML document.</p>
+<div id="multiqc-details" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> MultiQC Details</h2>
+<p>MultiQC’s main output is the report file in HTML format. This can be viewed in a web browser. Additionally, it creates a <code>data</code> directory with text files containing the data that MultiQC gathered during its execution - this same data is what is shown in the report.</p>
+<p>Given an output directory out_multiqc, we should see something like the following:</p>
+<pre><code># directory of multiqc data files
+out_multiqc/multiqc_data/multiqc.log
+out_multiqc/multiqc_data/multiqc_data.json
+out_multiqc/multiqc_data/multiqc_general_stats.txt
+out_multiqc/multiqc_data/multiqc_rsem.txt
+out_multiqc/multiqc_data/multiqc_sources.txt
+# multiqc report
+out_multiqc/multiqc_report.html</code></pre>
+<p>In a moment we will run <code>multiqc</code>, and it will detect these reports from STAR and include them in the report.</p>
+<p>If we then open the MultiQC report (HTML), the newly included STAR section will look something like the following:</p>
+<center>
+<p><img src="images/multiqc_star.png" alt="Example of STAR alignment statistics in MultiQC." /> Example of STAR alignment statistics in MultiQC.</p>
+<p>Source: <a href="https://multiqc.info/examples/rna-seq/multiqc_report.html#star">MultiQC example report</a></p>
+</center>
+</div>
+<div id="multiqc-with-star-exercise" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> MultiQC With STAR Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Note the contents of our analysis directory, including the STAR contents</li>
+<li>Construct a MultiQC command and execute it on this directory</li>
+<li>View the MultiQC report</li>
+</ol>
+<pre><code># View MultiQC help page
+multiqc --help
+# Construct a MultiQC command and execute it
+multiqc --outdir out_multiqc_rsem out_rsem/
+# Verify that the output files are present</code></pre>
+<p>We just learned how to view all of our alignment results in one report with the help of MultiQC. MultiQC is also useful because it can utilize multiple separate modules to create summary figures of different steps in our pipeline.</p>
+<p>What would happen if we pointed multiQC at our trimmed read directory? What about if we point it to the entire analysis directory?</p>
+</div>
+<div id="multiqc-multiple-module-exercise-breakout" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> MultiQC Multiple Module Exercise (Breakout)</h2>
+<ol style="list-style-type: decimal">
+<li>Construct and run a MultiQC command to view the trimmed read results</li>
+<li>Construct and run a MultiQC command to view both the trimmed read and aligned read results</li>
+<li>(Optional) - Use scp to transfer a report from the AWS machine to your personal computer</li>
+</ol>
+<details>
+<summary>
+MultiQC with Different Modules
+</summary>
+<pre><code># A MultiQC command to analyze the trimmed read results
+multiqc --outdir out_multiqc_cutadapt out_trimmed/
+# A multiQC command for both trimmed and aligned read summary statistics
+multiqc --outdir out_multiqc_all  .</code></pre>
+</details>
+<details>
+<summary>
+Optional exercise - Transfer a MultiQC report to personal computer
+</summary>
+<p>Make sure you’re running scp on your <strong>local</strong> computer, requesting a file from the <strong>remote</strong> computer we were just using.</p>
+<p>scp command format, with the address for AWS remote</p>
+<pre><code># Usage: scp [source] [destination]
+scp &lt;username&gt;@bfx-workshop01.med.umich.edu:~/example_data/out_multiqc_all/multiqc_report.html ~/rsd-workshop/multiqc_report_all.html</code></pre>
+</details>
+</div>
+<div id="creating-the-count-matrix" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Creating the count matrix</h2>
+<p>We have viewed some of the gene expression quantification results individually. It can be useful to combine these expression values into a count matrix. This is helpful when gathering expression-level QC metrics, as well as for input into a differential gene expression program such as DESeq2.</p>
+<p>There are many ways to combine these results into a count matrix. For this workshop, we’ll use a small python script to <code>combine.py</code> that we’ve made for this purpose. To understand the process a bit more, let’s review the <code>.genes.results</code> files that we want to combine and discuss some details of the script. Finally, we’ll end with an exercise creating a count matrix.</p>
+<p>If we review the *.genes.results files, we can see various columns of data output from RSEM that we discussed in the last module.</p>
+<pre><code># Review of *.genes.results file contents
+gene_id                 transcript_id(s)                        length  effective_length        expected_count  TPM     FPKM
+ENSMUSG00000000001      ENSMUST00000000001                      3262.00 3116.28                 601.00          45.50   36.70
+ENSMUSG00000000003      ENSMUST00000000003,ENSMUST00000114041   799.50  653.78                  0.00            0.00    0.00</code></pre>
+<p>We’ll take the <code>expected_count</code> column from each sample’s data, and combine these so that we have an aggregated data matrix with a row for each gene and a column for each sample.</p>
+<p>The input for this step will be the directory of *.genes.results files from RSEM, and the output will be a tab-separated count matrix file which we can use for count-level QC and differential expression analysis.</p>
+<details>
+<summary>
+Contents of combine.py script
+</summary>
+<a href="https://gist.github.com/twsaari/12c5aa2773292c09c1809d5a3db66903">Here</a> are the contents of the python script we’ll use, <code>combine.py</code>:
+</details>
+</div>
+<div id="count-matrix-exercise" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Count Matrix Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>View the help file of <code>combine.py</code></li>
+<li>Construct / execute a command to combine our results into a count matrix</li>
+<li>View the resulting count matrix</li>
+</ol>
+<pre><code># View the help file of combine.py
+combine.py --help
+# Construct and execute the command to combine.py
+combine.py --input_path &quot;out_rsem/*.genes.results&quot; --output_file combined_counts.txt -c expected_count --id_columns gene_id
+# View the resulting count matrix
+less combined_counts.txt</code></pre>
+<hr />
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDIgLSBNb2R1bGUgMDU6IE11bHRpUUMgYW5kIENvdW50cyIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgojIE11bHRpUUMsIENvdW50IE1hdHJpeAoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGwgbGVhcm46CgoqIGFib3V0IHRoZSBNdWx0aVFDIHRvb2wgYW5kIGl0cyBjYXBhYmlsaXRpZXMKKiBob3cgdG8gcnVuIG11bHRpUUMgb24gYSByZW1vdGUgc3lzdGVtCiogaG93IE11bHRpUUMgZ2F0aGVycyBpbmZvcm1hdGlvbiBmb3IgUUMgcHVycG9zZXMKKiBob3cgTXVsdGlRQyBwcmVzZW50cyB0aGUgcmVzdWx0cyBvZiBjdXRhZGFwdCB0cmltbWluZyBhbmQgU1RBUiBhbGlnbm1lbnQKKiBob3cgdG8gY29tYmluZSBnZW5lLWxldmVsIHJlc3VsdHMgaW50byBhIGNvdW50IG1hdHJpeAoKIyBEaWZmZXJlbnRpYWwgRXhwcmVzc2lvbiBXb3JrZmxvdwoKSGVyZSB3ZSB3aWxsIHRha2UgdGhlIHJlc3VsdHMgZnJvbSB0aGUgcHJldmlvdXMgbW9kdWxlIGFuZCBvcGVyYXRlIG9uIHRoZW0gYSBiaXQgZnVydGhlci4gVGhpcyB3aWxsIHdyYXAgdXAgdGhlIHByZWNlZGluZyBleGVyY2lzZXMsIGxlYXZpbmcgdXMgd2VsbC1wb2lzZWQgdG8gYmVnaW4gZGlmZmVyZW50aWFsIGV4cHJlc3Npb24sIHdoaWNoIHdlIHdpbGwgZGlzY3VzcyB0b2RheSBhbmQgdG9tb3Jyb3cuCgohW10oaW1hZ2VzL3dheWZpbmRlci93YXlmaW5kZXItMDMucG5nKQo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIyBBbGlnbm1lbnQgU3RhdGlzdGljcyB3aXRoIE11bHRpUUMKCkFmdGVyIGFsaWduaW5nIHJlYWRzIGl0IGlzIG9mdGVuIGhlbHBmdWwgdG8ga25vdyBob3cgbWFueSByZWFkcyB3ZXJlIHVuaXF1ZWx5IGFsaWduZWQsIG1hcHBlZCB0byBtdWx0aXBsZSBsb2NpLCBvciBub3QgbWFwcGVkIGF0IGFsbC4gVGhlIGBzYW1wbGVfTkxvZy5maW5hbC5vdXRgIGZpbGUgd2hpY2ggaXMgb3V0cHV0IGFsb25nc2lkZSB0aGUgYWxpZ25tZW50cyBpbiBgc2FtcGxlX04udGVtcC9gIGZvbGRlciAod2UgdXNlZCB0aGUgYC0ta2VlcC1pbnRlcm1lZGlhdGUtZmlsZXNgIGZsYWcpLCByZXBvcnRzIHRoaXMgaW5mb3JtYXRpb246CgpgYGAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgU3RhcnRlZCBqb2Igb24gfAlPY3QgMDIgMTM6MDk6MjMKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTdGFydGVkIG1hcHBpbmcgb24gfAlPY3QgMDIgMTM6MDk6NTEKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgRmluaXNoZWQgb24gfAlPY3QgMDIgMTM6MTI6NDcKICAgICAgIE1hcHBpbmcgc3BlZWQsIE1pbGxpb24gb2YgcmVhZHMgcGVyIGhvdXIgfAkyMzguODIKCiAgICAgICAgICAgICAgICAgICAgICAgICAgTnVtYmVyIG9mIGlucHV0IHJlYWRzIHwJMTE2NzU1MDQKICAgICAgICAgICAgICAgICAgICAgIEF2ZXJhZ2UgaW5wdXQgcmVhZCBsZW5ndGggfAkxNDYKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVU5JUVVFIFJFQURTOgogICAgICAgICAgICAgICAgICAgVW5pcXVlbHkgbWFwcGVkIHJlYWRzIG51bWJlciB8CTEwNjA5NTkxCiAgICAgICAgICAgICAgICAgICAgICAgIFVuaXF1ZWx5IG1hcHBlZCByZWFkcyAlIHwJOTAuODclCiAgICAgICAgICAgICAgICAgICAgICAgICAgQXZlcmFnZSBtYXBwZWQgbGVuZ3RoIHwJMTQ2LjM3CiAgICAgICAgICAgICAgICAgICAgICAgTnVtYmVyIG9mIHNwbGljZXM6IFRvdGFsIHwJMjc1NTU0MwogICAgICAgICAgICBOdW1iZXIgb2Ygc3BsaWNlczogQW5ub3RhdGVkIChzamRiKSB8CTI3MzQ3MzAKICAgICAgICAgICAgICAgICAgICAgICBOdW1iZXIgb2Ygc3BsaWNlczogR1QvQUcgfAkyNzM5Njk3CiAgICAgICAgICAgICAgICAgICAgICAgTnVtYmVyIG9mIHNwbGljZXM6IEdDL0FHIHwJMTMyMDQKICAgICAgICAgICAgICAgICAgICAgICBOdW1iZXIgb2Ygc3BsaWNlczogQVQvQUMgfAkxNzQ0CiAgICAgICAgICAgICAgIE51bWJlciBvZiBzcGxpY2VzOiBOb24tY2Fub25pY2FsIHwJODk4CiAgICAgICAgICAgICAgICAgICAgICBNaXNtYXRjaCByYXRlIHBlciBiYXNlLCAlIHwJMC4xOCUKICAgICAgICAgICAgICAgICAgICAgICAgIERlbGV0aW9uIHJhdGUgcGVyIGJhc2UgfAkwLjAxJQogICAgICAgICAgICAgICAgICAgICAgICBEZWxldGlvbiBhdmVyYWdlIGxlbmd0aCB8CTEuNjAKICAgICAgICAgICAgICAgICAgICAgICAgSW5zZXJ0aW9uIHJhdGUgcGVyIGJhc2UgfAkwLjAxJQogICAgICAgICAgICAgICAgICAgICAgIEluc2VydGlvbiBhdmVyYWdlIGxlbmd0aCB8CTEuMjkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICBNVUxUSS1NQVBQSU5HIFJFQURTOgogICAgICAgIE51bWJlciBvZiByZWFkcyBtYXBwZWQgdG8gbXVsdGlwbGUgbG9jaSB8CTU5OTkxNQogICAgICAgICAgICAgJSBvZiByZWFkcyBtYXBwZWQgdG8gbXVsdGlwbGUgbG9jaSB8CTUuMTQlCiAgICAgICAgTnVtYmVyIG9mIHJlYWRzIG1hcHBlZCB0byB0b28gbWFueSBsb2NpIHwJMTI3ODYKICAgICAgICAgICAgICUgb2YgcmVhZHMgbWFwcGVkIHRvIHRvbyBtYW55IGxvY2kgfAkwLjExJQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgVU5NQVBQRUQgUkVBRFM6CiAgTnVtYmVyIG9mIHJlYWRzIHVubWFwcGVkOiB0b28gbWFueSBtaXNtYXRjaGVzIHwJMjAzODEKICAgICAgICUgb2YgcmVhZHMgdW5tYXBwZWQ6IHRvbyBtYW55IG1pc21hdGNoZXMgfAkwLjE3JQogICAgICAgICAgICBOdW1iZXIgb2YgcmVhZHMgdW5tYXBwZWQ6IHRvbyBzaG9ydCB8CTM4OTk2MAogICAgICAgICAgICAgICAgICUgb2YgcmVhZHMgdW5tYXBwZWQ6IHRvbyBzaG9ydCB8CTMuMzQlCiAgICAgICAgICAgICAgICBOdW1iZXIgb2YgcmVhZHMgdW5tYXBwZWQ6IG90aGVyIHwJNDI4NzEKICAgICAgICAgICAgICAgICAgICAgJSBvZiByZWFkcyB1bm1hcHBlZDogb3RoZXIgfAkwLjM3JQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ0hJTUVSSUMgUkVBRFM6CiAgICAgICAgICAgICAgICAgICAgICAgTnVtYmVyIG9mIGNoaW1lcmljIHJlYWRzIHwJMAogICAgICAgICAgICAgICAgICAgICAgICAgICAgJSBvZiBjaGltZXJpYyByZWFkcyB8CTAuMDAlCmBgYAoKIyBNdWx0aVFDCgpXaGlsZSB0aGUgaW5mb3JtYXRpb24gaXMgaW5jcmVkaWJseSB1c2VmdWwsIGl0IGNhbiBiZSB0ZWRpb3VzIHRvIGxvb2sgYXQgdGhlIHJlcG9ydCBmb3IgZWFjaCBzYW1wbGUgc2VwYXJhdGVseSwgd2hpbGUga2VlcGluZyB0cmFjayBvZiB3aGF0IHRyZW5kcyBlbWVyZ2UuIEl0IHdvdWxkIGJlIG11Y2ggZWFzaWVyIHRvIGxvb2sgYXQgYWxsIHRoZSBkYXRhIGNvbXBpbGVkIGludG8gYSBzaW5nbGUgcmVwb3J0LiBbTXVsdGlRQ10oaHR0cHM6Ly9tdWx0aXFjLmluZm8vKSBpcyBhIHRvb2wgdGhhdCBkb2VzIGV4YWN0bHkgdGhpcy4KCk11bHRpUUMgaXMgZGVzaWduZWQgdG8gaW50ZXJwcmV0IGFuZCBhZ2dyZWdhdGUgcmVwb3J0cyBmcm9tIFt2YXJpb3VzIHRvb2xzXShodHRwczovL211bHRpcWMuaW5mby8jc3VwcG9ydGVkLXRvb2xzKSBhbmQgb3V0cHV0IGEgc2luZ2xlIHJlcG9ydCBhcyBhbiBIVE1MIGRvY3VtZW50LgoKIyMgTXVsdGlRQyBEZXRhaWxzCgpNdWx0aVFDJ3MgbWFpbiBvdXRwdXQgaXMgdGhlIHJlcG9ydCBmaWxlIGluIEhUTUwgZm9ybWF0LiBUaGlzIGNhbiBiZSB2aWV3ZWQgaW4gYSB3ZWIgYnJvd3Nlci4gQWRkaXRpb25hbGx5LCBpdCBjcmVhdGVzIGEgYGRhdGFgIGRpcmVjdG9yeSB3aXRoIHRleHQgZmlsZXMgY29udGFpbmluZyB0aGUgZGF0YSB0aGF0IE11bHRpUUMgZ2F0aGVyZWQgZHVyaW5nIGl0cyBleGVjdXRpb24gLSB0aGlzIHNhbWUgZGF0YSBpcyB3aGF0IGlzIHNob3duIGluIHRoZSByZXBvcnQuCgpHaXZlbiBhbiBvdXRwdXQgZGlyZWN0b3J5IG91dF9tdWx0aXFjLCB3ZSBzaG91bGQgc2VlIHNvbWV0aGluZyBsaWtlIHRoZSBmb2xsb3dpbmc6CgogICAgIyBkaXJlY3Rvcnkgb2YgbXVsdGlxYyBkYXRhIGZpbGVzCiAgICBvdXRfbXVsdGlxYy9tdWx0aXFjX2RhdGEvbXVsdGlxYy5sb2cKICAgIG91dF9tdWx0aXFjL211bHRpcWNfZGF0YS9tdWx0aXFjX2RhdGEuanNvbgogICAgb3V0X211bHRpcWMvbXVsdGlxY19kYXRhL211bHRpcWNfZ2VuZXJhbF9zdGF0cy50eHQKICAgIG91dF9tdWx0aXFjL211bHRpcWNfZGF0YS9tdWx0aXFjX3JzZW0udHh0CiAgICBvdXRfbXVsdGlxYy9tdWx0aXFjX2RhdGEvbXVsdGlxY19zb3VyY2VzLnR4dAogICAgIyBtdWx0aXFjIHJlcG9ydAogICAgb3V0X211bHRpcWMvbXVsdGlxY19yZXBvcnQuaHRtbAoKCkluIGEgbW9tZW50IHdlIHdpbGwgcnVuIGBtdWx0aXFjYCwgYW5kIGl0IHdpbGwgZGV0ZWN0IHRoZXNlIHJlcG9ydHMgZnJvbSBTVEFSIGFuZCBpbmNsdWRlIHRoZW0gaW4gdGhlIHJlcG9ydC4KCklmIHdlIHRoZW4gb3BlbiB0aGUgTXVsdGlRQyByZXBvcnQgKEhUTUwpLCB0aGUgbmV3bHkgaW5jbHVkZWQgU1RBUiBzZWN0aW9uIHdpbGwgbG9vayBzb21ldGhpbmcgbGlrZSB0aGUgZm9sbG93aW5nOgoKPGNlbnRlcj4KCiFbRXhhbXBsZSBvZiBTVEFSIGFsaWdubWVudCBzdGF0aXN0aWNzIGluIE11bHRpUUMuXShpbWFnZXMvbXVsdGlxY19zdGFyLnBuZykKRXhhbXBsZSBvZiBTVEFSIGFsaWdubWVudCBzdGF0aXN0aWNzIGluIE11bHRpUUMuCgpTb3VyY2U6IFtNdWx0aVFDIGV4YW1wbGUgcmVwb3J0XShodHRwczovL211bHRpcWMuaW5mby9leGFtcGxlcy9ybmEtc2VxL211bHRpcWNfcmVwb3J0Lmh0bWwjc3RhcikKCjwvY2VudGVyPgoKIyMgTXVsdGlRQyBXaXRoIFNUQVIgRXhlcmNpc2U6CgoxLiBOb3RlIHRoZSBjb250ZW50cyBvZiBvdXIgYW5hbHlzaXMgZGlyZWN0b3J5LCBpbmNsdWRpbmcgdGhlIFNUQVIgY29udGVudHMKMi4gQ29uc3RydWN0IGEgTXVsdGlRQyBjb21tYW5kIGFuZCBleGVjdXRlIGl0IG9uIHRoaXMgZGlyZWN0b3J5CjMuIFZpZXcgdGhlIE11bHRpUUMgcmVwb3J0CgpgYGAKIyBWaWV3IE11bHRpUUMgaGVscCBwYWdlCm11bHRpcWMgLS1oZWxwCiMgQ29uc3RydWN0IGEgTXVsdGlRQyBjb21tYW5kIGFuZCBleGVjdXRlIGl0Cm11bHRpcWMgLS1vdXRkaXIgb3V0X211bHRpcWNfcnNlbSBvdXRfcnNlbS8KIyBWZXJpZnkgdGhhdCB0aGUgb3V0cHV0IGZpbGVzIGFyZSBwcmVzZW50CmBgYAoKV2UganVzdCBsZWFybmVkIGhvdyB0byB2aWV3IGFsbCBvZiBvdXIgYWxpZ25tZW50IHJlc3VsdHMgaW4gb25lIHJlcG9ydCB3aXRoIHRoZSBoZWxwIG9mIE11bHRpUUMuIE11bHRpUUMgaXMgYWxzbyB1c2VmdWwgYmVjYXVzZSBpdCBjYW4gdXRpbGl6ZSBtdWx0aXBsZSBzZXBhcmF0ZSBtb2R1bGVzIHRvIGNyZWF0ZSBzdW1tYXJ5IGZpZ3VyZXMgb2YgZGlmZmVyZW50IHN0ZXBzIGluIG91ciBwaXBlbGluZS4KCldoYXQgd291bGQgaGFwcGVuIGlmIHdlIHBvaW50ZWQgbXVsdGlRQyBhdCBvdXIgdHJpbW1lZCByZWFkIGRpcmVjdG9yeT8gV2hhdCBhYm91dCBpZiB3ZSBwb2ludCBpdCB0byB0aGUgZW50aXJlIGFuYWx5c2lzIGRpcmVjdG9yeT8KCiMjIE11bHRpUUMgTXVsdGlwbGUgTW9kdWxlIEV4ZXJjaXNlIChCcmVha291dCkKCjEuIENvbnN0cnVjdCBhbmQgcnVuIGEgTXVsdGlRQyBjb21tYW5kIHRvIHZpZXcgdGhlIHRyaW1tZWQgcmVhZCByZXN1bHRzCjIuIENvbnN0cnVjdCBhbmQgcnVuIGEgTXVsdGlRQyBjb21tYW5kIHRvIHZpZXcgYm90aCB0aGUgdHJpbW1lZCByZWFkIGFuZCBhbGlnbmVkIHJlYWQgcmVzdWx0cwozLiAoT3B0aW9uYWwpIC0gVXNlIHNjcCB0byB0cmFuc2ZlciBhIHJlcG9ydCBmcm9tIHRoZSBBV1MgbWFjaGluZSB0byB5b3VyIHBlcnNvbmFsIGNvbXB1dGVyCgo8ZGV0YWlscz4KPHN1bW1hcnk+TXVsdGlRQyB3aXRoIERpZmZlcmVudCBNb2R1bGVzPC9zdW1tYXJ5PgoKYGBgCiMgQSBNdWx0aVFDIGNvbW1hbmQgdG8gYW5hbHl6ZSB0aGUgdHJpbW1lZCByZWFkIHJlc3VsdHMKbXVsdGlxYyAtLW91dGRpciBvdXRfbXVsdGlxY19jdXRhZGFwdCBvdXRfdHJpbW1lZC8KIyBBIG11bHRpUUMgY29tbWFuZCBmb3IgYm90aCB0cmltbWVkIGFuZCBhbGlnbmVkIHJlYWQgc3VtbWFyeSBzdGF0aXN0aWNzCm11bHRpcWMgLS1vdXRkaXIgb3V0X211bHRpcWNfYWxsICAuCmBgYAoKPC9kZXRhaWxzPgoKPGRldGFpbHM+CjxzdW1tYXJ5Pk9wdGlvbmFsIGV4ZXJjaXNlIC0gVHJhbnNmZXIgYSBNdWx0aVFDIHJlcG9ydCB0byBwZXJzb25hbCBjb21wdXRlcjwvc3VtbWFyeT4KCk1ha2Ugc3VyZSB5b3UncmUgcnVubmluZyBzY3Agb24geW91ciAqKmxvY2FsKiogY29tcHV0ZXIsIHJlcXVlc3RpbmcgYSBmaWxlIGZyb20gdGhlICoqcmVtb3RlKiogY29tcHV0ZXIgd2Ugd2VyZSBqdXN0IHVzaW5nLgoKc2NwIGNvbW1hbmQgZm9ybWF0LCB3aXRoIHRoZSBhZGRyZXNzIGZvciBBV1MgcmVtb3RlCgpgYGAKIyBVc2FnZTogc2NwIFtzb3VyY2VdIFtkZXN0aW5hdGlvbl0Kc2NwIDx1c2VybmFtZT5AYmZ4LXdvcmtzaG9wMDEubWVkLnVtaWNoLmVkdTp+L2V4YW1wbGVfZGF0YS9vdXRfbXVsdGlxY19hbGwvbXVsdGlxY19yZXBvcnQuaHRtbCB+L3JzZC13b3Jrc2hvcC9tdWx0aXFjX3JlcG9ydF9hbGwuaHRtbApgYGAKCjwvZGV0YWlscz4KCgojIyBDcmVhdGluZyB0aGUgY291bnQgbWF0cml4CgpXZSBoYXZlIHZpZXdlZCBzb21lIG9mIHRoZSBnZW5lIGV4cHJlc3Npb24gcXVhbnRpZmljYXRpb24gcmVzdWx0cyBpbmRpdmlkdWFsbHkuIEl0IGNhbiBiZSB1c2VmdWwgdG8gY29tYmluZSB0aGVzZSBleHByZXNzaW9uIHZhbHVlcyBpbnRvIGEgY291bnQgbWF0cml4LiBUaGlzIGlzIGhlbHBmdWwgd2hlbiBnYXRoZXJpbmcgZXhwcmVzc2lvbi1sZXZlbCBRQyBtZXRyaWNzLCBhcyB3ZWxsIGFzIGZvciBpbnB1dCBpbnRvIGEgZGlmZmVyZW50aWFsIGdlbmUgZXhwcmVzc2lvbiBwcm9ncmFtIHN1Y2ggYXMgREVTZXEyLgoKVGhlcmUgYXJlIG1hbnkgd2F5cyB0byBjb21iaW5lIHRoZXNlIHJlc3VsdHMgaW50byBhIGNvdW50IG1hdHJpeC4gRm9yIHRoaXMgd29ya3Nob3AsIHdlJ2xsIHVzZSBhIHNtYWxsIHB5dGhvbiBzY3JpcHQgdG8gYGNvbWJpbmUucHlgIHRoYXQgd2UndmUgbWFkZSBmb3IgdGhpcyBwdXJwb3NlLiBUbyB1bmRlcnN0YW5kIHRoZSBwcm9jZXNzIGEgYml0IG1vcmUsIGxldCdzIHJldmlldyB0aGUgYC5nZW5lcy5yZXN1bHRzYCBmaWxlcyB0aGF0IHdlIHdhbnQgdG8gY29tYmluZSBhbmQgZGlzY3VzcyBzb21lIGRldGFpbHMgb2YgdGhlIHNjcmlwdC4gRmluYWxseSwgd2UnbGwgZW5kIHdpdGggYW4gZXhlcmNpc2UgY3JlYXRpbmcgYSBjb3VudCBtYXRyaXguCgoKSWYgd2UgcmV2aWV3IHRoZSAqLmdlbmVzLnJlc3VsdHMgZmlsZXMsIHdlIGNhbiBzZWUgdmFyaW91cyBjb2x1bW5zIG9mIGRhdGEgb3V0cHV0IGZyb20gUlNFTSB0aGF0IHdlIGRpc2N1c3NlZCBpbiB0aGUgbGFzdCBtb2R1bGUuCgogICAgIyBSZXZpZXcgb2YgKi5nZW5lcy5yZXN1bHRzIGZpbGUgY29udGVudHMKICAgIGdlbmVfaWQgICAgICAgICAgICAgICAgIHRyYW5zY3JpcHRfaWQocykgICAgICAgICAgICAgICAgICAgICAgICBsZW5ndGggIGVmZmVjdGl2ZV9sZW5ndGggICAgICAgIGV4cGVjdGVkX2NvdW50ICBUUE0gICAgIEZQS00KICAgIEVOU01VU0cwMDAwMDAwMDAwMSAgICAgIEVOU01VU1QwMDAwMDAwMDAwMSAgICAgICAgICAgICAgICAgICAgICAzMjYyLjAwIDMxMTYuMjggICAgICAgICAgICAgICAgIDYwMS4wMCAgICAgICAgICA0NS41MCAgIDM2LjcwCiAgICBFTlNNVVNHMDAwMDAwMDAwMDMgICAgICBFTlNNVVNUMDAwMDAwMDAwMDMsRU5TTVVTVDAwMDAwMTE0MDQxICAgNzk5LjUwICA2NTMuNzggICAgICAgICAgICAgICAgICAwLjAwICAgICAgICAgICAgMC4wMCAgICAwLjAwCgpXZSdsbCB0YWtlIHRoZSBgZXhwZWN0ZWRfY291bnRgIGNvbHVtbiBmcm9tIGVhY2ggc2FtcGxlJ3MgZGF0YSwgYW5kIGNvbWJpbmUgdGhlc2Ugc28gdGhhdCB3ZSBoYXZlIGFuIGFnZ3JlZ2F0ZWQgZGF0YSBtYXRyaXggd2l0aCBhIHJvdyBmb3IgZWFjaCBnZW5lIGFuZCBhIGNvbHVtbiBmb3IgZWFjaCBzYW1wbGUuCgpUaGUgaW5wdXQgZm9yIHRoaXMgc3RlcCB3aWxsIGJlIHRoZSBkaXJlY3Rvcnkgb2YgKi5nZW5lcy5yZXN1bHRzIGZpbGVzIGZyb20gUlNFTSwgYW5kIHRoZSBvdXRwdXQgd2lsbCBiZSBhIHRhYi1zZXBhcmF0ZWQgY291bnQgbWF0cml4IGZpbGUgd2hpY2ggd2UgY2FuIHVzZSBmb3IgY291bnQtbGV2ZWwgUUMgYW5kIGRpZmZlcmVudGlhbCBleHByZXNzaW9uIGFuYWx5c2lzLgoKCjxkZXRhaWxzPgo8c3VtbWFyeT5Db250ZW50cyBvZiBjb21iaW5lLnB5IHNjcmlwdDwvc3VtbWFyeT4KCltIZXJlXShodHRwczovL2dpc3QuZ2l0aHViLmNvbS90d3NhYXJpLzEyYzVhYTI3NzMyOTJjMDljMTgwOWQ1YTNkYjY2OTAzKSBhcmUgdGhlIGNvbnRlbnRzIG9mIHRoZSBweXRob24gc2NyaXB0IHdlJ2xsIHVzZSwgYGNvbWJpbmUucHlgOgo8L2RldGFpbHM+CgojIyBDb3VudCBNYXRyaXggRXhlcmNpc2U6CgoxLiBWaWV3IHRoZSBoZWxwIGZpbGUgb2YgYGNvbWJpbmUucHlgCjIuIENvbnN0cnVjdCAvIGV4ZWN1dGUgYSBjb21tYW5kIHRvIGNvbWJpbmUgb3VyIHJlc3VsdHMgaW50byBhIGNvdW50IG1hdHJpeAozLiBWaWV3IHRoZSByZXN1bHRpbmcgY291bnQgbWF0cml4CgpgYGAKIyBWaWV3IHRoZSBoZWxwIGZpbGUgb2YgY29tYmluZS5weQpjb21iaW5lLnB5IC0taGVscAojIENvbnN0cnVjdCBhbmQgZXhlY3V0ZSB0aGUgY29tbWFuZCB0byBjb21iaW5lLnB5CmNvbWJpbmUucHkgLS1pbnB1dF9wYXRoICJvdXRfcnNlbS8qLmdlbmVzLnJlc3VsdHMiIC0tb3V0cHV0X2ZpbGUgY29tYmluZWRfY291bnRzLnR4dCAtYyBleHBlY3RlZF9jb3VudCAtLWlkX2NvbHVtbnMgZ2VuZV9pZAojIFZpZXcgdGhlIHJlc3VsdGluZyBjb3VudCBtYXRyaXgKbGVzcyBjb21iaW5lZF9jb3VudHMudHh0CmBgYAoKLS0tCgpUaGVzZSBtYXRlcmlhbHMgaGF2ZSBiZWVuIGFkYXB0ZWQgYW5kIGV4dGVuZGVkIGZyb20gbWF0ZXJpYWxzIGNyZWF0ZWQgYnkgdGhlIFtIYXJ2YXJkIENoYW4gQmlvaW5mb3JtYXRpY3MgQ29yZSAoSEJDKV0oaHR0cDovL2Jpb2luZm9ybWF0aWNzLnNwaC5oYXJ2YXJkLmVkdS8pLiBUaGVzZSBhcmUgb3BlbiBhY2Nlc3MgbWF0ZXJpYWxzIGRpc3RyaWJ1dGVkIHVuZGVyIHRoZSB0ZXJtcyBvZiB0aGUgW0NyZWF0aXZlIENvbW1vbnMgQXR0cmlidXRpb24gbGljZW5zZSAoQ0MgQlkgNC4wKV0oaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbGljZW5zZXMvYnkvNC4wLyksIHdoaWNoIHBlcm1pdHMgdW5yZXN0cmljdGVkIHVzZSwgZGlzdHJpYnV0aW9uLCBhbmQgcmVwcm9kdWN0aW9uIGluIGFueSBtZWRpdW0sIHByb3ZpZGVkIHRoZSBvcmlnaW5hbCBhdXRob3IgYW5kIHNvdXJjZSBhcmUgY3JlZGl0ZWQuCg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module05_MultiQC_and_Count_Matrix.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

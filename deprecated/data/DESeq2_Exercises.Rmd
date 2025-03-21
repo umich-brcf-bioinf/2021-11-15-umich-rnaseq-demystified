@@ -1,0 +1,136 @@
+---
+title: "Exercises for RNA-seq Demystified Workshop, 11/15/21-11/17/21"
+author: "UM Bioinformatics Core"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+In an R Markdown file, you can write both plain text (without comment symbols!) and code in the same file. R Markdown files can also be `knitted` to output to different formats (including pdf, html, Word document).
+
+To execute code, write it in a grey formatted code block (blank ones will be included for all exercises). Then place a cursor on the line or highlight the lines you want to run and hit enter, just like you would in an .R code file. 
+
+```{r demo}
+mean(c(3,4,5,6)) # command to get the mean of a list of numbers
+getwd() # command to print your working directory
+```
+
+## [Breakout Exercise 1]: PCA plot customization with ggplot2
+
+In this exercise, generate a customized plot using the `ggplot2` package that will include shape assignments for our treatment groups and color assignments for the individual samples, still using the rlog normalized counts for all samples.
+
+First, create some objects to store the sample and group information.
+```{r PCAexercise1}
+#PCA plot for Rlog-Normalized counts for all samples
+CombinatoricGroup <- factor(MetaInfo$Gtype.Tx)
+SampleName <- factor(row.names(MetaInfo))
+```
+Take a look at `CombinatoricGroup` and `SampleName` - what information is now stored in these objects?
+
+
+Next, look at the documentation for `plotPCA` function from DESeq2. 
+
+```{r PCAexerciseDoc}
+?plotPCA
+```
+
+Then write a command to generate the PCA projections using the `plotPCA` function from DESeq2. for the top 500 genes for `intgroup` = 'Gtype.Tx', using the normalized data, as an object named `p.all`. 
+
+*Hint: add additional arguments to the code below*
+```{r PCAexercise2}
+p.all <- plotPCA()
+```
+
+Next, look at the possible slots of the `p.all` object to determine where the PCA data is stored.
+```{r PCAexercise3}
+p.all # look at the object
+str(p.all) # get structure information about the object
+```
+
+Then, create a ggplot2 object called `gp`, specifying PC1 as the x-axis and PC2 as the y-axis and setting the color to correspond to the samples and the shape to correspond to the `CombinatoricGroup`. Add a primary title 'All samples Rlog-Normalized'
+
+*Hint: Fill in arguments for the commands below, use aesthetics `aes()` to assign shape and color. Then search for how to add a title to a ggplot figure and add an additional layer (with the `+` operator) to the plot with the title*
+```{r PCAexercise4}
+gp <- ggplot() +
+geom_point()
+```
+
+
+If you have some extra time, you can explore the additional plot options that we usually include in our analysis, specifically the example that we provide in the full materials (**TODO: Edit to be url to new subheader**).  Otherwise, skip ahead to outputting the plot to file.
+``` {r PCAexerciseAdvanced}
+gp <- ggplot() 
+```
+
+
+Finally, to output the plot to file, use the `pdf()` function:
+```{r PCAexerciseOutput}
+pdf(file = paste0(plotPath, 'PCAplot_Fancy_rlog_', Comparison, '.pdf'), onefile = TRUE)
+plot(gp)
+dev.off()
+```
+
+
+----
+
+## [Breakout Exercise 2]: Build a BioMart query and annotate the DE results
+
+Next,[build your query](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html#how-to-build-a-biomart-query) (using the linked help page) to:   
+
+1. Retrieve the information (aka: attributes) we want to add to our DE results table (e.g. `ensembl_gene_id`, `external_gene_name`)...    
+1. Using the `getBM` function (*Hint: use the `?` operator to see documentation for the function*)...
+1. Filtering on the ensembl gene id attribute...    
+1. With values that are the ENSEMBL ids from our experiment (*Hint: the row.names of the
+  `dds` assay)...    
+1. And store it in an object named `GeneKey`.
+
+<details>
+    <summary>*Click for solution for BioMart query*</summary>
+    First, we
+```{r AddAnotation3, warning=FALSE}
+## wasn't working for my version of biomaRt but might work for you
+GeneKey <- getBM(attributes=c('ensembl_gene_id', 'external_gene_name'),
+      filters = 'ensembl_gene_id',
+      values = row.names(assay(dds)),
+      mart = ensembl) # will take some time to run
+## check the key
+head(GeneKey)
+```
+</details>
+
+Now that you have the ENSEMBL information and a gene symbol to match to our results, add this to the DE results table `res_WT` and store the new table in an object named `res_WT_anno`. *Hint: look at the documentation for either the `merge` function or the tidyverse `join` function and make sure to add a column to hold the gene ids prior to adding the annotations.
+
+<details>
+    <summary>*Click for solution for adding annotations*</summary>
+    First, create a new table called `res_WT_anno` that includes a column with the ENSEMBL ids named `genes` using the `mutate` function. Then use the `left_join` function to combine the `GeneKey` table with the `res_WT` DE results.
+```{r updateDETableTidyr}
+res_WT_anno <- as.data.frame(res_WT) %>%
+  mutate(genes = row.names(res_WT)) %>%
+  left_join(GeneKey, by =c("genes" = "ensembl_gene_id")) %>%
+  relocate(c("genes", "external_gene_name")) # optionally, re-order columns to make output more readable
+
+head(res_WT_anno)
+```
+    Alternatively, if you are more familiar with base functions:
+```{r updateDETableBase}
+res_WT_anno <- res_WT # copy table
+res_WT_anno <- cbind(genes=row.names(res_WT_anno), res_WT_anno[ ,c(1:6)])
+res_WT_anno <- as.data.frame(res_WT_anno)
+
+# combine the two tables using the merge function (similar to join from `tidyverse`)
+res_WT_anno <- merge(GeneKey, res_WT_anno, by.x = "ensembl_gene_id", by.y="genes", all.x = FALSE, all.y = TRUE)
+
+head(res_WT_anno)
+```
+    Notice that not all genes were annotated with an ENSEMBl gene id or gene description. While we are able to annotate our results, we should be very cautious as the gene symbol is not a good unique identifier plus we did not use a UCSC annotation resource so the HUGO gene symbol may not always match. However, this code is similar to the steps needed to annotate ENSEMBL id based results, like what would have been generated from yesterday's alignments, with more interpretable gene symbols.
+
+</details>
+
+**Note**: For additional information regarding bioMart, please consult the [ENSEMBL bioMart vignette](https://bioconductor.org/packages/release/bioc/vignettes/biomaRt/inst/doc/accessing_ensembl.html) or the broader [Bioconductor Annotation Resources vignette ](http://bioconductor.org/packages/devel/workflows/vignettes/annotation/inst/doc/Annotation_Resources.html).
+
+

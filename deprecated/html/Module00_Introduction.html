@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core Workshop Team" />
+
+
+<title>RNA-Seq Demystified Workshop</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">RNA-Seq Demystified Workshop</h1>
+<h4 class="author">UM Bioinformatics Core Workshop Team</h4>
+
+</div>
+
+
+<style type="text/css">
+
+body, td {
+   font-size: 18px;
+}
+code.r{
+  font-size: 12px;
+}
+pre {
+  font-size: 12px
+}
+</style>
+<div id="welcome" class="section level1">
+<h1>Welcome</h1>
+<div id="about-the-bioinformatics-core" class="section level2">
+<h2>About the Bioinformatics Core</h2>
+<ul>
+<li>The University of Michigan Bioinformatics Core is a team of analysts that help researchers <strong>design, analyze, and interpret</strong> high-throughput genomics experiments.</li>
+<li>Last year we helped about 60 researchers design and execute about 100 projects including gene expression, epigenetic, variant identification, functional enrichment and many other kinds of analyses.</li>
+<li>We provide letters of support for grant proposals.</li>
+<li>We are creating a series of bioinformatics-focused workshops.</li>
+<li><a href="https://brcf.medicine.umich.edu/bioinformatics" class="uri">https://brcf.medicine.umich.edu/bioinformatics</a></li>
+</ul>
+</div>
+<div id="about-the-workshop-team" class="section level2">
+<h2>About the workshop team</h2>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><img src="images/Module00_headshots/headshot_cgates.jpg" /></th>
+<th align="center"><img src="images/Module00_headshots/headshot_mbradenb.jpg" /></th>
+<th align="center"><img src="images/Module00_headshots/headshot_trsaari.jpg" /></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Chris</strong></td>
+<td align="center"><strong>Marci</strong></td>
+<td align="center"><strong>Travis</strong></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><img src="images/Module00_headshots/headshot_damki.jpg" /></td>
+<td align="center"><img src="images/Module00_headshots/headshot_rtagett.jpg" /></td>
+<td align="center"><img src="images/Module00_headshots/headshot_grkenney.jpg" /></td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Dana</strong></td>
+<td align="center"><strong>Becky</strong></td>
+<td align="center"><strong>Grace</strong></td>
+</tr>
+<tr class="odd">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"><img src="images/Module00_headshots/headshot_ncarruth.jpg" /></td>
+<td align="center"><img src="images/Module00_headshots/headshot_rcavalca.jpg" /></td>
+<td align="center"><img src="images/Module00_headshots/headshot_weishwu.jpg" /></td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Nick</strong></td>
+<td align="center"><strong>Raymond</strong></td>
+<td align="center"><strong>Weisheng</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/></p>
+</div>
+<div id="workshop-sponsors" class="section level2">
+<h2>Workshop sponsors</h2>
+<div class="figure">
+<img src="images/Module00_sponsor_logos.png" alt="" />
+<p class="caption">Sponsors</p>
+</div>
+<ul>
+<li><p><a href="https://www.lib.umich.edu/">University of Michigan Library</a></p>
+<p>Our mission is to support, enhance, and collaborate in the instructional, research, and service activities of faculty, students, and staff, and contribute to the common good by collecting, organizing, preserving, communicating, sharing, and creating the record of human knowledge.</p></li>
+<li><p><a href="https://brcf.medicine.umich.edu/">Biomedical Research Core Facilities</a></p>
+<p>Biomedical Research Core Facilities (BRCF) helps researchers economically take advantage of the latest technology and collaborate with top experts in the field. Established in 1986, the BRCF was formed to offer centralized access to research services and equipment. <br/> <br/></p></li>
+</ul>
+</div>
+</div>
+<div id="code-of-conduct" class="section level1">
+<h1>Code of Conduct</h1>
+<ul>
+<li><p>Be kind to others. Do not insult or put down others. Behave professionally. Remember that harassment and sexist, racist, or exclusionary jokes are not appropriate for the workshop.</p></li>
+<li><p>All communication should be appropriate for a professional audience including people of many different backgrounds. Sexual language and imagery is not appropriate.</p></li>
+<li><p>The Bioinformatics Core is dedicated to providing a harassment-free community for everyone, regardless of gender, sexual orientation, gender identity and expression, disability, physical appearance, body size, race, or religion. We do not tolerate harassment of participants in any form.</p></li>
+<li><p>Thank you for helping make this a welcoming, friendly community for all.</p></li>
+<li><p>If you have questions about the CoC please reach out to the hosts during the workshop, or email us at <a href="mailto:bioinformatics-workshops@umich.edu" class="email">bioinformatics-workshops@umich.edu</a>.</p></li>
+<li><p>To report a CoC incident/concern, please email Chris Gates (Bioinformatics Core, Managing Director) at <a href="mailto:cgates@umich.edu" class="email">cgates@umich.edu</a> or contact the University of Michigan Office of Institutional Equity at <a href="mailto:institutional.equity@umich.edu" class="email">institutional.equity@umich.edu</a>. <br/> <br/></p></li>
+</ul>
+</div>
+<div id="using-zoom-and-slack" class="section level1">
+<h1>Using Zoom and Slack</h1>
+<ul>
+<li>We will be recording this session. Recordings will be available to participants<br />
+following the workshop.</li>
+</ul>
+<div id="section" class="section level2">
+<h2><img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/></h2>
+<ul>
+<li><p>Zoom controls are at the bottom of the Zoom window: <img src="images/Module00_zoom_controls.png?s" alt="Zoom controls" /></p></li>
+<li><p>To minimize distractions, we encourage participants to keep their audio muted (unless actively asking a question).</p></li>
+<li><p>To maximize engagement, we encourage participants to keep their video on.</p></li>
+<li><p>Slack works better than Zoom’s Chat function so avoid Zoom Chat for now.</p></li>
+<li><p>You can enable transcription subtitles for your view.</p></li>
+<li><p>We will be using Breakout Rooms occasionally for ad-hoc 1-1 helper support. We will review this in detail together in a few minutes.</p></li>
+<li><p>Zoom’s “non-verbal controls” are a useful way to interact</p>
+<ul>
+<li>Depending on your version of Zoom you can access these either
+<ul>
+<li>in the <strong>Reactions</strong> button on you main Zoom window</li>
+<li>at the bottom of the <strong>Participant</strong> pane</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="figure">
+<img src="images/Module00_zoom_nonverbals.png" alt="" />
+<p class="caption">Zoom non verbals</p>
+</div>
+<ul>
+<li><strong>Raise Hand</strong> to request clarification or ask a question. (Same an in-person workshop.)</li>
+<li><strong>Gray chevron [Slow down / Give me a moment]</strong> when you need more time to complete an exercise or you would like the instructor to repeat an idea</li>
+<li>Instructors will use <strong>Green check</strong> and <strong>Red X</strong> to poll the group at checkpoints along the way. <br/> <br/></li>
+</ul>
+<div id="exercise-use-zoom-non-verbals" class="section level3">
+<h3>Exercise: Use Zoom non-verbals</h3>
+<ul>
+<li>Everyone use Zoom to raise your hand. <img src="images/Module00_zoom_raise_hand.png" width=50/> <br/> <br/></li>
+</ul>
+</div>
+<div id="exercise-using-zoom-breakout-rooms" class="section level3">
+<h3>Exercise: Using Zoom Breakout Rooms</h3>
+<p>Take a moment to briefly introduce yourself (name, dept/lab, area of study) in a breakout room.</p>
+<ul>
+<li>Zoom: Click Breakout Rooms</li>
+<li>Find the room corresponding to the first letter of your first name</li>
+<li>Hover over the number to the right and click <strong>Join</strong>.</li>
+<li>When you have completed introductions, you can leave the breakout room to rejoin the main room.</li>
+</ul>
+<p><img src="images/Module00_zoom_breakout_room.png" alt="Breakout rooms" /> <br/> <br/></p>
+</div>
+</div>
+<div id="section-1" class="section level2">
+<h2><img src="images/Module00_slack_logo.png" alt="Slack" width=120/></h2>
+<ul>
+<li><strong>Slack</strong> can be used to communicate to the group or to individuals and has a few features/behaviors that we prefer over Zoom’s Chat functionality.</li>
+</ul>
+<div class="figure">
+<img src="images/Module00_slack.png" alt="" />
+<p class="caption">Posting messages to Slack</p>
+</div>
+<ul>
+<li>Slack messages will be posted to the <strong>2021-november-rsd-workshop</strong> channel.<br />
+Click on the channel in the left pane (1) to select this channel.</li>
+<li>You can type in the <strong>message field</strong> (2); click <strong>send</strong> (3) to post your message to everyone.</li>
+<li>Helpers will respond in a Slack thread (or pose the question to the instructor)</li>
+<li>You can respond in a message thread by hovering over a message to trigger the message menu and clicking the <strong>speech bubble</strong> (4).</li>
+</ul>
+<div id="exercise-responding-in-slack-thread" class="section level3">
+<h3>Exercise: Responding in Slack thread</h3>
+<p>What is one thing you hope to learn today or tomorrow? <br/> <br/></p>
+</div>
+</div>
+<div id="review-of-key-communication-patterns" class="section level2">
+<h2>Review of Key communication patterns</h2>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center"><img src="images/Module00_zoom_logo.png" alt="Zoom" width=120/></th>
+<th><img src="images/Module00_slack_logo.png" alt="Slack" width=120/></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>“I have an urgent question”</td>
+<td align="center"><img src="images/Module00_zoom_raise_hand.png" width=50/></td>
+<td><strong>Post a question</strong></td>
+</tr>
+<tr class="even">
+<td>“I have a general question”</td>
+<td align="center"></td>
+<td><strong>Post a question</strong></td>
+</tr>
+<tr class="odd">
+<td>“I’m stuck / I need a hand”</td>
+<td align="center"></td>
+<td><strong>Post a note</strong></td>
+</tr>
+<tr class="even">
+<td>Instructor check-in</td>
+<td align="center"><img src="images/Module00_zoom_green_check.png" width=50/> -or- <img src="images/Module00_zoom_red_x.png" width=50/></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Instructor Slack question</td>
+<td align="center"></td>
+<td><strong>Respond in Slack thread</strong></td>
+</tr>
+</tbody>
+</table>
+<p><br/> <br/></p>
+<div id="exercise-group-checkpoint" class="section level3">
+<h3>Exercise: Group checkpoint</h3>
+<ul>
+<li>Using Zoom, give me a <strong>green-check</strong> if you feel like you understand communication patterns or <strong>red-X</strong> if you need clarification. <br/> <br/></li>
+</ul>
+</div>
+</div>
+<div id="arranging-your-screens" class="section level2">
+<h2>Arranging your screens</h2>
+<p>It is important that you can see:</p>
+<ul>
+<li>Zoom (instructor’s shared screen + reactions)</li>
+<li>Your terminal/command window (days 1-2) or R/Studio (days 2-3)</li>
+<li>Slack</li>
+<li>Lesson plan web page</li>
+</ul>
+<p><img src="images/Module00_arranged_screens.png?" alt="arranged screens" /> <br/> <br/></p>
+</div>
+</div>
+<div id="workshop-goals-and-topics" class="section level1">
+<h1>Workshop goals and topics</h1>
+<ul>
+<li><p>By the end of the workshop, attendees will be able to</p>
+<ul>
+<li>Transform raw sequencing data into annotated differential expression values using a suite of open-source tools.</li>
+<li>Identify common data quality problems and understand their impact and possible mitigations</li>
+<li>Visualize differential expression data in RStudio plots.</li>
+</ul></li>
+<li><p>This workshop is targeted toward researchers who would like to be able to run RNA-Seq analysis on their own. It assumes a very basic familiarity with genetics, the command line, and R or R-Studio.</p></li>
+<li><p>The first day will be a mix of hands-on content and lecture-style components, while the second day will primarily be a hands-on experience.</p></li>
+<li><p>Please let us know if there is anything we can do to improve the workshop experience.</p></li>
+<li><p>Our purpose is not to be exhaustive, there is a lot that we cannot cover in the allotted time, and we don’t expect anyone to be an expert at the end of the workshop. But we hope you will have a familiarity with key concepts, data types, tools, and how they all connect to one another in the service of a biological question.</p></li>
+</ul>
+<div id="workshop-topics-at-a-glance" class="section level2">
+<h2>Workshop topics at a glance</h2>
+<p><img src="images/wayfinder/wayfinder-00.png" /></p>
+</div>
+</div>
+<div id="any-questions" class="section level1">
+<h1>Any questions?</h1>
+<ul>
+<li></li>
+<li></li>
+</ul>
+<hr />
+<ul>
+<li><p>This workshop content is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4 License</a>.</p></li>
+<li><p>The workshop Code of Conduct has been adapted the NumFocus Code of Conduct (<a href="https://numfocus.org/code-of-conduct" class="uri">https://numfocus.org/code-of-conduct</a>) which itself draws frin from numerous sources, including the Geek Feminism wiki, created by the Ada Initiative and other volunteers, which is under a Creative Commons Zero license, the Contributor Covenant version 1.2.0, the Bokeh Code of Conduct, the SciPy Code of Conduct, the Carpentries Code of Conduct, and the NeurIPS Code of Conduct.</p></li>
+<li><p>Sections of the workshop content have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

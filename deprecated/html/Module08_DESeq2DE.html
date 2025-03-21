@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+<meta name="date" content="2021-11-16" />
+
+<title>Day 2 - Module 08: Count normalizations and DESeq2 model fitting</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/dna/
+-->
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 2 - Module 08: Count normalizations and DESeq2 model fitting</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+<h4 class="date">2021-11-16</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+code.r{
+  font-size: 12pt;
+}
+</style>
+<!--- Allow the page to be wider --->
+<style>
+    body .main-container {
+        max-width: 1200px;
+    }
+</style>
+<blockquote>
+<h1 id="objectives">Objectives:</h1>
+<ul>
+<li>Discuss count normalizations</li>
+<li>Execute model fitting for differential expression comparisons</li>
+</ul>
+</blockquote>
+<div id="differential-expression-workflow" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Differential Expression Workflow</h1>
+<p>Here we will proceed with count normalizations and fit our DESeq2 model.</p>
+<p><img src="images/wayfinder/wayfinder-04.png" style="width:75.0%" /></p>
+<hr />
+</div>
+<div id="count-normalizations" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Count normalizations</h1>
+<p>Since counts of mapped reads for each gene is proportional to the expression of RNA in addition to many “uninteresting” other factors, normalization is the process of scaling raw count values to account for the “uninteresting” factors and ensure expression levels are more comparable.</p>
+<div id="normalization-goals" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Normalization goals</h2>
+<p>Two common factors that need to be accounted for during normalization are <strong>sequencing depth</strong> and <strong>gene length</strong>. Common normalization approaches (such as FPKM, RPKM, CPM, TPM, etc.) account for one or both of these factors.</p>
+<ul>
+<li><strong>Sequencing depth</strong> normalization is necessary to account for the proportion of reads per gene expected for more deeply sequenced samples (like in pink below) versus a less deeply sequenced sample (like in green below).</li>
+</ul>
+<div class="figure">
+<img src="images/normalization_methods_depth.png" alt="" />
+<p class="caption"><em>Note that each pink or green rectangle represents an aligned read, with reads spanning an intron connected by a dashed line. Figure from <a href="https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html">HBC training materials</a></em></p>
+</div>
+<ul>
+<li><strong>Gene length</strong> normalization is necessary since genes of different lengths have different probabilities of generating fragments that end up in the library. In the example below, both genes have similar levels of expression. However, the longer gene (Gene X) will have more mapped reads than the short gene (Gene Y).</li>
+</ul>
+<div class="figure">
+<img src="images/normalization_methods_length.png" style="width:75.0%" alt="" />
+<p class="caption"><em>Each pink rectangle represents an aligned read, with reads spanning an intron connected by a dashed line. Figure from <a href="https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html">HBC training materials</a></em></p>
+</div>
+<blockquote>
+<p><strong>Note</strong>: The above figures are originally from a <a href="https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html">HBC tutorial</a> that also includes a detailed comparison of different normalization (CPM, TPM, FPKM) approaches and their best uses.</p>
+</blockquote>
+<p><strong>Check-in: Questions about normalizations?</strong></p>
+</div>
+<div id="deseq2-normalizations" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> DESeq2 normalizations</h2>
+<p>DESeq2 has an <a href="https://genomebiology.biomedcentral.com/articles/10.1186/gb-2010-11-10-r106">internal normalization process</a> that accounts for <strong>RNA composition</strong>. A few highly differentially expressed genes, differences in the number of genes expressed between samples, or contamination are not accounted for by depth or gene length normalization methods. Accounting for RNA composition is particularly important for differential expression analyses, regardless of the tool used.</p>
+<p>For data exploration and visualizations, it is helpful to generate an object of independently normalized counts. We will use the <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#count-data-transformations">rlog transformation</a> that accounts for sequencing depth for each sample and RNA composition differences in the overall experiment for downstream quality control visualizations.</p>
+<p>The rlog transformation produces log2 scale data that has also been normalized to overall library size as well as variance across genes at different mean expression levels. For larger numbers of samples, there is an alternative transformation method, <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html#count-data-transformations">vst</a> that can be used instead for count normalizations.</p>
+<p>The command to generate the normalized count object has a few parts, including <code>dds</code> as an input and providing a value to the option <code>blind</code>.</p>
+<pre class="r"><code>rld &lt;- rlog(dds, blind = TRUE)</code></pre>
+<p>*Note: We see a message here that our data did not fit the default ‘parametric’ dispersion model so a local regression was substituted. If we had more time, we might look at a dispersion plot with the <code>plotDispEsts(dds)</code> function, but as <a href="https://support.bioconductor.org/p/107937/">this bioconductor thread</a> discusses, other visualizations of our data might be more helpful and/or easier to interpret.</p>
+<p>Next, we’ll look at the results of the transformation.</p>
+<pre class="r"><code>head(assay(rld), 2)</code></pre>
+<pre><code>##                    Sample_116498 Sample_116499 Sample_116500 Sample_116501 Sample_116502 Sample_116503
+## ENSMUSG00000000001     12.635215     12.609457      12.76686     12.616921     12.705707     12.661095
+## ENSMUSG00000000028      8.096766      8.350835       8.17923      8.391328      8.616073      8.653318
+##                    Sample_116504 Sample_116505 Sample_116506 Sample_116507 Sample_116508 Sample_116509
+## ENSMUSG00000000001      12.54194      12.52138      12.49388      12.71019      12.52632      12.48844
+## ENSMUSG00000000028      10.71402      10.77955      10.88032      11.01995      10.93564      10.96100</code></pre>
+<p>Looking at the rld values, we can see that they are now in log scale. Since we set <code>blind=TRUE</code>, the transformation is blind to the sample information we specified in the design formula. The normalized counts are helpful for visualization methods during expression-level quality assessment but <strong>aren’t used in the model fitting</strong>.</p>
+</div>
+</div>
+<div id="deseq2-model-fitting" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> DESeq2 Model Fitting</h1>
+<p>Next, we’ll fit our standard model using the <code>DESeq</code> function and take a look at the objects we generate.</p>
+<pre class="r"><code>dds &lt;- DESeq(dds)</code></pre>
+<p>This command applies the model to our data, using the sample information supplied when generating the <code>dds</code> object so it takes some time to run.</p>
+<pre class="r"><code>resultsNames(dds)</code></pre>
+<pre><code>## [1] &quot;Intercept&quot;                    &quot;Gtype.Tx_ko.Tx_vs_wt.Tx&quot;      &quot;Gtype.Tx_ko.control_vs_wt.Tx&quot;
+## [4] &quot;Gtype.Tx_wt.control_vs_wt.Tx&quot;</code></pre>
+<p>The results include three pairwise comparisons to the specified control as default but other information is now stored in the <code>dds</code> object so we can generate additional pairwise comparisons.</p>
+<pre class="r"><code>head(dds)</code></pre>
+<p><strong>Checkpoint</strong>: <em>If you see the same results when you execute <code>resultsNames(dds)</code>, please indicate with the green ‘yes’ button. Otherwise, please use the red ‘x’ button to get help before the break</em></p>
+<div id="optional-exercise" class="section level4" number="3.0.0.1">
+<h4><span class="header-section-number">3.0.0.1</span> [Optional Exercise]</h4>
+<p>If you executed the commands in the option exercise from Module 07, you can fit a seperate DESeq2 model for the patient sample example, which included a covariate in our model.</p>
+<details>
+<summary>
+<em>Click for fitting a model that includes a covariate</em>
+</summary>
+<p><code>r     dds_patient &lt;- DESeq(dds_patient)</code></p>
+<code>r     resultsNames(dds_patient)</code> If you run through the optional exercises, you can explore the impact of adding a covariate by substituting <code>dds_patient</code> for <code>dds</code> and re-running those commands since both DESeq2 objects have their data organized in the same way.
+</details>
+</div>
+</div>
+<div id="summary" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Summary</h1>
+<p>In this section, we:</p>
+<ul>
+<li>Learned about count normalizations and uses<br />
+</li>
+<li>Generated a normalized count table<br />
+</li>
+<li>Fit two DESeq2 models for our data<br />
+</li>
+<li>Saw the impact of including a covariate in our model</li>
+</ul>
+<hr />
+</div>
+<div id="sources" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Sources</h1>
+<div id="training-resources-used-to-develop-materials" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Training resources used to develop materials</h2>
+<ul>
+<li>HBC DGE setup: <a href="https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/01_DGE_setup_and_overview.html</a></li>
+<li>HBC Count Normalization: <a href="https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/02_DGE_count_normalization.html</a></li>
+<li>DESeq2 standard vignette: <a href="http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html" class="uri">http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html</a></li>
+<li>DESeq2 beginners vignette: <a href="https://bioc.ism.ac.jp/packages/2.14/bioc/vignettes/DESeq2/inst/doc/beginner.pdf" class="uri">https://bioc.ism.ac.jp/packages/2.14/bioc/vignettes/DESeq2/inst/doc/beginner.pdf</a></li>
+<li>Bioconductor RNA-seq Workflows: <a href="https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/B02.1_RNASeq.html" class="uri">https://www.bioconductor.org/help/course-materials/2015/LearnBioconductorFeb2015/B02.1_RNASeq.html</a></li>
+</ul>
+<p>These materials have been adapted and extended from materials listed above. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDIgLSBNb2R1bGUgMDg6IENvdW50IG5vcm1hbGl6YXRpb25zIGFuZCBERVNlcTIgbW9kZWwgZml0dGluZyIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKZGF0ZTogImByIFN5cy5EYXRlKClgIgpvdXRwdXQ6CiAgICAgICAgaHRtbF9kb2N1bWVudDoKICAgICAgICAgICAgaW5jbHVkZXM6CiAgICAgICAgICAgICAgICBpbl9oZWFkZXI6IGhlYWRlci5odG1sCiAgICAgICAgICAgIHRoZW1lOiBwYXBlcgogICAgICAgICAgICB0b2M6IHRydWUKICAgICAgICAgICAgdG9jX2RlcHRoOiA0CiAgICAgICAgICAgIHRvY19mbG9hdDogdHJ1ZQogICAgICAgICAgICBudW1iZXJfc2VjdGlvbnM6IHRydWUKICAgICAgICAgICAgZmlnX2NhcHRpb246IHRydWUKICAgICAgICAgICAgbWFya2Rvd246IEdGTQogICAgICAgICAgICBjb2RlX2Rvd25sb2FkOiB0cnVlCi0tLQo8c3R5bGUgdHlwZT0idGV4dC9jc3MiPgpib2R5eyAvKiBOb3JtYWwgICovCiAgICAgIGZvbnQtc2l6ZTogMTRwdDsKICB9CnByZSB7CiAgZm9udC1zaXplOiAxMnB0Cn0KY29kZS5yewogIGZvbnQtc2l6ZTogMTJwdDsKfQo8L3N0eWxlPgoKPCEtLS0gQWxsb3cgdGhlIHBhZ2UgdG8gYmUgd2lkZXIgLS0tPgo8c3R5bGU+CiAgICBib2R5IC5tYWluLWNvbnRhaW5lciB7CiAgICAgICAgbWF4LXdpZHRoOiAxMjAwcHg7CiAgICB9Cjwvc3R5bGU+Cgo+ICMgT2JqZWN0aXZlczogICAgCj4gKiBEaXNjdXNzIGNvdW50IG5vcm1hbGl6YXRpb25zCj4gKiBFeGVjdXRlIG1vZGVsIGZpdHRpbmcgZm9yIGRpZmZlcmVudGlhbCBleHByZXNzaW9uIGNvbXBhcmlzb25zCgpgYGB7ciBMb2FkUnVubmluZ0RhdGEsIGV2YWw9VFJVRSwgZWNobz1GQUxTRSwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KbGlicmFyeShERVNlcTIpCmxvYWQoInJkYXRhL1J1bm5pbmdEYXRhLlJEYXRhIikKYGBgCgoKIyBEaWZmZXJlbnRpYWwgRXhwcmVzc2lvbiBXb3JrZmxvdwoKSGVyZSB3ZSB3aWxsIHByb2NlZWQgd2l0aCBjb3VudCBub3JtYWxpemF0aW9ucyBhbmQgZml0IG91ciBERVNlcTIgbW9kZWwuCgohW10oLi9pbWFnZXMvd2F5ZmluZGVyL3dheWZpbmRlci0wNC5wbmcpe3dpZHRoPTc1JX0KCi0tLQoKIyBDb3VudCBub3JtYWxpemF0aW9ucwoKU2luY2UgY291bnRzIG9mIG1hcHBlZCByZWFkcyBmb3IgZWFjaCBnZW5lIGlzIHByb3BvcnRpb25hbCB0byB0aGUgZXhwcmVzc2lvbiBvZiBSTkEgaW4gYWRkaXRpb24gdG8gbWFueSDigJx1bmludGVyZXN0aW5n4oCdIG90aGVyIGZhY3RvcnMsIG5vcm1hbGl6YXRpb24gaXMgdGhlIHByb2Nlc3Mgb2Ygc2NhbGluZyByYXcgY291bnQgdmFsdWVzIHRvIGFjY291bnQgZm9yIHRoZSDigJx1bmludGVyZXN0aW5n4oCdIGZhY3RvcnMgYW5kIGVuc3VyZSBleHByZXNzaW9uIGxldmVscyBhcmUgbW9yZSBjb21wYXJhYmxlLgoKIyMgTm9ybWFsaXphdGlvbiBnb2FscwoKVHdvIGNvbW1vbiBmYWN0b3JzIHRoYXQgbmVlZCB0byBiZSBhY2NvdW50ZWQgZm9yIGR1cmluZyBub3JtYWxpemF0aW9uIGFyZSAqKnNlcXVlbmNpbmcgZGVwdGgqKiBhbmQgKipnZW5lIGxlbmd0aCoqLiBDb21tb24gbm9ybWFsaXphdGlvbiBhcHByb2FjaGVzIChzdWNoIGFzIEZQS00sIFJQS00sIENQTSwgVFBNLCBldGMuKSBhY2NvdW50IGZvciBvbmUgb3IgYm90aCBvZiB0aGVzZSBmYWN0b3JzLiAgICAKCiogKipTZXF1ZW5jaW5nIGRlcHRoKiogbm9ybWFsaXphdGlvbiBpcyBuZWNlc3NhcnkgdG8gYWNjb3VudCBmb3IgdGhlIHByb3BvcnRpb24gb2YgcmVhZHMgcGVyIGdlbmUgZXhwZWN0ZWQgZm9yIG1vcmUgZGVlcGx5IHNlcXVlbmNlZCBzYW1wbGVzIChsaWtlIGluIHBpbmsgYmVsb3cpIHZlcnN1cyBhIGxlc3MgZGVlcGx5IHNlcXVlbmNlZCBzYW1wbGUgKGxpa2UgaW4gZ3JlZW4gYmVsb3cpLiAgICAKCiFbKk5vdGUgdGhhdCBlYWNoIHBpbmsgb3IgZ3JlZW4gcmVjdGFuZ2xlIHJlcHJlc2VudHMgYW4gYWxpZ25lZCByZWFkLCB3aXRoIHJlYWRzIHNwYW5uaW5nIGFuIGludHJvbiBjb25uZWN0ZWQgYnkgYSBkYXNoZWQgbGluZS4gRmlndXJlIGZyb20gW0hCQyAgdHJhaW5pbmcgbWF0ZXJpYWxzXShodHRwczovL2hiY3RyYWluaW5nLmdpdGh1Yi5pby9ER0Vfd29ya3Nob3AvbGVzc29ucy8wMl9ER0VfY291bnRfbm9ybWFsaXphdGlvbi5odG1sKSpdKC4vaW1hZ2VzL25vcm1hbGl6YXRpb25fbWV0aG9kc19kZXB0aC5wbmcpICAgIAoKCiogKipHZW5lIGxlbmd0aCoqIG5vcm1hbGl6YXRpb24gaXMgbmVjZXNzYXJ5IHNpbmNlIGdlbmVzIG9mIGRpZmZlcmVudCBsZW5ndGhzIGhhdmUgZGlmZmVyZW50IHByb2JhYmlsaXRpZXMgb2YgZ2VuZXJhdGluZyBmcmFnbWVudHMgdGhhdCBlbmQgdXAgaW4gdGhlIGxpYnJhcnkuIEluIHRoZSBleGFtcGxlIGJlbG93LCBib3RoIGdlbmVzIGhhdmUgc2ltaWxhciBsZXZlbHMgb2YgZXhwcmVzc2lvbi4gSG93ZXZlciwgdGhlIGxvbmdlciBnZW5lIChHZW5lIFgpIHdpbGwgaGF2ZSBtb3JlIG1hcHBlZCByZWFkcyB0aGFuIHRoZSBzaG9ydCBnZW5lIChHZW5lIFkpLiAgICAKCiFbKkVhY2ggcGluayByZWN0YW5nbGUgcmVwcmVzZW50cyBhbiBhbGlnbmVkIHJlYWQsIHdpdGggcmVhZHMgc3Bhbm5pbmcgYW4gaW50cm9uIGNvbm5lY3RlZCBieSBhIGRhc2hlZCBsaW5lLiBGaWd1cmUgZnJvbSBbSEJDICB0cmFpbmluZyBtYXRlcmlhbHNdKGh0dHBzOi8vaGJjdHJhaW5pbmcuZ2l0aHViLmlvL0RHRV93b3Jrc2hvcC9sZXNzb25zLzAyX0RHRV9jb3VudF9ub3JtYWxpemF0aW9uLmh0bWwpKl0oLi9pbWFnZXMvbm9ybWFsaXphdGlvbl9tZXRob2RzX2xlbmd0aC5wbmcpe3dpZHRoPTc1JX0gICAgICAKCgo+ICoqTm90ZSoqOiBUaGUgYWJvdmUgZmlndXJlcyBhcmUgb3JpZ2luYWxseSBmcm9tIGEgW0hCQyAgdHV0b3JpYWxdKGh0dHBzOi8vaGJjdHJhaW5pbmcuZ2l0aHViLmlvL0RHRV93b3Jrc2hvcC9sZXNzb25zLzAyX0RHRV9jb3VudF9ub3JtYWxpemF0aW9uLmh0bWwpIHRoYXQgYWxzbyBpbmNsdWRlcyBhIGRldGFpbGVkIGNvbXBhcmlzb24gb2YgZGlmZmVyZW50IG5vcm1hbGl6YXRpb24gKENQTSwgVFBNLCBGUEtNKSBhcHByb2FjaGVzIGFuZCB0aGVpciBiZXN0IHVzZXMuCgoqKkNoZWNrLWluOiBRdWVzdGlvbnMgYWJvdXQgbm9ybWFsaXphdGlvbnM/KioKCiMjIERFU2VxMiBub3JtYWxpemF0aW9ucwoKREVTZXEyIGhhcyBhbiBbaW50ZXJuYWwgbm9ybWFsaXphdGlvbiBwcm9jZXNzXShodHRwczovL2dlbm9tZWJpb2xvZ3kuYmlvbWVkY2VudHJhbC5jb20vYXJ0aWNsZXMvMTAuMTE4Ni9nYi0yMDEwLTExLTEwLXIxMDYpIHRoYXQgYWNjb3VudHMgZm9yICoqUk5BIGNvbXBvc2l0aW9uKiouIEEgZmV3IGhpZ2hseSBkaWZmZXJlbnRpYWxseSBleHByZXNzZWQgZ2VuZXMsIGRpZmZlcmVuY2VzIGluIHRoZSBudW1iZXIgb2YgZ2VuZXMgZXhwcmVzc2VkIGJldHdlZW4gc2FtcGxlcywgb3IgY29udGFtaW5hdGlvbiBhcmUgbm90IGFjY291bnRlZCBmb3IgYnkgZGVwdGggb3IgZ2VuZSBsZW5ndGggbm9ybWFsaXphdGlvbiBtZXRob2RzLiBBY2NvdW50aW5nIGZvciBSTkEgY29tcG9zaXRpb24gaXMgcGFydGljdWxhcmx5IGltcG9ydGFudCBmb3IgZGlmZmVyZW50aWFsIGV4cHJlc3Npb24gYW5hbHlzZXMsIHJlZ2FyZGxlc3Mgb2YgdGhlIHRvb2wgdXNlZC4KCkZvciBkYXRhIGV4cGxvcmF0aW9uIGFuZCB2aXN1YWxpemF0aW9ucywgaXQgaXMgaGVscGZ1bCB0byBnZW5lcmF0ZSBhbiBvYmplY3Qgb2YgaW5kZXBlbmRlbnRseSBub3JtYWxpemVkIGNvdW50cy4gV2Ugd2lsbCB1c2UgdGhlIFtybG9nIHRyYW5zZm9ybWF0aW9uXShodHRwOi8vYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9ERVNlcTIvaW5zdC9kb2MvREVTZXEyLmh0bWwjY291bnQtZGF0YS10cmFuc2Zvcm1hdGlvbnMpIHRoYXQgYWNjb3VudHMgZm9yIHNlcXVlbmNpbmcgZGVwdGggZm9yIGVhY2ggc2FtcGxlIGFuZCBSTkEgY29tcG9zaXRpb24gZGlmZmVyZW5jZXMgaW4gdGhlIG92ZXJhbGwgZXhwZXJpbWVudCBmb3IgZG93bnN0cmVhbSBxdWFsaXR5IGNvbnRyb2wgdmlzdWFsaXphdGlvbnMuCgpUaGUgcmxvZyB0cmFuc2Zvcm1hdGlvbiBwcm9kdWNlcyBsb2cyIHNjYWxlIGRhdGEgdGhhdCBoYXMgYWxzbyBiZWVuIG5vcm1hbGl6ZWQgdG8gb3ZlcmFsbCBsaWJyYXJ5IHNpemUgYXMgd2VsbCBhcyB2YXJpYW5jZSBhY3Jvc3MgZ2VuZXMgYXQgZGlmZmVyZW50IG1lYW4gZXhwcmVzc2lvbiBsZXZlbHMuIEZvciBsYXJnZXIgbnVtYmVycyBvZiBzYW1wbGVzLCB0aGVyZSBpcyBhbiBhbHRlcm5hdGl2ZSB0cmFuc2Zvcm1hdGlvbiBtZXRob2QsIFt2c3RdKGh0dHA6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9yZWxlYXNlL2Jpb2MvdmlnbmV0dGVzL0RFU2VxMi9pbnN0L2RvYy9ERVNlcTIuaHRtbCNjb3VudC1kYXRhLXRyYW5zZm9ybWF0aW9ucykgdGhhdCBjYW4gYmUgdXNlZCBpbnN0ZWFkIGZvciBjb3VudCBub3JtYWxpemF0aW9ucy4KCgpUaGUgY29tbWFuZCB0byBnZW5lcmF0ZSB0aGUgbm9ybWFsaXplZCBjb3VudCBvYmplY3QgaGFzIGEgZmV3IHBhcnRzLCBpbmNsdWRpbmcgYGRkc2AgYXMgYW4gaW5wdXQgYW5kIHByb3ZpZGluZyBhIHZhbHVlIHRvIHRoZSBvcHRpb24gYGJsaW5kYC4KYGBge3IgQ291bnROb3JtfQpybGQgPC0gcmxvZyhkZHMsIGJsaW5kID0gVFJVRSkKYGBgCgoqTm90ZTogV2Ugc2VlIGEgbWVzc2FnZSBoZXJlIHRoYXQgb3VyIGRhdGEgZGlkIG5vdCBmaXQgdGhlIGRlZmF1bHQgJ3BhcmFtZXRyaWMnIGRpc3BlcnNpb24gbW9kZWwgc28gYSBsb2NhbCByZWdyZXNzaW9uIHdhcyBzdWJzdGl0dXRlZC4gSWYgd2UgaGFkIG1vcmUgdGltZSwgd2UgbWlnaHQgbG9vayBhdCBhIGRpc3BlcnNpb24gcGxvdCB3aXRoIHRoZSBgcGxvdERpc3BFc3RzKGRkcylgIGZ1bmN0aW9uLCBidXQgYXMgW3RoaXMgYmlvY29uZHVjdG9yIHRocmVhZF0oaHR0cHM6Ly9zdXBwb3J0LmJpb2NvbmR1Y3Rvci5vcmcvcC8xMDc5MzcvKSBkaXNjdXNzZXMsIG90aGVyIHZpc3VhbGl6YXRpb25zIG9mIG91ciBkYXRhIG1pZ2h0IGJlIG1vcmUgaGVscGZ1bCBhbmQvb3IgZWFzaWVyIHRvIGludGVycHJldC4KCk5leHQsIHdlJ2xsIGxvb2sgYXQgdGhlIHJlc3VsdHMgb2YgdGhlIHRyYW5zZm9ybWF0aW9uLgpgYGB7ciBDb3VudE5vcm1DaGVja30KaGVhZChhc3NheShybGQpLCAyKQpgYGAKCkxvb2tpbmcgYXQgdGhlIHJsZCB2YWx1ZXMsIHdlIGNhbiBzZWUgdGhhdCB0aGV5IGFyZSBub3cgaW4gbG9nIHNjYWxlLiBTaW5jZSB3ZSBzZXQgYGJsaW5kPVRSVUVgLCB0aGUgdHJhbnNmb3JtYXRpb24gaXMgYmxpbmQgdG8gdGhlIHNhbXBsZSBpbmZvcm1hdGlvbiB3ZSBzcGVjaWZpZWQgaW4gdGhlIGRlc2lnbiBmb3JtdWxhLiBUaGUgbm9ybWFsaXplZCBjb3VudHMgYXJlIGhlbHBmdWwgZm9yIHZpc3VhbGl6YXRpb24gbWV0aG9kcyBkdXJpbmcgZXhwcmVzc2lvbi1sZXZlbCBxdWFsaXR5IGFzc2Vzc21lbnQgYnV0ICoqYXJlbid0IHVzZWQgaW4gdGhlIG1vZGVsIGZpdHRpbmcqKi4KCiMgREVTZXEyIE1vZGVsIEZpdHRpbmcKCk5leHQsIHdlJ2xsIGZpdCBvdXIgc3RhbmRhcmQgbW9kZWwgdXNpbmcgdGhlIGBERVNlcWAgZnVuY3Rpb24gYW5kIHRha2UgYSBsb29rIGF0IHRoZSBvYmplY3RzIHdlIGdlbmVyYXRlLgpgYGB7ciBGaXRNb2RlbFN0YW5kYXJkLCBtZXNzYWdlPUZBTFNFfQpkZHMgPC0gREVTZXEoZGRzKQpgYGAKClRoaXMgY29tbWFuZCBhcHBsaWVzIHRoZSBtb2RlbCB0byBvdXIgZGF0YSwgdXNpbmcgdGhlIHNhbXBsZSBpbmZvcm1hdGlvbiBzdXBwbGllZCB3aGVuIGdlbmVyYXRpbmcgdGhlIGBkZHNgIG9iamVjdCBzbyBpdCB0YWtlcyBzb21lIHRpbWUgdG8gcnVuLgoKYGBge3IgRml0TW9kZWxTdGFuZGFyZENoZWNrMSwgZXZhbD1UUlVFfQpyZXN1bHRzTmFtZXMoZGRzKQpgYGAKClRoZSByZXN1bHRzIGluY2x1ZGUgdGhyZWUgcGFpcndpc2UgY29tcGFyaXNvbnMgdG8gdGhlIHNwZWNpZmllZCBjb250cm9sIGFzIGRlZmF1bHQgYnV0IG90aGVyIGluZm9ybWF0aW9uIGlzIG5vdyBzdG9yZWQgaW4gdGhlIGBkZHNgIG9iamVjdCBzbyB3ZSBjYW4gZ2VuZXJhdGUgYWRkaXRpb25hbCBwYWlyd2lzZSBjb21wYXJpc29ucy4KCmBgYHtyIEZpdE1vZGVsU3RhbmRhcmRDaGVjazIsIGV2YWw9RkFMU0V9CmhlYWQoZGRzKQpgYGAKCioqQ2hlY2twb2ludCoqOiAqSWYgeW91IHNlZSB0aGUgc2FtZSByZXN1bHRzIHdoZW4geW91IGV4ZWN1dGUgYHJlc3VsdHNOYW1lcyhkZHMpYCwgcGxlYXNlIGluZGljYXRlIHdpdGggdGhlIGdyZWVuICd5ZXMnIGJ1dHRvbi4gT3RoZXJ3aXNlLCBwbGVhc2UgdXNlIHRoZSByZWQgJ3gnIGJ1dHRvbiB0byBnZXQgaGVscCBiZWZvcmUgdGhlIGJyZWFrKgoKCgojIyMjIFtPcHRpb25hbCBFeGVyY2lzZV0KCklmIHlvdSBleGVjdXRlZCB0aGUgY29tbWFuZHMgaW4gdGhlIG9wdGlvbiBleGVyY2lzZSBmcm9tIE1vZHVsZSAwNywgeW91IGNhbiBmaXQgYSBzZXBlcmF0ZSBERVNlcTIgbW9kZWwgZm9yIHRoZSBwYXRpZW50IHNhbXBsZSBleGFtcGxlLCB3aGljaCBpbmNsdWRlZCBhIGNvdmFyaWF0ZSBpbiBvdXIgbW9kZWwuCgo8ZGV0YWlscz4KICAgIDxzdW1tYXJ5PipDbGljayBmb3IgZml0dGluZyBhIG1vZGVsIHRoYXQgaW5jbHVkZXMgYSBjb3ZhcmlhdGUqPC9zdW1tYXJ5PgogICAgYGBge3IgRml0TW9kZWxDb3ZhcmlhdGUsIGV2YWw9IEZBTFNFLCBtZXNzYWdlPUZBTFNFfQogICAgZGRzX3BhdGllbnQgPC0gREVTZXEoZGRzX3BhdGllbnQpCiAgICBgYGAKICAgIGBgYHtyIEZpdE1vZGVsQ292YXJpYXRlQ2hlY2sxLGV2YWw9RkFMU0V9CiAgICByZXN1bHRzTmFtZXMoZGRzX3BhdGllbnQpCiAgICBgYGAKICAgIElmIHlvdSBydW4gdGhyb3VnaCB0aGUgb3B0aW9uYWwgZXhlcmNpc2VzLCB5b3UgY2FuIGV4cGxvcmUgdGhlIGltcGFjdCBvZiBhZGRpbmcgYSBjb3ZhcmlhdGUgYnkgc3Vic3RpdHV0aW5nIGBkZHNfcGF0aWVudGAgZm9yIGBkZHNgIGFuZCByZS1ydW5uaW5nIHRob3NlIGNvbW1hbmRzIHNpbmNlIGJvdGggREVTZXEyIG9iamVjdHMgaGF2ZSB0aGVpciBkYXRhIG9yZ2FuaXplZCBpbiB0aGUgc2FtZSB3YXkuCjwvZGV0YWlscz4KCgoKCiMgU3VtbWFyeQoKSW4gdGhpcyBzZWN0aW9uLCB3ZTogICAKCiogTGVhcm5lZCBhYm91dCBjb3VudCBub3JtYWxpemF0aW9ucyBhbmQgdXNlcyAgICAKKiBHZW5lcmF0ZWQgYSBub3JtYWxpemVkIGNvdW50IHRhYmxlICAgIAoqIEZpdCB0d28gREVTZXEyIG1vZGVscyBmb3Igb3VyIGRhdGEgICAgCiogU2F3IHRoZSBpbXBhY3Qgb2YgaW5jbHVkaW5nIGEgY292YXJpYXRlIGluIG91ciBtb2RlbAoKCgotLS0KCiMgU291cmNlcwojIyBUcmFpbmluZyByZXNvdXJjZXMgdXNlZCB0byBkZXZlbG9wIG1hdGVyaWFscwoqIEhCQyBER0Ugc2V0dXA6IGh0dHBzOi8vaGJjdHJhaW5pbmcuZ2l0aHViLmlvL0RHRV93b3Jrc2hvcC9sZXNzb25zLzAxX0RHRV9zZXR1cF9hbmRfb3ZlcnZpZXcuaHRtbAoqIEhCQyBDb3VudCBOb3JtYWxpemF0aW9uOiBodHRwczovL2hiY3RyYWluaW5nLmdpdGh1Yi5pby9ER0Vfd29ya3Nob3AvbGVzc29ucy8wMl9ER0VfY291bnRfbm9ybWFsaXphdGlvbi5odG1sCiogREVTZXEyIHN0YW5kYXJkIHZpZ25ldHRlOiBodHRwOi8vYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9kZXZlbC9iaW9jL3ZpZ25ldHRlcy9ERVNlcTIvaW5zdC9kb2MvREVTZXEyLmh0bWwKKiBERVNlcTIgYmVnaW5uZXJzIHZpZ25ldHRlOiBodHRwczovL2Jpb2MuaXNtLmFjLmpwL3BhY2thZ2VzLzIuMTQvYmlvYy92aWduZXR0ZXMvREVTZXEyL2luc3QvZG9jL2JlZ2lubmVyLnBkZgoqIEJpb2NvbmR1Y3RvciBSTkEtc2VxIFdvcmtmbG93czogaHR0cHM6Ly93d3cuYmlvY29uZHVjdG9yLm9yZy9oZWxwL2NvdXJzZS1tYXRlcmlhbHMvMjAxNS9MZWFybkJpb2NvbmR1Y3RvckZlYjIwMTUvQjAyLjFfUk5BU2VxLmh0bWwKCgoKYGBge3IgV3JpdGVPdXQuUkRhdGEsIGV2YWw9VFJVRSwgZWNobz1GQUxTRSwgbWVzc2FnZT1GQUxTRSwgd2FybmluZz1GQUxTRX0KI0hpZGRlbiBjb2RlIGJsb2NrIHRvIHdyaXRlIG91dCBkYXRhIGZvciBrbml0dGluZwpzYXZlLmltYWdlKGZpbGUgPSAicmRhdGEvUnVubmluZ0RhdGEuUkRhdGEiKQoKYGBgCgoKVGhlc2UgbWF0ZXJpYWxzIGhhdmUgYmVlbiBhZGFwdGVkIGFuZCBleHRlbmRlZCBmcm9tIG1hdGVyaWFscyBsaXN0ZWQgYWJvdmUuIFRoZXNlIGFyZSBvcGVuIGFjY2VzcyBtYXRlcmlhbHMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIHRlcm1zIG9mIHRoZSBbQ3JlYXRpdmUgQ29tbW9ucyBBdHRyaWJ1dGlvbiBsaWNlbnNlIChDQyBCWSA0LjApXShodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9saWNlbnNlcy9ieS80LjAvKSwgd2hpY2ggcGVybWl0cyB1bnJlc3RyaWN0ZWQgdXNlLCBkaXN0cmlidXRpb24sIGFuZCByZXByb2R1Y3Rpb24gaW4gYW55IG1lZGl1bSwgcHJvdmlkZWQgdGhlIG9yaWdpbmFsIGF1dGhvciBhbmQgc291cmNlIGFyZSBjcmVkaXRlZC4K</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module08_DESeq2DE.Rmd");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 1 - Module 02: More QC</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 1 - Module 02: More QC</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="more-qc---cutadapt" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> More QC - Cutadapt</h1>
+<p>In this module we will learn:</p>
+<ul>
+<li>about the cutadapt software and its uses</li>
+<li>how to use the cutadapt tool for trimming adapters</li>
+<li>how to trim all of our samples in a for-loop</li>
+</ul>
+</div>
+<div id="differential-expression-workflow" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Differential Expression Workflow</h1>
+<p>As a reminder, our overall differential expression workflow is shown below. In this lesson, we will go over the highlighed portion of the workflow.</p>
+<p><img src="images/wayfinder/wayfinder-01.png" /> <br> <br> <br> <br></p>
+</div>
+<div id="cutadapt" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Cutadapt</h1>
+<p><a href="https://cutadapt.readthedocs.io/en/stable/">Cutadapt</a> is a very widely used read trimming and fastq processing software, cited several thousands of times. It’s written in python, and is user-friendly and reasonably fast.</p>
+<p>It is used for removing adapter sequences, primers, and poly-A tails, for trimming based on quality thresholds, for filtering reads based on characteristics, etc.</p>
+<p>It can operate on both FASTA and FASTQ file formats, and it supports compressed or raw inputs and outputs.</p>
+<p>Notably, cutadapt’s error-tolerant adapter trimming likely contributed greatly to its early popularity. We will use it to trim the adapters from our reads. Similar to earlier, we’ll discuss the details of cutadapt’s functionality and input/output files, before proceeding to an exercise where we can try running the software ourselves.</p>
+<div id="cutadapt-details" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Cutadapt details</h2>
+<p>Cutadapt’s input and output files are simple to understand given its stated purpose. Both input and output are fastq files - the input being the fastq files that need processing, and output being the fastq files after they’ve been processed. Depending on the parameters, chosen outputs often have shorter read lengths due to trimming processes and fewer total reads due to filtering.</p>
+<pre><code># Given the paired-end input files:
+reads/sample_01_R1.fastq.gz
+reads/sample_01_R2.fastq.gz
+# Suitable output filename/paths:
+out_trimmed/sample_01_R1.trimmed.fastq.gz
+out_trimmed/sample_01_R2.trimmed.fastq.gz</code></pre>
+<p>As mentioned above, cutadapt has many capabilities. Depending on the parameters given, we can invoke different functionalities. Given our results from the previous QC module, we know that we need to trim adapters from the reads in our fastq files.</p>
+</div>
+<div id="cutadapt-exercise" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Cutadapt Exercise</h2>
+<ol style="list-style-type: decimal">
+<li>Create a directory for our trimmed reads</li>
+<li>View the help page of the cutadapt tool</li>
+<li>Construct a cutadapt command to trim the adapters from paired-end reads</li>
+<li>View the output of cutadapt, and verify that it’s correct</li>
+</ol>
+<pre><code># Create a directory for the trimmed reads
+mkdir out_trimmed
+# View the help page of Cutadapt
+cutadapt --help
+
+# Construct a cutadapt command to trim adapters from paired-end reads
+cutadapt -a AGATCGGAAGAG -A AGATCGGAAGAG -o out_trimmed/sample_01_R1.trimmed.fastq.gz -p out_trimmed/sample_01_R2.trimmed.fastq.gz ../data/reads/sample_01_R1.fastq.gz ../data/reads/sample_01_R2.fastq.gz
+# View the output of cutadapt, (verify presence of output files and peek into the files)</code></pre>
+<p>At this point, we’ve run cutadapt on one of our samples. We could construct a series of similar commands by altering the sample names. However, there’s an easier way. For this, we’ll use a bash variable.</p>
+</div>
+<div id="bash-variable-exercise" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> Bash Variable Exercise</h2>
+<ol style="list-style-type: decimal">
+<li>Use a bash variable to echo “Hello, World!”</li>
+<li>Use a bash variable to echo “Hello, <Your Name>!”</li>
+</ol>
+<pre><code>noun=World
+echo &quot;Hello, $noun!&quot;
+noun=Travis
+echo &quot;Hello, $noun!&quot;</code></pre>
+<p>Now that we’ve learned the basics of bash variables and of running Cutadapt, let’s try an exercise</p>
+</div>
+<div id="cutadapt-all-samples-exercise-breakout" class="section level2" number="3.4">
+<h2 number="3.4"><span class="header-section-number">3.4</span> Cutadapt All Samples Exercise (Breakout)</h2>
+<ol style="list-style-type: decimal">
+<li>View the help page, and construct a cutadapt command with a bash variable in it</li>
+<li>Use variable reassignment along with our command to trim all samples</li>
+</ol>
+<details>
+<summary>
+Running cutadapt on all samples using a bash variable
+</summary>
+<p><a href="https://gist.github.com/twsaari/aaa43ae3ad45ad4cb2f28f2268e71148">Here</a> is an example of using a bash variable to run cutadapt on all of our samples.</p>
+</details>
+<p>Now that we’ve run cutadapt and trimmed the adapters from our reads, we will quickly re-run FastQC on these trimmed read FASTQs. This will confirm that we’ve successfully trimmed the adapters, and we’ll see that our FASTQ files are ready for sequencing. Since we’ve discussed the FastQC input/output and functionality in the previous module, we’ll go next to an exercise re-running FastQC on the trimmed read data</p>
+</div>
+<div id="re-running-fastqc-exercise" class="section level2" number="3.5">
+<h2 number="3.5"><span class="header-section-number">3.5</span> Re-running FastQC Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Construct and execute FastQC command to evaluate trimmed read FASTQ files</li>
+<li>View the output (filenames)</li>
+</ol>
+<pre><code># We&#39;ll have to create an output directory first
+mkdir out_fastqc_trimmed
+# Construct the fastqc command
+fastqc -o out_fastqc_trimmed out_trimmed/*.fastq.gz
+# Execute the command
+# Then verify that the output files are present
+ls -l out_fastqc_trimmed</code></pre>
+<details>
+<summary>
+Optional exercise - Transfer a FastQC report to personal computer
+</summary>
+<p>Make sure you’re running scp on your <strong>local</strong> computer, requesting a file from the <strong>remote</strong> computer we were just using.</p>
+<p>scp command format, with the address for AWS remote</p>
+<pre><code># Usage: scp [source] [destination]
+scp &lt;username&gt;@bfx-workshop01.med.umich.edu:~/analysis/out_fastqc_trimmed/sample_01_R1.trimmed_fastqc.html ~/rsd-workshop/</code></pre>
+</details>
+<p>Opening the HTML report, we see it is organized by the same modules and each plot has all samples for which FastQC was run. We can see the report confirms that the adapters have been trimmed from our sequence.</p>
+<hr />
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDI6IE1vcmUgUUMiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKIyBNb3JlIFFDIC0gQ3V0YWRhcHQKCkluIHRoaXMgbW9kdWxlIHdlIHdpbGwgbGVhcm46CgoqIGFib3V0IHRoZSBjdXRhZGFwdCBzb2Z0d2FyZSBhbmQgaXRzIHVzZXMKKiBob3cgdG8gdXNlIHRoZSBjdXRhZGFwdCB0b29sIGZvciB0cmltbWluZyBhZGFwdGVycwoqIGhvdyB0byB0cmltIGFsbCBvZiBvdXIgc2FtcGxlcyBpbiBhIGZvci1sb29wCgojIERpZmZlcmVudGlhbCBFeHByZXNzaW9uIFdvcmtmbG93CgpBcyBhIHJlbWluZGVyLCBvdXIgb3ZlcmFsbCBkaWZmZXJlbnRpYWwgZXhwcmVzc2lvbiB3b3JrZmxvdyBpcyBzaG93biBiZWxvdy4gSW4gdGhpcyBsZXNzb24sIHdlIHdpbGwgZ28gb3ZlciB0aGUgaGlnaGxpZ2hlZCBwb3J0aW9uIG9mIHRoZSB3b3JrZmxvdy4KCiFbXShpbWFnZXMvd2F5ZmluZGVyL3dheWZpbmRlci0wMS5wbmcpCjxicj4KPGJyPgo8YnI+Cjxicj4KCiMgQ3V0YWRhcHQKCltDdXRhZGFwdF0oaHR0cHM6Ly9jdXRhZGFwdC5yZWFkdGhlZG9jcy5pby9lbi9zdGFibGUvKSBpcyBhIHZlcnkgd2lkZWx5IHVzZWQgcmVhZCB0cmltbWluZyBhbmQgZmFzdHEgcHJvY2Vzc2luZyBzb2Z0d2FyZSwgY2l0ZWQgc2V2ZXJhbCB0aG91c2FuZHMgb2YgdGltZXMuIEl0J3Mgd3JpdHRlbiBpbiBweXRob24sIGFuZCBpcyB1c2VyLWZyaWVuZGx5IGFuZCByZWFzb25hYmx5IGZhc3QuCgpJdCBpcyB1c2VkIGZvciByZW1vdmluZyBhZGFwdGVyIHNlcXVlbmNlcywgcHJpbWVycywgYW5kIHBvbHktQSB0YWlscywgZm9yIHRyaW1taW5nIGJhc2VkIG9uIHF1YWxpdHkgdGhyZXNob2xkcywgZm9yIGZpbHRlcmluZyByZWFkcyBiYXNlZCBvbiBjaGFyYWN0ZXJpc3RpY3MsIGV0Yy4KCkl0IGNhbiBvcGVyYXRlIG9uIGJvdGggRkFTVEEgYW5kIEZBU1RRIGZpbGUgZm9ybWF0cywgYW5kIGl0IHN1cHBvcnRzIGNvbXByZXNzZWQgb3IgcmF3IGlucHV0cyBhbmQgb3V0cHV0cy4KCk5vdGFibHksIGN1dGFkYXB0J3MgZXJyb3ItdG9sZXJhbnQgYWRhcHRlciB0cmltbWluZyBsaWtlbHkgY29udHJpYnV0ZWQgZ3JlYXRseSB0byBpdHMgZWFybHkgcG9wdWxhcml0eS4gV2Ugd2lsbCB1c2UgaXQgdG8gdHJpbSB0aGUgYWRhcHRlcnMgZnJvbSBvdXIgcmVhZHMuIFNpbWlsYXIgdG8gZWFybGllciwgd2UnbGwgZGlzY3VzcyB0aGUgZGV0YWlscyBvZiBjdXRhZGFwdCdzIGZ1bmN0aW9uYWxpdHkgYW5kIGlucHV0L291dHB1dCBmaWxlcywgYmVmb3JlIHByb2NlZWRpbmcgdG8gYW4gZXhlcmNpc2Ugd2hlcmUgd2UgY2FuIHRyeSBydW5uaW5nIHRoZSBzb2Z0d2FyZSBvdXJzZWx2ZXMuCgoKIyMgQ3V0YWRhcHQgZGV0YWlscwoKQ3V0YWRhcHQncyBpbnB1dCBhbmQgb3V0cHV0IGZpbGVzIGFyZSBzaW1wbGUgdG8gdW5kZXJzdGFuZCBnaXZlbiBpdHMgc3RhdGVkIHB1cnBvc2UuIEJvdGggaW5wdXQgYW5kIG91dHB1dCBhcmUgZmFzdHEgZmlsZXMgLSB0aGUgaW5wdXQgYmVpbmcgdGhlIGZhc3RxIGZpbGVzIHRoYXQgbmVlZCBwcm9jZXNzaW5nLCBhbmQgb3V0cHV0IGJlaW5nIHRoZSBmYXN0cSBmaWxlcyBhZnRlciB0aGV5J3ZlIGJlZW4gcHJvY2Vzc2VkLiBEZXBlbmRpbmcgb24gdGhlIHBhcmFtZXRlcnMsIGNob3NlbiBvdXRwdXRzIG9mdGVuIGhhdmUgc2hvcnRlciByZWFkIGxlbmd0aHMgZHVlIHRvIHRyaW1taW5nIHByb2Nlc3NlcyBhbmQgZmV3ZXIgdG90YWwgcmVhZHMgZHVlIHRvIGZpbHRlcmluZy4KCgogICAgIyBHaXZlbiB0aGUgcGFpcmVkLWVuZCBpbnB1dCBmaWxlczoKICAgIHJlYWRzL3NhbXBsZV8wMV9SMS5mYXN0cS5negogICAgcmVhZHMvc2FtcGxlXzAxX1IyLmZhc3RxLmd6CiAgICAjIFN1aXRhYmxlIG91dHB1dCBmaWxlbmFtZS9wYXRoczoKICAgIG91dF90cmltbWVkL3NhbXBsZV8wMV9SMS50cmltbWVkLmZhc3RxLmd6CiAgICBvdXRfdHJpbW1lZC9zYW1wbGVfMDFfUjIudHJpbW1lZC5mYXN0cS5negoKCkFzIG1lbnRpb25lZCBhYm92ZSwgY3V0YWRhcHQgaGFzIG1hbnkgY2FwYWJpbGl0aWVzLiBEZXBlbmRpbmcgb24gdGhlIHBhcmFtZXRlcnMgZ2l2ZW4sIHdlIGNhbiBpbnZva2UgZGlmZmVyZW50IGZ1bmN0aW9uYWxpdGllcy4gR2l2ZW4gb3VyIHJlc3VsdHMgZnJvbSB0aGUgcHJldmlvdXMgUUMgbW9kdWxlLCB3ZSBrbm93IHRoYXQgd2UgbmVlZCB0byB0cmltIGFkYXB0ZXJzIGZyb20gdGhlIHJlYWRzIGluIG91ciBmYXN0cSBmaWxlcy4KCgojIyBDdXRhZGFwdCBFeGVyY2lzZQoKMS4gQ3JlYXRlIGEgZGlyZWN0b3J5IGZvciBvdXIgdHJpbW1lZCByZWFkcwoyLiBWaWV3IHRoZSBoZWxwIHBhZ2Ugb2YgdGhlIGN1dGFkYXB0IHRvb2wKMy4gQ29uc3RydWN0IGEgY3V0YWRhcHQgY29tbWFuZCB0byB0cmltIHRoZSBhZGFwdGVycyBmcm9tIHBhaXJlZC1lbmQgcmVhZHMKNC4gVmlldyB0aGUgb3V0cHV0IG9mIGN1dGFkYXB0LCBhbmQgdmVyaWZ5IHRoYXQgaXQncyBjb3JyZWN0CgpgYGAKIyBDcmVhdGUgYSBkaXJlY3RvcnkgZm9yIHRoZSB0cmltbWVkIHJlYWRzCm1rZGlyIG91dF90cmltbWVkCiMgVmlldyB0aGUgaGVscCBwYWdlIG9mIEN1dGFkYXB0CmN1dGFkYXB0IC0taGVscAoKIyBDb25zdHJ1Y3QgYSBjdXRhZGFwdCBjb21tYW5kIHRvIHRyaW0gYWRhcHRlcnMgZnJvbSBwYWlyZWQtZW5kIHJlYWRzCmN1dGFkYXB0IC1hIEFHQVRDR0dBQUdBRyAtQSBBR0FUQ0dHQUFHQUcgLW8gb3V0X3RyaW1tZWQvc2FtcGxlXzAxX1IxLnRyaW1tZWQuZmFzdHEuZ3ogLXAgb3V0X3RyaW1tZWQvc2FtcGxlXzAxX1IyLnRyaW1tZWQuZmFzdHEuZ3ogLi4vZGF0YS9yZWFkcy9zYW1wbGVfMDFfUjEuZmFzdHEuZ3ogLi4vZGF0YS9yZWFkcy9zYW1wbGVfMDFfUjIuZmFzdHEuZ3oKIyBWaWV3IHRoZSBvdXRwdXQgb2YgY3V0YWRhcHQsICh2ZXJpZnkgcHJlc2VuY2Ugb2Ygb3V0cHV0IGZpbGVzIGFuZCBwZWVrIGludG8gdGhlIGZpbGVzKQpgYGAKCkF0IHRoaXMgcG9pbnQsIHdlJ3ZlIHJ1biBjdXRhZGFwdCBvbiBvbmUgb2Ygb3VyIHNhbXBsZXMuIFdlIGNvdWxkIGNvbnN0cnVjdCBhIHNlcmllcyBvZiBzaW1pbGFyIGNvbW1hbmRzIGJ5IGFsdGVyaW5nIHRoZSBzYW1wbGUgbmFtZXMuIEhvd2V2ZXIsIHRoZXJlJ3MgYW4gZWFzaWVyIHdheS4gRm9yIHRoaXMsIHdlJ2xsIHVzZSBhIGJhc2ggdmFyaWFibGUuCgojIyBCYXNoIFZhcmlhYmxlIEV4ZXJjaXNlCgoxLiBVc2UgYSBiYXNoIHZhcmlhYmxlIHRvIGVjaG8gIkhlbGxvLCBXb3JsZCEiCjIuIFVzZSBhIGJhc2ggdmFyaWFibGUgdG8gZWNobyAiSGVsbG8sIDxZb3VyIE5hbWU+ISIKCmBgYApub3VuPVdvcmxkCmVjaG8gIkhlbGxvLCAkbm91biEiCm5vdW49VHJhdmlzCmVjaG8gIkhlbGxvLCAkbm91biEiCmBgYAoKTm93IHRoYXQgd2UndmUgbGVhcm5lZCB0aGUgYmFzaWNzIG9mIGJhc2ggdmFyaWFibGVzIGFuZCBvZiBydW5uaW5nIEN1dGFkYXB0LCBsZXQncyB0cnkgYW4gZXhlcmNpc2UKCiMjIEN1dGFkYXB0IEFsbCBTYW1wbGVzIEV4ZXJjaXNlIChCcmVha291dCkKCjEuIFZpZXcgdGhlIGhlbHAgcGFnZSwgYW5kIGNvbnN0cnVjdCBhIGN1dGFkYXB0IGNvbW1hbmQgd2l0aCBhIGJhc2ggdmFyaWFibGUgaW4gaXQKMi4gVXNlIHZhcmlhYmxlIHJlYXNzaWdubWVudCBhbG9uZyB3aXRoIG91ciBjb21tYW5kIHRvIHRyaW0gYWxsIHNhbXBsZXMKCjxkZXRhaWxzPgo8c3VtbWFyeT5SdW5uaW5nIGN1dGFkYXB0IG9uIGFsbCBzYW1wbGVzIHVzaW5nIGEgYmFzaCB2YXJpYWJsZTwvc3VtbWFyeT4KCltIZXJlXShodHRwczovL2dpc3QuZ2l0aHViLmNvbS90d3NhYXJpL2FhYTQzYWUzYWQ0NWFkNGNiMmYyOGYyMjY4ZTcxMTQ4KSBpcyBhbiBleGFtcGxlIG9mIHVzaW5nIGEgYmFzaCB2YXJpYWJsZSB0byBydW4gY3V0YWRhcHQgb24gYWxsIG9mIG91ciBzYW1wbGVzLgoKPC9kZXRhaWxzPgoKCk5vdyB0aGF0IHdlJ3ZlIHJ1biBjdXRhZGFwdCBhbmQgdHJpbW1lZCB0aGUgYWRhcHRlcnMgZnJvbSBvdXIgcmVhZHMsIHdlIHdpbGwgcXVpY2tseSByZS1ydW4gRmFzdFFDIG9uIHRoZXNlIHRyaW1tZWQgcmVhZCBGQVNUUXMuIFRoaXMgd2lsbCBjb25maXJtIHRoYXQgd2UndmUgc3VjY2Vzc2Z1bGx5IHRyaW1tZWQgdGhlIGFkYXB0ZXJzLCBhbmQgd2UnbGwgc2VlIHRoYXQgb3VyIEZBU1RRIGZpbGVzIGFyZSByZWFkeSBmb3Igc2VxdWVuY2luZy4gU2luY2Ugd2UndmUgZGlzY3Vzc2VkIHRoZSBGYXN0UUMgaW5wdXQvb3V0cHV0IGFuZCBmdW5jdGlvbmFsaXR5IGluIHRoZSBwcmV2aW91cyBtb2R1bGUsIHdlJ2xsIGdvIG5leHQgdG8gYW4gZXhlcmNpc2UgcmUtcnVubmluZyBGYXN0UUMgb24gdGhlIHRyaW1tZWQgcmVhZCBkYXRhCgojIyBSZS1ydW5uaW5nIEZhc3RRQyBFeGVyY2lzZToKCjEuIENvbnN0cnVjdCBhbmQgZXhlY3V0ZSBGYXN0UUMgY29tbWFuZCB0byBldmFsdWF0ZSB0cmltbWVkIHJlYWQgRkFTVFEgZmlsZXMKMi4gVmlldyB0aGUgb3V0cHV0IChmaWxlbmFtZXMpCgpgYGAKIyBXZSdsbCBoYXZlIHRvIGNyZWF0ZSBhbiBvdXRwdXQgZGlyZWN0b3J5IGZpcnN0Cm1rZGlyIG91dF9mYXN0cWNfdHJpbW1lZAojIENvbnN0cnVjdCB0aGUgZmFzdHFjIGNvbW1hbmQKZmFzdHFjIC1vIG91dF9mYXN0cWNfdHJpbW1lZCBvdXRfdHJpbW1lZC8qLmZhc3RxLmd6CiMgRXhlY3V0ZSB0aGUgY29tbWFuZAojIFRoZW4gdmVyaWZ5IHRoYXQgdGhlIG91dHB1dCBmaWxlcyBhcmUgcHJlc2VudApscyAtbCBvdXRfZmFzdHFjX3RyaW1tZWQKYGBgCgo8ZGV0YWlscz4KPHN1bW1hcnk+T3B0aW9uYWwgZXhlcmNpc2UgLSBUcmFuc2ZlciBhIEZhc3RRQyByZXBvcnQgdG8gcGVyc29uYWwgY29tcHV0ZXI8L3N1bW1hcnk+CgpNYWtlIHN1cmUgeW91J3JlIHJ1bm5pbmcgc2NwIG9uIHlvdXIgKipsb2NhbCoqIGNvbXB1dGVyLCByZXF1ZXN0aW5nIGEgZmlsZSBmcm9tIHRoZSAqKnJlbW90ZSoqIGNvbXB1dGVyIHdlIHdlcmUganVzdCB1c2luZy4KCnNjcCBjb21tYW5kIGZvcm1hdCwgd2l0aCB0aGUgYWRkcmVzcyBmb3IgQVdTIHJlbW90ZQoKYGBgCiMgVXNhZ2U6IHNjcCBbc291cmNlXSBbZGVzdGluYXRpb25dCnNjcCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHU6fi9hbmFseXNpcy9vdXRfZmFzdHFjX3RyaW1tZWQvc2FtcGxlXzAxX1IxLnRyaW1tZWRfZmFzdHFjLmh0bWwgfi9yc2Qtd29ya3Nob3AvCmBgYAoKPC9kZXRhaWxzPgoKT3BlbmluZyB0aGUgSFRNTCByZXBvcnQsIHdlIHNlZSBpdCBpcyBvcmdhbml6ZWQgYnkgdGhlIHNhbWUgbW9kdWxlcyBhbmQgZWFjaCBwbG90IGhhcyBhbGwgc2FtcGxlcyBmb3Igd2hpY2ggRmFzdFFDIHdhcyBydW4uIFdlIGNhbiBzZWUgdGhlIHJlcG9ydCBjb25maXJtcyB0aGF0IHRoZSBhZGFwdGVycyBoYXZlIGJlZW4gdHJpbW1lZCBmcm9tIG91ciBzZXF1ZW5jZS4KCi0tLQoKVGhlc2UgbWF0ZXJpYWxzIGhhdmUgYmVlbiBhZGFwdGVkIGFuZCBleHRlbmRlZCBmcm9tIG1hdGVyaWFscyBjcmVhdGVkIGJ5IHRoZSBbSGFydmFyZCBDaGFuIEJpb2luZm9ybWF0aWNzIENvcmUgKEhCQyldKGh0dHA6Ly9iaW9pbmZvcm1hdGljcy5zcGguaGFydmFyZC5lZHUvKS4gVGhlc2UgYXJlIG9wZW4gYWNjZXNzIG1hdGVyaWFscyBkaXN0cmlidXRlZCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIFtDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uIGxpY2Vuc2UgKENDIEJZIDQuMCldKGh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8pLCB3aGljaCBwZXJtaXRzIHVucmVzdHJpY3RlZCB1c2UsIGRpc3RyaWJ1dGlvbiwgYW5kIHJlcHJvZHVjdGlvbiBpbiBhbnkgbWVkaXVtLCBwcm92aWRlZCB0aGUgb3JpZ2luYWwgYXV0aG9yIGFuZCBzb3VyY2UgYXJlIGNyZWRpdGVkLgo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module02optional_Cutadapt_MoreQC.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 1 - Module 04: Alignment</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 1 - Module 04: Alignment</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="alignment" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Alignment</h1>
+<p>In this module, we will learn:</p>
+<ul>
+<li>the concept of splice-aware alignments</li>
+<li>the two steps needed to run RSEM+STAR</li>
+<li>details of SAM and BAM files, and RSEM outputs</li>
+</ul>
+</div>
+<div id="differential-expression-workflow" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Differential Expression Workflow</h1>
+<p>We’ll discuss the alignment and gene quantification steps which gather the necessary data that we will need prior to testing for differential expression, the topic of Day 2.</p>
+<p><img src="images/wayfinder/wayfinder-02.png" /> <br> <br> <br> <br></p>
+</div>
+<div id="alignment-and-gene-quantification" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Alignment and Gene Quantification</h1>
+<p>The FASTQ files of raw sequenced reads are untethered from any notion of where they came from in the genome, and which transcribed genes the sequence belongs to. The alignment and gene quantification steps fill in that gap and allow us to proceed with the question we are really interested in: Which genes are differentially expressed between groups of samples?</p>
+<p>We will use RSEM (<a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-12-323">paper</a> and <a href="https://github.com/deweylab/RSEM">GitHub</a>) combined with STAR Aligner (<a href="https://academic.oup.com/bioinformatics/article/29/1/15/272537">paper</a> and <a href="https://github.com/alexdobin/STAR">GitHub</a>) to accomplish the task of read mapping and gene quantifcation simultaneously.</p>
+<div id="star" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> STAR</h2>
+<p>The “Spliced Transcripts Alignment to a Reference” (STAR) Aligner is aware of splice-sites of transcripts and is able to align reads that span them. The figure below illustrates the difference between splice-unaware aligners (e.g. Bowtie2) and splice-aware aligners (e.g. STAR).</p>
+<p>Some benefits of splice-aware aligners include:</p>
+<ul>
+<li>Fewer reads are discarded for lack of alignments, leading to more accurate gene quantification.</li>
+<li>Direct evidence of isoform usage is possible.</li>
+</ul>
+<p>We should note that the default parameters for STAR are optimized for <strong>mammalian genomes</strong>.</p>
+<center>
+<div class="figure">
+<img src="images/splice_aware.png" alt="" />
+<p class="caption">Splice-aware alignmentt</p>
+</div>
+<p>Credit: <a href="https://raw.githubusercontent.com/hbctraining/Intro-to-rnaseq-hpc-O2/master/lectures/Sequence_alignment.pdf" class="uri">https://raw.githubusercontent.com/hbctraining/Intro-to-rnaseq-hpc-O2/master/lectures/Sequence_alignment.pdf</a></p>
+</center>
+</div>
+<div id="rsem" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> RSEM</h2>
+<p>RSEM (RNA-seq by Expectation Maximization) determines gene and isoform abundance using an expectation maximization (EM) algorithm to determine the probability that any particular read originated from a particular transcript. From there, gene-level quantification is reported by effectively collapsing the isoform quantifications over all isoforms belonging to the gene.</p>
+<p>The primary issue that RSEM attempts to solve is that reads can align to multiple isoforms (when, for example, they share an exon), and that creates ambiguity in deciding which isoform a read gets assigned to for quantification. RSEM uses the EM algorithm described above to handle this ambiguity appropriately.</p>
+</div>
+</div>
+<div id="running-rsemstar" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Running RSEM+STAR</h1>
+<p>RSEM can be run with just two commands: the first <code>rsem-prepare-reference</code> (<a href="https://deweylab.github.io/RSEM/rsem-prepare-reference.html">manual</a>) builds an index for STAR and RSEM to use, and the second <code>rsem-calculate-expression</code> (<a href="https://deweylab.github.io/RSEM/rsem-calculate-expression.html">manual</a>) does the alignment and gene quantification.</p>
+<p>We’ll explore the expected outputs from these commands and discuss their contents, before creating our own reference and aligning reads with our example data.</p>
+<div id="rsem-prepare-reference-details" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> <code>rsem-prepare-reference</code> Details</h2>
+<p>The purpose of <code>rsem-prepare-reference</code> is to create a reference index for alignment. A reference index is essentially a lookup table that speeds up the finding of sequence matches for alignment. In the case of a splice-aware aligner, the reference index is also aware of the various splice junctions at locations in the gene model, and a subset of reads will map across these. This allows us to infer isoform usage later on.</p>
+<p><code>rsem-prepare-reference</code> will use a FASTA file and a GTF as inputs, and it will produce a number of large files which make up the index. RSEM has the flexible capability of supporting multiple different aligners. We’ll be using STAR. The output files therefore contain items from the indexing process of STAR and RSEM. These files allow for the fast and efficient search and retrieval of sequence and gene-model information during alignment and quantification. The outputs will look like the following:</p>
+<pre><code>GRCh38.98.chr22reduced.chrlist
+GRCh38.98.chr22reduced.grp
+GRCh38.98.chr22reduced.idx.fa
+GRCh38.98.chr22reduced.n2g.idx.fa
+GRCh38.98.chr22reduced.seq
+GRCh38.98.chr22reduced.ti
+GRCh38.98.chr22reduced.transcripts.fa
+Genome
+Log.out
+SA
+SAindex
+chrLength.txt
+chrName.txt
+chrNameLength.txt
+chrStart.txt
+exonGeTrInfo.tab
+exonInfo.tab
+geneInfo.tab
+genomeParameters.txt
+sjdbInfo.txt
+sjdbList.fromGTF.out.tab
+sjdbList.out.tab
+transcriptInfo.tab</code></pre>
+</div>
+<div id="rsem-calculate-expression-details" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> <code>rsem-calculate-expression</code> Details</h2>
+<p>After preparing the reference index, we can do alignment and quantification with the <code>rsem-calculate-expression</code> command (<a href="https://deweylab.github.io/RSEM/rsem-calculate-expression.html">here</a> is a link to the manual). For our inputs, we will be using our FASTQ reads and the path to the reference index that we create.</p>
+<p>There are numerous outputs, which are laid out in the following table:</p>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>sample_N.genome.bam</code></td>
+<td>The alignments in genomic coordinates. Used for visualization in a genome browser such as <a href="https://software.broadinstitute.org/software/igv/">IGV</a>.</td>
+</tr>
+<tr class="even">
+<td><code>sample_N.transcript.bam</code></td>
+<td>The alignments in transcriptomic coordinates. Not used for this workshop.</td>
+</tr>
+<tr class="odd">
+<td><code>sample_N.genes.results</code></td>
+<td>Gene-level results to be used in downstream DE analysis.</td>
+</tr>
+<tr class="even">
+<td><code>sample_N.isoforms.results</code></td>
+<td>Isoform-level results. Not used for this workshop.</td>
+</tr>
+</tbody>
+</table>
+<p>The two results we will use most often from RSEM+STAR are the gene-level quantifications (<code>sample_N.genes.results</code>) and the alignments in genome-coordinates (<code>sample_N.genome.bam</code>). Each sample for which we run RSEM+STAR will have these output files named after the sample.</p>
+<div id="genome-alignments" class="section level3" number="4.2.1">
+<h3 number="4.2.1"><span class="header-section-number">4.2.1</span> Genome Alignments</h3>
+<p>The <code>sample_N.genome.bam</code> alignments file is a special, compressed, version of a SAM file (sequence alignment/map). In order to view it, we have to use a special program called <a href="https://www.htslib.org/doc/samtools.html"><code>samtools</code></a>.</p>
+<p>If we were too peek inside of <code>sample_N.genome.bam</code>, we would see:</p>
+<pre><code>$ samtools view ~/workshop_data/rsem_star/sample_N.genome.bam | head -2
+NB551521:212:H5L73AFX2:1:11101:16446:1034       0       2       10022660        255     148M    *       0       0       GANAGACAGATATCCTACAAAACACAGAAAGACTAATAAACTCTTATGTTGACTATGAAAGCTGTAAGAAACTTCCAGAAGAAATATTGAAAATGTAGAATAACTGAAGTGTGCTGTGTGTCCATAGCTGTTCTGCTGAGGAAACATT   AA#EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEAEEEEEEEE&lt;EEEEAEAEEAEA&lt;A&lt;AAAAEEEEEA    NH:i:1  HI:i:1  AS:i:145        NM:i:1  MD:Z:2A145
+NB551521:212:H5L73AFX2:1:11101:16366:1035       0       X       48488697        255     146M    *       0       0       TANGTACGCACACAAATTGATCCATACCTTTACTTCCTTTTTTTCCAGCTACTGAATAAGGGGACCTTTCTATTCCTTTGTGTCTCACCATTTTATTGTCTTTCAGAATCTTCACCTGGTCCATTCATTCCTCTACCCTCTCCTGT     AA#EEEEEEEEEEEEEEEEEEEEEEAEEEEEEEEEEEEEEEEEEE&lt;EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE6EEEAEEEEEEEEEEEEEEEEEAEEEEEEEAAEEEE/&lt;E&lt;AA&lt;&lt;&lt;AAAA&lt;AEE      NH:i:1  HI:i:1  AS:i:143        NM:i:1  MD:Z:2G143</code></pre>
+<p>The <a href="https://en.wikipedia.org/wiki/SAM_(file_format)">SAM format</a> gives information about where each read maps to in the genome (one read per line), and has information about that mapping.</p>
+</div>
+<div id="gene-level-quantification" class="section level3" number="4.2.2">
+<h3 number="4.2.2"><span class="header-section-number">4.2.2</span> Gene-level Quantification</h3>
+<p>If we were to look at the top 3 lines of <code>sample_N.genes.results</code>, we see it is a plain-text file separated by tabs where each row is a gene, and the columns are described the first row.</p>
+<pre><code>$ head -3 ~/workshop_data/rsem_star/sample_N.genes.results</code></pre>
+<table>
+<colgroup>
+<col width="26%" />
+<col width="73%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>gene_id</td>
+<td>The ID from the gene model GTF.</td>
+</tr>
+<tr class="even">
+<td>transcript_id(s)</td>
+<td>The transcript IDs corresponding to the gene in the gene model GTF.</td>
+</tr>
+<tr class="odd">
+<td>length</td>
+<td>The weighted average of its transcripts’ lengths.</td>
+</tr>
+<tr class="even">
+<td>effective_length</td>
+<td>The weighted average, over its transcripts, of the mean number of positions from which a fragment may start within the sequence of transcript.</td>
+</tr>
+<tr class="odd">
+<td>expected_count</td>
+<td>The sum, over all transcripts, of the estimated counts from the EM algorithm.</td>
+</tr>
+<tr class="even">
+<td>TPM</td>
+<td>Transcript per million, a relative measure of transcript abundance where the sum of all TPMs is 1 million.</td>
+</tr>
+<tr class="odd">
+<td>FPKM</td>
+<td>Fragments per kilobase of transcript per million mapped reads.</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>genes.results</code> files for each sample can be directly imported into DESeq2 using the <a href="https://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html#rsem"><code>tximport</code></a> R Bioconductor package.</p>
+<p>Alternatively, we can combine these results into a count matrix. The count matrix can be very useful, since it contains summary-level data in a widely supported format, this makes it great for sharing and as input into different analyses.</p>
+</div>
+</div>
+<div id="rsem-prepare-reference-exercise" class="section level2" number="4.3">
+<h2 number="4.3"><span class="header-section-number">4.3</span> RSEM Prepare Reference Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>View the help page for rsem-prepare-reference</li>
+<li>Create and execute a command that will index our example genome</li>
+<li>Examine the output of the rsem</li>
+</ol>
+<pre><code># View the help file
+rsem-prepare-reference -h
+# Create/execute the prepare-reference command
+rsem-prepare-reference --gtf ../data/refs/GRCh38.98.chr22reduced.gtf --star --num-threads 1 ../data/refs/GRCh38.98.chr22reduced.fa ../data/refs/GRCh38.98.chr22reduced</code></pre>
+</div>
+<div id="rsem-calculate-expression-exercise" class="section level2" number="4.4">
+<h2 number="4.4"><span class="header-section-number">4.4</span> RSEM Calculate Expression Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>View the help page for rsem-calculate-expression</li>
+<li>Create a command to execute RSEM / STAR alignment and quantification for one of our samples</li>
+</ol>
+<pre><code># First create a directory for the aligned results
+mkdir out_rsem
+# Construct an RSEM command to align sample_01 to our reference
+rsem-calculate-expression --star --num-threads 1 --star-gzipped-read-file --star-output-genome-bam --keep-intermediate-files --paired-end out_trimmed/sample_01_R1.trimmed.fastq.gz out_trimmed/sample_01_R2.trimmed.fastq.gz ../data/refs/GRCh38.98.chr22reduced out_rsem/sample_01</code></pre>
+</div>
+<div id="aligning-all-samples-exercise-breakout" class="section level2" number="4.5">
+<h2 number="4.5"><span class="header-section-number">4.5</span> Aligning All Samples Exercise (Breakout):</h2>
+<ol style="list-style-type: decimal">
+<li>Use RSEM+STAR command above, to construct the appropriate commands to run <code>rsem-calculate-expression</code> on each of our samples. Try using a variable.</li>
+<li>View the output, and verify that we have the files we need.</li>
+</ol>
+<hr />
+<p>These materials have been adapted and extended from materials created by the <a href="http://bioinformatics.sph.harvard.edu/">Harvard Chan Bioinformatics Core (HBC)</a>. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDQ6IEFsaWdubWVudCIKYXV0aG9yOiAiVU0gQmlvaW5mb3JtYXRpY3MgQ29yZSIKb3V0cHV0OgogICAgICAgIGh0bWxfZG9jdW1lbnQ6CiAgICAgICAgICAgIGluY2x1ZGVzOgogICAgICAgICAgICAgICAgaW5faGVhZGVyOiBoZWFkZXIuaHRtbAogICAgICAgICAgICB0aGVtZTogcGFwZXIKICAgICAgICAgICAgdG9jOiB0cnVlCiAgICAgICAgICAgIHRvY19kZXB0aDogNAogICAgICAgICAgICB0b2NfZmxvYXQ6IHRydWUKICAgICAgICAgICAgbnVtYmVyX3NlY3Rpb25zOiB0cnVlCiAgICAgICAgICAgIGZpZ19jYXB0aW9uOiB0cnVlCiAgICAgICAgICAgIG1hcmtkb3duOiBHRk0KICAgICAgICAgICAgY29kZV9kb3dubG9hZDogdHJ1ZQotLS0KPHN0eWxlIHR5cGU9InRleHQvY3NzIj4KYm9keXsgLyogTm9ybWFsICAqLwogICAgICBmb250LXNpemU6IDE0cHQ7CiAgfQpwcmUgewogIGZvbnQtc2l6ZTogMTJwdAp9Cjwvc3R5bGU+CgojIEFsaWdubWVudAoKSW4gdGhpcyBtb2R1bGUsIHdlIHdpbGwgbGVhcm46CgoqIHRoZSBjb25jZXB0IG9mIHNwbGljZS1hd2FyZSBhbGlnbm1lbnRzCiogdGhlIHR3byBzdGVwcyBuZWVkZWQgdG8gcnVuIFJTRU0rU1RBUgoqIGRldGFpbHMgb2YgU0FNIGFuZCBCQU0gZmlsZXMsIGFuZCBSU0VNIG91dHB1dHMKCiMgRGlmZmVyZW50aWFsIEV4cHJlc3Npb24gV29ya2Zsb3cKCldlJ2xsIGRpc2N1c3MgdGhlIGFsaWdubWVudCBhbmQgZ2VuZSBxdWFudGlmaWNhdGlvbiBzdGVwcyB3aGljaCBnYXRoZXIgdGhlIG5lY2Vzc2FyeSBkYXRhIHRoYXQgd2Ugd2lsbCBuZWVkIHByaW9yIHRvIHRlc3RpbmcgZm9yIGRpZmZlcmVudGlhbCBleHByZXNzaW9uLCB0aGUgdG9waWMgb2YgRGF5IDIuCgohW10oaW1hZ2VzL3dheWZpbmRlci93YXlmaW5kZXItMDIucG5nKQo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIEFsaWdubWVudCBhbmQgR2VuZSBRdWFudGlmaWNhdGlvbgoKVGhlIEZBU1RRIGZpbGVzIG9mIHJhdyBzZXF1ZW5jZWQgcmVhZHMgYXJlIHVudGV0aGVyZWQgZnJvbSBhbnkgbm90aW9uIG9mIHdoZXJlIHRoZXkgY2FtZSBmcm9tIGluIHRoZSBnZW5vbWUsIGFuZCB3aGljaCB0cmFuc2NyaWJlZCBnZW5lcyB0aGUgc2VxdWVuY2UgYmVsb25ncyB0by4gVGhlIGFsaWdubWVudCBhbmQgZ2VuZSBxdWFudGlmaWNhdGlvbiBzdGVwcyBmaWxsIGluIHRoYXQgZ2FwIGFuZCBhbGxvdyB1cyB0byBwcm9jZWVkIHdpdGggdGhlIHF1ZXN0aW9uIHdlIGFyZSByZWFsbHkgaW50ZXJlc3RlZCBpbjogV2hpY2ggZ2VuZXMgYXJlIGRpZmZlcmVudGlhbGx5IGV4cHJlc3NlZCBiZXR3ZWVuIGdyb3VwcyBvZiBzYW1wbGVzPwoKV2Ugd2lsbCB1c2UgUlNFTSAoW3BhcGVyXShodHRwczovL2JtY2Jpb2luZm9ybWF0aWNzLmJpb21lZGNlbnRyYWwuY29tL2FydGljbGVzLzEwLjExODYvMTQ3MS0yMTA1LTEyLTMyMykgYW5kIFtHaXRIdWJdKGh0dHBzOi8vZ2l0aHViLmNvbS9kZXdleWxhYi9SU0VNKSkgY29tYmluZWQgd2l0aCBTVEFSIEFsaWduZXIgKFtwYXBlcl0oaHR0cHM6Ly9hY2FkZW1pYy5vdXAuY29tL2Jpb2luZm9ybWF0aWNzL2FydGljbGUvMjkvMS8xNS8yNzI1MzcpIGFuZCBbR2l0SHViXShodHRwczovL2dpdGh1Yi5jb20vYWxleGRvYmluL1NUQVIpKSB0byBhY2NvbXBsaXNoIHRoZSB0YXNrIG9mIHJlYWQgbWFwcGluZyBhbmQgZ2VuZSBxdWFudGlmY2F0aW9uIHNpbXVsdGFuZW91c2x5LgoKIyMgU1RBUgoKVGhlICJTcGxpY2VkIFRyYW5zY3JpcHRzIEFsaWdubWVudCB0byBhIFJlZmVyZW5jZSIgKFNUQVIpIEFsaWduZXIgaXMgYXdhcmUgb2Ygc3BsaWNlLXNpdGVzIG9mIHRyYW5zY3JpcHRzIGFuZCBpcyBhYmxlIHRvIGFsaWduIHJlYWRzIHRoYXQgc3BhbiB0aGVtLiBUaGUgZmlndXJlIGJlbG93IGlsbHVzdHJhdGVzIHRoZSBkaWZmZXJlbmNlIGJldHdlZW4gc3BsaWNlLXVuYXdhcmUgYWxpZ25lcnMgKGUuZy4gQm93dGllMikgYW5kIHNwbGljZS1hd2FyZSBhbGlnbmVycyAoZS5nLiBTVEFSKS4KClNvbWUgYmVuZWZpdHMgb2Ygc3BsaWNlLWF3YXJlIGFsaWduZXJzIGluY2x1ZGU6CgoqIEZld2VyIHJlYWRzIGFyZSBkaXNjYXJkZWQgZm9yIGxhY2sgb2YgYWxpZ25tZW50cywgbGVhZGluZyB0byBtb3JlIGFjY3VyYXRlIGdlbmUgcXVhbnRpZmljYXRpb24uCiogRGlyZWN0IGV2aWRlbmNlIG9mIGlzb2Zvcm0gdXNhZ2UgaXMgcG9zc2libGUuCgpXZSBzaG91bGQgbm90ZSB0aGF0IHRoZSBkZWZhdWx0IHBhcmFtZXRlcnMgZm9yIFNUQVIgYXJlIG9wdGltaXplZCBmb3IgKiptYW1tYWxpYW4gZ2Vub21lcyoqLgoKPGNlbnRlcj4KCiFbU3BsaWNlLWF3YXJlIGFsaWdubWVudHRdKGltYWdlcy9zcGxpY2VfYXdhcmUucG5nKQoKQ3JlZGl0OiBodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vaGJjdHJhaW5pbmcvSW50cm8tdG8tcm5hc2VxLWhwYy1PMi9tYXN0ZXIvbGVjdHVyZXMvU2VxdWVuY2VfYWxpZ25tZW50LnBkZgoKPC9jZW50ZXI+CgojIyBSU0VNCgpSU0VNIChSTkEtc2VxIGJ5IEV4cGVjdGF0aW9uIE1heGltaXphdGlvbikgZGV0ZXJtaW5lcyBnZW5lIGFuZCBpc29mb3JtIGFidW5kYW5jZSB1c2luZyBhbiBleHBlY3RhdGlvbiBtYXhpbWl6YXRpb24gKEVNKSBhbGdvcml0aG0gdG8gZGV0ZXJtaW5lIHRoZSBwcm9iYWJpbGl0eSB0aGF0IGFueSBwYXJ0aWN1bGFyIHJlYWQgb3JpZ2luYXRlZCBmcm9tIGEgcGFydGljdWxhciB0cmFuc2NyaXB0LiBGcm9tIHRoZXJlLCBnZW5lLWxldmVsIHF1YW50aWZpY2F0aW9uIGlzIHJlcG9ydGVkIGJ5IGVmZmVjdGl2ZWx5IGNvbGxhcHNpbmcgdGhlIGlzb2Zvcm0gcXVhbnRpZmljYXRpb25zIG92ZXIgYWxsIGlzb2Zvcm1zIGJlbG9uZ2luZyB0byB0aGUgZ2VuZS4KClRoZSBwcmltYXJ5IGlzc3VlIHRoYXQgUlNFTSBhdHRlbXB0cyB0byBzb2x2ZSBpcyB0aGF0IHJlYWRzIGNhbiBhbGlnbiB0byBtdWx0aXBsZSBpc29mb3JtcyAod2hlbiwgZm9yIGV4YW1wbGUsIHRoZXkgc2hhcmUgYW4gZXhvbiksIGFuZCB0aGF0IGNyZWF0ZXMgYW1iaWd1aXR5IGluIGRlY2lkaW5nIHdoaWNoIGlzb2Zvcm0gYSByZWFkIGdldHMgYXNzaWduZWQgdG8gZm9yIHF1YW50aWZpY2F0aW9uLiBSU0VNIHVzZXMgdGhlIEVNIGFsZ29yaXRobSBkZXNjcmliZWQgYWJvdmUgdG8gaGFuZGxlIHRoaXMgYW1iaWd1aXR5IGFwcHJvcHJpYXRlbHkuCgojIFJ1bm5pbmcgUlNFTStTVEFSCgpSU0VNIGNhbiBiZSBydW4gd2l0aCBqdXN0IHR3byBjb21tYW5kczogdGhlIGZpcnN0IGByc2VtLXByZXBhcmUtcmVmZXJlbmNlYCAoW21hbnVhbF0oaHR0cHM6Ly9kZXdleWxhYi5naXRodWIuaW8vUlNFTS9yc2VtLXByZXBhcmUtcmVmZXJlbmNlLmh0bWwpKSBidWlsZHMgYW4gaW5kZXggZm9yIFNUQVIgYW5kIFJTRU0gdG8gdXNlLCBhbmQgdGhlIHNlY29uZCBgcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbmAgKFttYW51YWxdKGh0dHBzOi8vZGV3ZXlsYWIuZ2l0aHViLmlvL1JTRU0vcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbi5odG1sKSkgZG9lcyB0aGUgYWxpZ25tZW50IGFuZCBnZW5lIHF1YW50aWZpY2F0aW9uLgoKV2UnbGwgZXhwbG9yZSB0aGUgZXhwZWN0ZWQgb3V0cHV0cyBmcm9tIHRoZXNlIGNvbW1hbmRzIGFuZCBkaXNjdXNzIHRoZWlyIGNvbnRlbnRzLCBiZWZvcmUgY3JlYXRpbmcgb3VyIG93biByZWZlcmVuY2UgYW5kIGFsaWduaW5nIHJlYWRzIHdpdGggb3VyIGV4YW1wbGUgZGF0YS4KCiMjIGByc2VtLXByZXBhcmUtcmVmZXJlbmNlYCBEZXRhaWxzCgogVGhlIHB1cnBvc2Ugb2YgYHJzZW0tcHJlcGFyZS1yZWZlcmVuY2VgIGlzIHRvIGNyZWF0ZSBhIHJlZmVyZW5jZSBpbmRleCBmb3IgYWxpZ25tZW50LiBBIHJlZmVyZW5jZSBpbmRleCBpcyBlc3NlbnRpYWxseSBhIGxvb2t1cCB0YWJsZSB0aGF0IHNwZWVkcyB1cCB0aGUgZmluZGluZyBvZiBzZXF1ZW5jZSBtYXRjaGVzIGZvciBhbGlnbm1lbnQuIEluIHRoZSBjYXNlIG9mIGEgc3BsaWNlLWF3YXJlIGFsaWduZXIsIHRoZSByZWZlcmVuY2UgaW5kZXggaXMgYWxzbyBhd2FyZSBvZiB0aGUgdmFyaW91cyBzcGxpY2UganVuY3Rpb25zIGF0IGxvY2F0aW9ucyBpbiB0aGUgZ2VuZSBtb2RlbCwgYW5kIGEgc3Vic2V0IG9mIHJlYWRzIHdpbGwgbWFwIGFjcm9zcyB0aGVzZS4gVGhpcyBhbGxvd3MgdXMgdG8gaW5mZXIgaXNvZm9ybSB1c2FnZSBsYXRlciBvbi4KCmByc2VtLXByZXBhcmUtcmVmZXJlbmNlYCB3aWxsIHVzZSBhIEZBU1RBIGZpbGUgYW5kIGEgR1RGIGFzIGlucHV0cywgYW5kIGl0IHdpbGwgcHJvZHVjZSBhIG51bWJlciBvZiBsYXJnZSBmaWxlcyB3aGljaCBtYWtlIHVwIHRoZSBpbmRleC4gUlNFTSBoYXMgdGhlIGZsZXhpYmxlIGNhcGFiaWxpdHkgb2Ygc3VwcG9ydGluZyBtdWx0aXBsZSBkaWZmZXJlbnQgYWxpZ25lcnMuIFdlJ2xsIGJlIHVzaW5nIFNUQVIuIFRoZSBvdXRwdXQgZmlsZXMgdGhlcmVmb3JlIGNvbnRhaW4gaXRlbXMgZnJvbSB0aGUgaW5kZXhpbmcgcHJvY2VzcyBvZiBTVEFSIGFuZCBSU0VNLiBUaGVzZSBmaWxlcyBhbGxvdyBmb3IgdGhlIGZhc3QgYW5kIGVmZmljaWVudCBzZWFyY2ggYW5kIHJldHJpZXZhbCBvZiBzZXF1ZW5jZSBhbmQgZ2VuZS1tb2RlbCBpbmZvcm1hdGlvbiBkdXJpbmcgYWxpZ25tZW50IGFuZCBxdWFudGlmaWNhdGlvbi4gVGhlIG91dHB1dHMgd2lsbCBsb29rIGxpa2UgdGhlIGZvbGxvd2luZzoKCiAgICBHUkNoMzguOTguY2hyMjJyZWR1Y2VkLmNocmxpc3QKICAgIEdSQ2gzOC45OC5jaHIyMnJlZHVjZWQuZ3JwCiAgICBHUkNoMzguOTguY2hyMjJyZWR1Y2VkLmlkeC5mYQogICAgR1JDaDM4Ljk4LmNocjIycmVkdWNlZC5uMmcuaWR4LmZhCiAgICBHUkNoMzguOTguY2hyMjJyZWR1Y2VkLnNlcQogICAgR1JDaDM4Ljk4LmNocjIycmVkdWNlZC50aQogICAgR1JDaDM4Ljk4LmNocjIycmVkdWNlZC50cmFuc2NyaXB0cy5mYQogICAgR2Vub21lCiAgICBMb2cub3V0CiAgICBTQQogICAgU0FpbmRleAogICAgY2hyTGVuZ3RoLnR4dAogICAgY2hyTmFtZS50eHQKICAgIGNock5hbWVMZW5ndGgudHh0CiAgICBjaHJTdGFydC50eHQKICAgIGV4b25HZVRySW5mby50YWIKICAgIGV4b25JbmZvLnRhYgogICAgZ2VuZUluZm8udGFiCiAgICBnZW5vbWVQYXJhbWV0ZXJzLnR4dAogICAgc2pkYkluZm8udHh0CiAgICBzamRiTGlzdC5mcm9tR1RGLm91dC50YWIKICAgIHNqZGJMaXN0Lm91dC50YWIKICAgIHRyYW5zY3JpcHRJbmZvLnRhYgoKIyMgYHJzZW0tY2FsY3VsYXRlLWV4cHJlc3Npb25gIERldGFpbHMKCkFmdGVyIHByZXBhcmluZyB0aGUgcmVmZXJlbmNlIGluZGV4LCB3ZSBjYW4gZG8gYWxpZ25tZW50IGFuZCBxdWFudGlmaWNhdGlvbiB3aXRoIHRoZSBgcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbmAgY29tbWFuZCAoW2hlcmVdKGh0dHBzOi8vZGV3ZXlsYWIuZ2l0aHViLmlvL1JTRU0vcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbi5odG1sKSBpcyBhIGxpbmsgdG8gdGhlIG1hbnVhbCkuIEZvciBvdXIgaW5wdXRzLCB3ZSB3aWxsIGJlIHVzaW5nIG91ciBGQVNUUSByZWFkcyBhbmQgdGhlIHBhdGggdG8gdGhlIHJlZmVyZW5jZSBpbmRleCB0aGF0IHdlIGNyZWF0ZS4KClRoZXJlIGFyZSBudW1lcm91cyBvdXRwdXRzLCB3aGljaCBhcmUgbGFpZCBvdXQgaW4gdGhlIGZvbGxvd2luZyB0YWJsZToKCnwgRmlsZSB8IERlc2NyaXB0aW9uIHwKfCAtLS0tIHwgLS0tLS0tLS0tLS0gfAp8IGBzYW1wbGVfTi5nZW5vbWUuYmFtYCB8IFRoZSBhbGlnbm1lbnRzIGluIGdlbm9taWMgY29vcmRpbmF0ZXMuIFVzZWQgZm9yIHZpc3VhbGl6YXRpb24gaW4gYSBnZW5vbWUgYnJvd3NlciBzdWNoIGFzIFtJR1ZdKGh0dHBzOi8vc29mdHdhcmUuYnJvYWRpbnN0aXR1dGUub3JnL3NvZnR3YXJlL2lndi8pLiB8CnwgYHNhbXBsZV9OLnRyYW5zY3JpcHQuYmFtYCB8IFRoZSBhbGlnbm1lbnRzIGluIHRyYW5zY3JpcHRvbWljIGNvb3JkaW5hdGVzLiBOb3QgdXNlZCBmb3IgdGhpcyB3b3Jrc2hvcC4gfAp8IGBzYW1wbGVfTi5nZW5lcy5yZXN1bHRzYCB8IEdlbmUtbGV2ZWwgcmVzdWx0cyB0byBiZSB1c2VkIGluIGRvd25zdHJlYW0gREUgYW5hbHlzaXMuIHwKfCBgc2FtcGxlX04uaXNvZm9ybXMucmVzdWx0c2AgfCBJc29mb3JtLWxldmVsIHJlc3VsdHMuIE5vdCB1c2VkIGZvciB0aGlzIHdvcmtzaG9wLiB8CgoKVGhlIHR3byByZXN1bHRzIHdlIHdpbGwgdXNlIG1vc3Qgb2Z0ZW4gZnJvbSBSU0VNK1NUQVIgYXJlIHRoZSBnZW5lLWxldmVsIHF1YW50aWZpY2F0aW9ucyAoYHNhbXBsZV9OLmdlbmVzLnJlc3VsdHNgKSBhbmQgdGhlIGFsaWdubWVudHMgaW4gZ2Vub21lLWNvb3JkaW5hdGVzIChgc2FtcGxlX04uZ2Vub21lLmJhbWApLiBFYWNoIHNhbXBsZSBmb3Igd2hpY2ggd2UgcnVuIFJTRU0rU1RBUiB3aWxsIGhhdmUgdGhlc2Ugb3V0cHV0IGZpbGVzIG5hbWVkIGFmdGVyIHRoZSBzYW1wbGUuCgojIyMgR2Vub21lIEFsaWdubWVudHMKClRoZSBgc2FtcGxlX04uZ2Vub21lLmJhbWAgYWxpZ25tZW50cyBmaWxlIGlzIGEgc3BlY2lhbCwgY29tcHJlc3NlZCwgdmVyc2lvbiBvZiBhIFNBTSBmaWxlIChzZXF1ZW5jZSBhbGlnbm1lbnQvbWFwKS4gSW4gb3JkZXIgdG8gdmlldyBpdCwgd2UgaGF2ZSB0byB1c2UgYSBzcGVjaWFsIHByb2dyYW0gY2FsbGVkIFtgc2FtdG9vbHNgXShodHRwczovL3d3dy5odHNsaWIub3JnL2RvYy9zYW10b29scy5odG1sKS4KCklmIHdlIHdlcmUgdG9vIHBlZWsgaW5zaWRlIG9mIGBzYW1wbGVfTi5nZW5vbWUuYmFtYCwgd2Ugd291bGQgc2VlOgoKICAgICQgc2FtdG9vbHMgdmlldyB+L3dvcmtzaG9wX2RhdGEvcnNlbV9zdGFyL3NhbXBsZV9OLmdlbm9tZS5iYW0gfCBoZWFkIC0yCiAgICBOQjU1MTUyMToyMTI6SDVMNzNBRlgyOjE6MTExMDE6MTY0NDY6MTAzNCAgICAgICAwICAgICAgIDIgICAgICAgMTAwMjI2NjAgICAgICAgIDI1NSAgICAgMTQ4TSAgICAqICAgICAgIDAgICAgICAgMCAgICAgICBHQU5BR0FDQUdBVEFUQ0NUQUNBQUFBQ0FDQUdBQUFHQUNUQUFUQUFBQ1RDVFRBVEdUVEdBQ1RBVEdBQUFHQ1RHVEFBR0FBQUNUVENDQUdBQUdBQUFUQVRUR0FBQUFUR1RBR0FBVEFBQ1RHQUFHVEdUR0NUR1RHVEdUQ0NBVEFHQ1RHVFRDVEdDVEdBR0dBQUFDQVRUICAgQUEjRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFQUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVBRUVFRUVFRUU8RUVFRUFFQUVFQUVBPEE8QUFBQUVFRUVFQSAgICBOSDppOjEgIEhJOmk6MSAgQVM6aToxNDUgICAgICAgIE5NOmk6MSAgTUQ6WjoyQTE0NQogICAgTkI1NTE1MjE6MjEyOkg1TDczQUZYMjoxOjExMTAxOjE2MzY2OjEwMzUgICAgICAgMCAgICAgICBYICAgICAgIDQ4NDg4Njk3ICAgICAgICAyNTUgICAgIDE0Nk0gICAgKiAgICAgICAwICAgICAgIDAgICAgICAgVEFOR1RBQ0dDQUNBQ0FBQVRUR0FUQ0NBVEFDQ1RUVEFDVFRDQ1RUVFRUVFRDQ0FHQ1RBQ1RHQUFUQUFHR0dHQUNDVFRUQ1RBVFRDQ1RUVEdUR1RDVENBQ0NBVFRUVEFUVEdUQ1RUVENBR0FBVENUVENBQ0NUR0dUQ0NBVFRDQVRUQ0NUQ1RBQ0NDVENUQ0NUR1QgICAgIEFBI0VFRUVFRUVFRUVFRUVFRUVFRUVFRUVBRUVFRUVFRUVFRUVFRUVFRUVFRTxFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRUVFRTZFRUVBRUVFRUVFRUVFRUVFRUVFRUVBRUVFRUVFRUFBRUVFRS88RTxBQTw8PEFBQUE8QUVFICAgICAgTkg6aToxICBISTppOjEgIEFTOmk6MTQzICAgICAgICBOTTppOjEgIE1EOlo6MkcxNDMKCgpUaGUgW1NBTSBmb3JtYXRdKGh0dHBzOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL1NBTV8oZmlsZV9mb3JtYXQpKSBnaXZlcyBpbmZvcm1hdGlvbiBhYm91dCB3aGVyZSBlYWNoIHJlYWQgbWFwcyB0byBpbiB0aGUgZ2Vub21lIChvbmUgcmVhZCBwZXIgbGluZSksIGFuZCBoYXMgaW5mb3JtYXRpb24gYWJvdXQgdGhhdCBtYXBwaW5nLgoKIyMjIEdlbmUtbGV2ZWwgUXVhbnRpZmljYXRpb24KCklmIHdlIHdlcmUgdG8gbG9vayBhdCB0aGUgdG9wIDMgbGluZXMgb2YgYHNhbXBsZV9OLmdlbmVzLnJlc3VsdHNgLCB3ZSBzZWUgaXQgaXMgYSBwbGFpbi10ZXh0IGZpbGUgc2VwYXJhdGVkIGJ5IHRhYnMgd2hlcmUgZWFjaCByb3cgaXMgYSBnZW5lLCBhbmQgdGhlIGNvbHVtbnMgYXJlIGRlc2NyaWJlZCB0aGUgZmlyc3Qgcm93LgoKCiAgICAkIGhlYWQgLTMgfi93b3Jrc2hvcF9kYXRhL3JzZW1fc3Rhci9zYW1wbGVfTi5nZW5lcy5yZXN1bHRzCgoKfCBDb2x1bW4gfCBEZXNjcmlwdGlvbiB8CnwgLS0tLSB8IC0tLS0tLS0tLS0tIHwKfCBnZW5lX2lkIHwgVGhlIElEIGZyb20gdGhlIGdlbmUgbW9kZWwgR1RGLiB8CnwgdHJhbnNjcmlwdF9pZChzKSB8IFRoZSB0cmFuc2NyaXB0IElEcyBjb3JyZXNwb25kaW5nIHRvIHRoZSBnZW5lIGluIHRoZSBnZW5lIG1vZGVsIEdURi4gfAp8IGxlbmd0aCB8IFRoZSB3ZWlnaHRlZCBhdmVyYWdlIG9mIGl0cyB0cmFuc2NyaXB0cycgbGVuZ3Rocy4gfAp8IGVmZmVjdGl2ZV9sZW5ndGggfCBUaGUgd2VpZ2h0ZWQgYXZlcmFnZSwgb3ZlciBpdHMgdHJhbnNjcmlwdHMsIG9mIHRoZSBtZWFuIG51bWJlciBvZiBwb3NpdGlvbnMgZnJvbSB3aGljaCBhIGZyYWdtZW50IG1heSBzdGFydCB3aXRoaW4gdGhlIHNlcXVlbmNlIG9mIHRyYW5zY3JpcHQuIHwKfCBleHBlY3RlZF9jb3VudCB8IFRoZSBzdW0sIG92ZXIgYWxsIHRyYW5zY3JpcHRzLCBvZiB0aGUgZXN0aW1hdGVkIGNvdW50cyBmcm9tIHRoZSBFTSBhbGdvcml0aG0uIHwKfCBUUE0gfCBUcmFuc2NyaXB0IHBlciBtaWxsaW9uLCBhIHJlbGF0aXZlIG1lYXN1cmUgb2YgdHJhbnNjcmlwdCBhYnVuZGFuY2Ugd2hlcmUgdGhlIHN1bSBvZiBhbGwgVFBNcyBpcyAxIG1pbGxpb24uIHwKfCBGUEtNIHwgRnJhZ21lbnRzIHBlciBraWxvYmFzZSBvZiB0cmFuc2NyaXB0IHBlciBtaWxsaW9uIG1hcHBlZCByZWFkcy4gfAoKClRoZSBgZ2VuZXMucmVzdWx0c2AgZmlsZXMgZm9yIGVhY2ggc2FtcGxlIGNhbiBiZSBkaXJlY3RseSBpbXBvcnRlZCBpbnRvIERFU2VxMiB1c2luZyB0aGUgW2B0eGltcG9ydGBdKGh0dHBzOi8vYmlvY29uZHVjdG9yLm9yZy9wYWNrYWdlcy9yZWxlYXNlL2Jpb2MvdmlnbmV0dGVzL3R4aW1wb3J0L2luc3QvZG9jL3R4aW1wb3J0Lmh0bWwjcnNlbSkgUiBCaW9jb25kdWN0b3IgcGFja2FnZS4KCkFsdGVybmF0aXZlbHksIHdlIGNhbiBjb21iaW5lIHRoZXNlIHJlc3VsdHMgaW50byBhIGNvdW50IG1hdHJpeC4gVGhlIGNvdW50IG1hdHJpeCBjYW4gYmUgdmVyeSB1c2VmdWwsIHNpbmNlIGl0IGNvbnRhaW5zIHN1bW1hcnktbGV2ZWwgZGF0YSBpbiBhIHdpZGVseSBzdXBwb3J0ZWQgZm9ybWF0LCB0aGlzIG1ha2VzIGl0IGdyZWF0IGZvciBzaGFyaW5nIGFuZCBhcyBpbnB1dCBpbnRvIGRpZmZlcmVudCBhbmFseXNlcy4KCgojIyBSU0VNIFByZXBhcmUgUmVmZXJlbmNlIEV4ZXJjaXNlOgoKMS4gVmlldyB0aGUgaGVscCBwYWdlIGZvciByc2VtLXByZXBhcmUtcmVmZXJlbmNlCjIuIENyZWF0ZSBhbmQgZXhlY3V0ZSBhIGNvbW1hbmQgdGhhdCB3aWxsIGluZGV4IG91ciBleGFtcGxlIGdlbm9tZQozLiBFeGFtaW5lIHRoZSBvdXRwdXQgb2YgdGhlIHJzZW0KCmBgYAojIFZpZXcgdGhlIGhlbHAgZmlsZQpyc2VtLXByZXBhcmUtcmVmZXJlbmNlIC1oCiMgQ3JlYXRlL2V4ZWN1dGUgdGhlIHByZXBhcmUtcmVmZXJlbmNlIGNvbW1hbmQKcnNlbS1wcmVwYXJlLXJlZmVyZW5jZSAtLWd0ZiAuLi9kYXRhL3JlZnMvR1JDaDM4Ljk4LmNocjIycmVkdWNlZC5ndGYgLS1zdGFyIC0tbnVtLXRocmVhZHMgMSAuLi9kYXRhL3JlZnMvR1JDaDM4Ljk4LmNocjIycmVkdWNlZC5mYSAuLi9kYXRhL3JlZnMvR1JDaDM4Ljk4LmNocjIycmVkdWNlZApgYGAKCgojIyBSU0VNIENhbGN1bGF0ZSBFeHByZXNzaW9uIEV4ZXJjaXNlOgoKMS4gVmlldyB0aGUgaGVscCBwYWdlIGZvciByc2VtLWNhbGN1bGF0ZS1leHByZXNzaW9uCjIuIENyZWF0ZSBhIGNvbW1hbmQgdG8gZXhlY3V0ZSBSU0VNIC8gU1RBUiBhbGlnbm1lbnQgYW5kIHF1YW50aWZpY2F0aW9uIGZvciBvbmUgb2Ygb3VyIHNhbXBsZXMKCmBgYAojIEZpcnN0IGNyZWF0ZSBhIGRpcmVjdG9yeSBmb3IgdGhlIGFsaWduZWQgcmVzdWx0cwpta2RpciBvdXRfcnNlbQojIENvbnN0cnVjdCBhbiBSU0VNIGNvbW1hbmQgdG8gYWxpZ24gc2FtcGxlXzAxIHRvIG91ciByZWZlcmVuY2UKcnNlbS1jYWxjdWxhdGUtZXhwcmVzc2lvbiAtLXN0YXIgLS1udW0tdGhyZWFkcyAxIC0tc3Rhci1nemlwcGVkLXJlYWQtZmlsZSAtLXN0YXItb3V0cHV0LWdlbm9tZS1iYW0gLS1rZWVwLWludGVybWVkaWF0ZS1maWxlcyAtLXBhaXJlZC1lbmQgb3V0X3RyaW1tZWQvc2FtcGxlXzAxX1IxLnRyaW1tZWQuZmFzdHEuZ3ogb3V0X3RyaW1tZWQvc2FtcGxlXzAxX1IyLnRyaW1tZWQuZmFzdHEuZ3ogLi4vZGF0YS9yZWZzL0dSQ2gzOC45OC5jaHIyMnJlZHVjZWQgb3V0X3JzZW0vc2FtcGxlXzAxCmBgYAoKIyMgQWxpZ25pbmcgQWxsIFNhbXBsZXMgRXhlcmNpc2UgKEJyZWFrb3V0KToKCjEuIFVzZSBSU0VNK1NUQVIgY29tbWFuZCBhYm92ZSwgdG8gY29uc3RydWN0IHRoZSBhcHByb3ByaWF0ZSBjb21tYW5kcyB0byBydW4gYHJzZW0tY2FsY3VsYXRlLWV4cHJlc3Npb25gIG9uIGVhY2ggb2Ygb3VyIHNhbXBsZXMuIFRyeSB1c2luZyBhIHZhcmlhYmxlLgoyLiBWaWV3IHRoZSBvdXRwdXQsIGFuZCB2ZXJpZnkgdGhhdCB3ZSBoYXZlIHRoZSBmaWxlcyB3ZSBuZWVkLgoKCi0tLQoKVGhlc2UgbWF0ZXJpYWxzIGhhdmUgYmVlbiBhZGFwdGVkIGFuZCBleHRlbmRlZCBmcm9tIG1hdGVyaWFscyBjcmVhdGVkIGJ5IHRoZSBbSGFydmFyZCBDaGFuIEJpb2luZm9ybWF0aWNzIENvcmUgKEhCQyldKGh0dHA6Ly9iaW9pbmZvcm1hdGljcy5zcGguaGFydmFyZC5lZHUvKS4gVGhlc2UgYXJlIG9wZW4gYWNjZXNzIG1hdGVyaWFscyBkaXN0cmlidXRlZCB1bmRlciB0aGUgdGVybXMgb2YgdGhlIFtDcmVhdGl2ZSBDb21tb25zIEF0dHJpYnV0aW9uIGxpY2Vuc2UgKENDIEJZIDQuMCldKGh0dHA6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8pLCB3aGljaCBwZXJtaXRzIHVucmVzdHJpY3RlZCB1c2UsIGRpc3RyaWJ1dGlvbiwgYW5kIHJlcHJvZHVjdGlvbiBpbiBhbnkgbWVkaXVtLCBwcm92aWRlZCB0aGUgb3JpZ2luYWwgYXV0aG9yIGFuZCBzb3VyY2UgYXJlIGNyZWRpdGVkLgo=</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module04_Alignment.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+<meta name="date" content="2021-11-16" />
+
+<title>Day 3 - Module 11X: Bonus Content</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+<!--
+Favicon from
+https://twemoji.twitter.com/
+https://favicon.io/emoji-favicons/dna/
+-->
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Day 3 - Module 11X: Bonus Content</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+<h4 class="date">2021-11-16</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+code.r{
+  font-size: 12pt;
+}
+</style>
+<!--- Allow the page to be wider --->
+<style>
+    body .main-container {
+        max-width: 1200px;
+    }
+</style>
+<blockquote>
+<h1 id="objectives">Objectives</h1>
+<ul>
+<li>Additional visualizations for gene level QC assessment</li>
+</ul>
+</blockquote>
+<div id="count-boxplots" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Count boxplots</h1>
+<p>To understand how skewed our raw data was and how well our normalization worked, we can look at distributions of raw and normalized counts. First, we need to set up some tables and labels.</p>
+<pre class="r"><code>## setup for raw counts
+plotPath = &quot;figures/&quot;
+
+pdata &lt;- data.frame(colData(dds))
+mat &lt;- as.matrix(assay(dds))
+title &lt;- &#39;Raw counts&#39;
+y_label &lt;- &#39;log2(counts)&#39;
+Comparison &lt;- &quot;ko.Tx&quot;</code></pre>
+<p>Then, we’ll add the relevant annotations to the count table.</p>
+<pre class="r"><code># create annotationn table for raw plots
+annot_df = data.frame(
+    sample = row.names(pdata),
+    row.names = row.names(pdata),
+    stringsAsFactors = F
+)
+
+# join counts and annotation table
+tidy_mat = tidyr::gather(as_tibble(mat), key = &#39;sample&#39;, value = &#39;counts&#39;) %&gt;%
+    left_join(annot_df, by = &#39;sample&#39;)</code></pre>
+<p>Once we set up the input data, we can plot the raw counts for our samples.</p>
+<pre class="r"><code>box_plot = ggplot(tidy_mat, aes(x = sample, y = log2(counts))) +
+    geom_boxplot(notch = TRUE) +
+    labs(
+        title = title,
+        x = &#39;&#39;,
+        y = y_label) +
+    theme_bw() + theme(axis.text.x = element_text(angle = 90))
+box_plot</code></pre>
+<p><img src="Module11X_BonusContent_files/figure-html/BoxplotsRaw-1.png" width="672" /></p>
+<p>After generating the plot with ggplot, we can save it as a file in the directory we set up.</p>
+<pre class="r"><code>ggsave(filename = paste0(plotPath, &quot;BoxPlot_Gtype.Tx_raw.pdf&quot;), plot = box_plot, height = 8, width = 8, dpi = 300)</code></pre>
+<p>To understand how the rlog normalization impacted the distributions of counts for each sample, we can plot boxplots for the normalized data and compare that to our plot of the raw data.</p>
+<pre class="r"><code>## rlog counts
+pdata = data.frame(colData(rld))
+mat = as.matrix(assay(rld))
+title = &#39;Rlog normalized counts&#39;
+y_label = &#39;rlog(counts)&#39;
+
+annot_df = data.frame(
+    sample = row.names(pdata),
+    row.names = row.names(pdata),
+    stringsAsFactors = F
+)
+
+tidy_mat = tidyr::gather(as_tibble(mat), key = &#39;sample&#39;, value = &#39;counts&#39;) %&gt;%
+    left_join(annot_df, by = &#39;sample&#39;)
+
+box_plot = ggplot(tidy_mat, aes(x = sample, y = counts)) +
+    geom_boxplot(notch = TRUE) +
+    labs(
+        title = title,
+        x = &#39;&#39;,
+        y = y_label) +
+    theme_bw() + theme(axis.text.x = element_text(angle = 90))
+box_plot</code></pre>
+<p><img src="Module11X_BonusContent_files/figure-html/BoxplotsRlog-1.png" width="672" /></p>
+<pre class="r"><code>ggsave(filename = paste0(plotPath, &quot;BoxPlot_Gtype.Tx_rlog.pdf&quot;), plot = box_plot, height = 8, width = 8, dpi = 300)</code></pre>
+</div>
+<div id="heatmaps" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Heatmaps</h1>
+<p>To understand the patterns of expression across all our samples, including how well our samples cluster by group labels, we can generate a heatmaps.</p>
+<p>The first heatmap to generate is of the top 500 expressed genes across all samples. First, we’ll set our color palette using a tool called <a href="https://www.r-graph-gallery.com/38-rcolorbrewers-palettes.html">Color Brewer</a>.</p>
+<pre class="r"><code>#heatmap with top 500 variant or expressed genes, rlog normalized data
+colors &lt;- colorRampPalette(brewer.pal(9, &#39;Blues&#39;))(255)</code></pre>
+<p>First, we’ll select the top 500 expressed genes across all our samples to prioritize this set of genes and allow for patterns to be more easily ovbserved.</p>
+<pre class="r"><code>select &lt;- order(rowMeans(assay(rld)), decreasing=TRUE)[1:500]
+df &lt;- data.frame(Group = colData(rld)[,c(&#39;Gtype.Tx&#39;)], row.names = rownames(colData(dds)))</code></pre>
+<p>Next, we’ll set up a PDF file and plot our heatmap. Saving the plot as an object allows us to view the figure within our session as well as writing the plot to file.</p>
+<p>The <a href="https://cran.r-project.org/web/packages/pheatmap/pheatmap.pdf"><code>pheatmap</code> function</a> does quite a lot in a single step, including scaling the data by row and clustering both the samples (columns) and genes (rows).</p>
+<p><strong>Note</strong>: <a href="https://towardsdatascience.com/pheatmap-draws-pretty-heatmaps-483dab9a3cc">This blog post</a> has a nice step by step overview of the pheatmap options, using basketball data as an example.</p>
+<pre class="r"><code>pdf(file = paste0(plotPath,&#39;Heatmap_TopExp_&#39;, Comparison, &#39;.pdf&#39;), onefile = FALSE, width=10, height=20)
+pheatmap(assay(rld)[select,], scale=&quot;row&quot;,  cluster_rows=TRUE, show_rownames=FALSE, cluster_cols=TRUE, annotation_col=df, fontsize = 7, las = 2, fontsize_row = 7, color = colors, main = &#39;500 Top Expressed Genes Heatmap&#39;)
+dev.off()</code></pre>
+<pre><code>## pdf 
+##   3</code></pre>
+<p>Looking at the heatmap, we see that samples within the same treatment group cluster together, fitting our understanding of the experimental design. We also see clusters of genes that appear to have contrasting patterns between the treatment groups, which is promising for our differential expression comparisons.</p>
+<p><strong>Note</strong>: Heatmaps are helpful visualizations, especially for sharing an overview of your RNA-seq data. The why and how of to use them properly can be confusing, such as outlined in the questions and answers in <a href="https://www.biostars.org/p/230115/">this biostars post</a> that adds additional context to the overview in this workshop.</p>
+<div id="sample-and-top-variable-expressed-heatmaps" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Sample and Top Variable Expressed Heatmaps</h2>
+<p>This <a href="http://www.opiniomics.org/you-probably-dont-understand-heatmaps/">blog post</a> reviews the data transformation procedure for generating heatmaps and is a useful resource. They review the steps for generating a sample correlation heatmap similar to the plot generated below.</p>
+<pre class="r"><code>#heatmap of normalized data, sample distibution matrix
+sampleDists &lt;- dist(t(assay(rld))) #rld
+sampleDistMatrix &lt;- as.matrix(sampleDists) # convert to matrix
+colnames(sampleDistMatrix) &lt;- NULL
+
+colors &lt;- colorRampPalette(rev(brewer.pal(9, &#39;Blues&#39;)))(255)
+pdf(file = paste0(plotPath,&#39;Heatmap_Dispersions_&#39;, Comparison, &#39;.pdf&#39;), onefile = FALSE)
+pheatmap(sampleDistMatrix,
+       clustering_distance_rows=sampleDists,
+       clustering_distance_cols=sampleDists,
+       col=colors)
+dev.off()</code></pre>
+<pre><code>## pdf 
+##   3</code></pre>
+<p>If we look at the <code>sampleDists</code> object, we now see from the diagonal values that there appears to be two major groups of samples, with better defined subgroups in the bottom right quadrant.</p>
+<p>Overall, like the heatmap of the top 500 most expressed genes, we see that samples in the same treatment groups cluster well together when the full dataset is considered.</p>
+<p>Another informative heatmap is for the top most variably expressed genes in the dataset. An example of this code is shown below.</p>
+<pre class="r"><code>colors &lt;- colorRampPalette(brewer.pal(9, &#39;Blues&#39;))(255)
+
+select &lt;- order(rowVars(assay(rld)), decreasing=TRUE)[1:500]
+df &lt;- data.frame(Group = colData(rld)[,c(&#39;Gtype.Tx&#39;)], row.names = rownames(colData(dds)))
+
+pdf(file = paste0(plotPath,&#39;Heatmap_TopVar_&#39;, Comparison, &#39;.pdf&#39;), onefile = FALSE, width=10, height=20)
+pheatmap(assay(rld)[select,], scale=&quot;row&quot;,  cluster_rows=TRUE, show_rownames=FALSE, cluster_cols=TRUE, annotation_col=df, fontsize = 7, las = 2, fontsize_row = 7, color = colors, main = &#39;500 Top Variably Expressed Genes Heatmap&#39;)
+dev.off()</code></pre>
+<pre><code>## pdf 
+##   3</code></pre>
+</div>
+</div>
+<div id="sources-used" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Sources Used</h1>
+<ul>
+<li>HBC QC tutorial: <a href="https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html" class="uri">https://hbctraining.github.io/DGE_workshop/lessons/03_DGE_QC_analysis.html</a><br />
+</li>
+<li>Detailed Heatmap tutorial from Galaxy: <a href="https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-heatmap2/tutorial.html" class="uri">https://training.galaxyproject.org/training-material/topics/transcriptomics/tutorials/rna-seq-viz-with-heatmap2/tutorial.html</a></li>
+</ul>
+<hr />
+</div>
+<div id="session-info" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Session Info</h1>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.1.1 (2021-08-10)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Catalina 10.15.7
+## 
+## Matrix products: default
+## BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] biomaRt_2.50.0              data.table_1.14.2           RColorBrewer_1.1-2         
+##  [4] pheatmap_1.0.12             ggrepel_0.9.1               dplyr_1.0.7                
+##  [7] tidyr_1.1.4                 ggplot2_3.3.5               DESeq2_1.34.0              
+## [10] SummarizedExperiment_1.24.0 Biobase_2.54.0              MatrixGenerics_1.6.0       
+## [13] matrixStats_0.61.0          GenomicRanges_1.46.0        GenomeInfoDb_1.30.0        
+## [16] IRanges_2.28.0              S4Vectors_0.32.2            BiocGenerics_0.40.0        
+## [19] rmarkdown_2.11             
+## 
+## loaded via a namespace (and not attached):
+##  [1] bitops_1.0-7           bit64_4.0.5            filelock_1.0.2         progress_1.2.2        
+##  [5] httr_1.4.2             tools_4.1.1            utf8_1.2.2             R6_2.5.1              
+##  [9] DBI_1.1.1              colorspace_2.0-2       withr_2.4.2            tidyselect_1.1.1      
+## [13] prettyunits_1.1.1      bit_4.0.4              curl_4.3.2             compiler_4.1.1        
+## [17] xml2_1.3.2             DelayedArray_0.20.0    labeling_0.4.2         scales_1.1.1          
+## [21] genefilter_1.76.0      rappdirs_0.3.3         stringr_1.4.0          digest_0.6.28         
+## [25] XVector_0.34.0         pkgconfig_2.0.3        htmltools_0.5.2        dbplyr_2.1.1          
+## [29] fastmap_1.1.0          highr_0.9              rlang_0.4.11           RSQLite_2.2.8         
+## [33] jquerylib_0.1.4        generics_0.1.0         farver_2.1.0           BiocParallel_1.28.0   
+## [37] RCurl_1.98-1.5         magrittr_2.0.1         GenomeInfoDbData_1.2.7 Matrix_1.3-4          
+## [41] Rcpp_1.0.7             munsell_0.5.0          fansi_0.5.0            lifecycle_1.0.1       
+## [45] stringi_1.7.5          yaml_2.2.1             zlibbioc_1.40.0        BiocFileCache_2.2.0   
+## [49] grid_4.1.1             blob_1.2.2             parallel_4.1.1         crayon_1.4.1          
+## [53] lattice_0.20-44        Biostrings_2.62.0      splines_4.1.1          annotate_1.72.0       
+## [57] hms_1.1.1              KEGGREST_1.34.0        locfit_1.5-9.4         knitr_1.36            
+## [61] pillar_1.6.3           geneplotter_1.72.0     XML_3.99-0.8           glue_1.4.2            
+## [65] evaluate_0.14          png_0.1-7              vctrs_0.3.8            gtable_0.3.0          
+## [69] purrr_0.3.4            assertthat_0.2.1       cachem_1.0.6           xfun_0.26             
+## [73] xtable_1.8-4           survival_3.2-11        tibble_3.1.5           AnnotationDbi_1.56.2  
+## [77] memoise_2.0.0          ellipsis_0.3.2</code></pre>
+<hr />
+<p>These materials have been adapted and extended from materials listed above. These are open access materials distributed under the terms of the <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution license (CC BY 4.0)</a>, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="UM Bioinformatics Core" />
+
+
+<title>Day 1 - Module 01: Warming up</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/paper.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<script src="site_libs/navigation-1.1/sourceembed.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link rel="shortcut icon" href="favicon-16x16.png" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+#rmd-source-code {
+  display: none;
+}
+</style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">RNA-Seq Demystified</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Module00_Introduction.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sequence QC
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module01_Warming_Up.html">Warming up</a>
+    </li>
+    <li>
+      <a href="Module02_QC.html">Quality Control</a>
+    </li>
+    <li>
+      <a href="Module02optional_Cutadapt_MoreQC.html">Optional: Cutadapt/MoreQC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Alignment
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module03_Reference_Genomes.html">Reference Genomes</a>
+    </li>
+    <li>
+      <a href="Module04_Alignment.html">Alignment/Quantification (STAR/RSEM)</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Quantification
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module05_MultiQC_and_Count_Matrix.html">Count matrix / Alignment QC</a>
+    </li>
+    <li>
+      <a href="Module05optional_Additional_Details.html">Optional: Additional details</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Groups/Model
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module06_DEAnalysisSetup.html">Introduction to DESeq2</a>
+    </li>
+    <li>
+      <a href="Module07_DESeq2Init.html">DESeq2 Initialization</a>
+    </li>
+    <li>
+      <a href="Module08_DESeq2DE.html">Count Normalizations and DESeq2 model fitting</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Expression plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module09_SampleQCViz.html">Sample Visualizations for QC</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Diff Expression
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Module10_DEComparisons.html">Comparisons</a>
+    </li>
+    <li>
+      <a href="Module11_DEVisualizations.html">DE Visiualization and Annotation</a>
+    </li>
+    <li>
+      <a href="Module11X_BonusContent.html">Bonus content</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="Module99_Wrap_up.html">Wrap up</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-download-source" href="#">Download Rmd</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Day 1 - Module 01: Warming up</h1>
+<h4 class="author">UM Bioinformatics Core</h4>
+
+</div>
+
+
+<style type="text/css">
+body{ /* Normal  */
+      font-size: 14pt;
+  }
+pre {
+  font-size: 12pt
+}
+</style>
+<div id="warming-up" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Warming Up</h1>
+<p>In this module, we will:</p>
+<ul>
+<li>cover basic materials needed</li>
+<li>familiarize ourselves with remote computing</li>
+<li>prepare for later modules</li>
+</ul>
+<div id="building-blocks" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> Building Blocks</h2>
+<p><br> <br> <br> <img src="images/building-blocks.png" width="800" /> <br> <br> <br></p>
+</div>
+<div id="example-files-exercise" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Example Files Exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Download the zipped archive from the slack channel</li>
+<li>Locate, move (if desired), and unzip it</li>
+<li>Remember how to access these files</li>
+</ol>
+<p><br> <br> <br> <br> <br> <br></p>
+</div>
+<div id="local-vs-remote-exercise" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> Local vs remote exercise:</h2>
+<ol style="list-style-type: decimal">
+<li>Become familiar with the different appearance of the local shell</li>
+<li>Briefly explore your local files</li>
+<li>Log in to the aws instance with <code>ssh &lt;username&gt;@bfx-workshop01.med.umich.edu</code></li>
+<li>Become familiar with appearance of the remote shell</li>
+<li>Briefly explore remote files</li>
+<li>Use <code>exit</code> to log off, return to local shell</li>
+</ol>
+<p><br> <br> <br></p>
+<pre><code># Familiarize with local shell appearance
+# Briefly explore your local files
+ls -l
+# Log in to the aws instance via ssh
+ssh &lt;username&gt;@bfx-workshop01.med.umich.edu
+# Familiarize yourself with differences between local and remote shell
+# Briefly explore remote files
+ls -l
+# Log off, return to local shell
+exit</code></pre>
+<p><br> <br> <br></p>
+<details>
+<summary>
+Click here for demonstration of local (git-bash on Windows) vs remote (AWS)
+</summary>
+<p><img src="images/local_v_remote.gif" width="800" /></p>
+</details>
+<p><br> <br> <br></p>
+</div>
+<div id="orientation-exercise" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> Orientation exercise</h2>
+<p>Note: We will provide additional time during this exercise to ensure that everyone is prepared to move forward.</p>
+<p>Orientation exercise:</p>
+<ol style="list-style-type: decimal">
+<li>Log in (or confirm logged in) to aws instance</li>
+<li>Ensure in home directory with <code>cd</code></li>
+<li>Use <code>ls</code> to view references</li>
+<li>Use <code>ls</code> to view input fastq files</li>
+<li>Use <code>mkdir</code> to create a folder for our analysis</li>
+</ol>
+<p><br> <br> <br></p>
+<pre><code># Log in to aws remote
+ssh &lt;username&gt;@bfx-workshop01.med.umich.edu
+# Ensure we are in home directory
+cd
+# View our references
+ls ~/data/refs
+# View our input fastq files
+ls ~/data/reads
+# Create a folder for our analysis
+mkdir ~/analysis</code></pre>
+<p><br> <br> <br> <br> <br> <br> <img src="images/building-blocks-checkmark.png" width="800" /> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br></p>
+</div>
+</div>
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiRGF5IDEgLSBNb2R1bGUgMDE6IFdhcm1pbmcgdXAiCmF1dGhvcjogIlVNIEJpb2luZm9ybWF0aWNzIENvcmUiCm91dHB1dDoKICAgICAgICBodG1sX2RvY3VtZW50OgogICAgICAgICAgICBpbmNsdWRlczoKICAgICAgICAgICAgICAgIGluX2hlYWRlcjogaGVhZGVyLmh0bWwKICAgICAgICAgICAgdGhlbWU6IHBhcGVyCiAgICAgICAgICAgIHRvYzogdHJ1ZQogICAgICAgICAgICB0b2NfZGVwdGg6IDQKICAgICAgICAgICAgdG9jX2Zsb2F0OiB0cnVlCiAgICAgICAgICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogICAgICAgICAgICBmaWdfY2FwdGlvbjogdHJ1ZQogICAgICAgICAgICBtYXJrZG93bjogR0ZNCiAgICAgICAgICAgIGNvZGVfZG93bmxvYWQ6IHRydWUKLS0tCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyI+CmJvZHl7IC8qIE5vcm1hbCAgKi8KICAgICAgZm9udC1zaXplOiAxNHB0OwogIH0KcHJlIHsKICBmb250LXNpemU6IDEycHQKfQo8L3N0eWxlPgoKIyBXYXJtaW5nIFVwCgpJbiB0aGlzIG1vZHVsZSwgd2Ugd2lsbDoKCiogY292ZXIgYmFzaWMgbWF0ZXJpYWxzIG5lZWRlZAoqIGZhbWlsaWFyaXplIG91cnNlbHZlcyB3aXRoIHJlbW90ZSBjb21wdXRpbmcKKiBwcmVwYXJlIGZvciBsYXRlciBtb2R1bGVzCgojIyBCdWlsZGluZyBCbG9ja3MKCjxicj4KPGJyPgo8YnI+CjxpbWcgc3JjPSJpbWFnZXMvYnVpbGRpbmctYmxvY2tzLnBuZyIgd2lkdGg9IjgwMCIgLz4KPGJyPgo8YnI+Cjxicj4KCgojIyBFeGFtcGxlIEZpbGVzIEV4ZXJjaXNlOgoKMS4gRG93bmxvYWQgdGhlIHppcHBlZCBhcmNoaXZlIGZyb20gdGhlIHNsYWNrIGNoYW5uZWwKMi4gTG9jYXRlLCBtb3ZlIChpZiBkZXNpcmVkKSwgYW5kIHVuemlwIGl0CjMuIFJlbWVtYmVyIGhvdyB0byBhY2Nlc3MgdGhlc2UgZmlsZXMKCjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+CgojIyBMb2NhbCB2cyByZW1vdGUgZXhlcmNpc2U6CgoxLiBCZWNvbWUgZmFtaWxpYXIgd2l0aCB0aGUgZGlmZmVyZW50IGFwcGVhcmFuY2Ugb2YgdGhlIGxvY2FsIHNoZWxsCjIuIEJyaWVmbHkgZXhwbG9yZSB5b3VyIGxvY2FsIGZpbGVzCjMuIExvZyBpbiB0byB0aGUgYXdzIGluc3RhbmNlIHdpdGggYHNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHVgCjQuIEJlY29tZSBmYW1pbGlhciB3aXRoIGFwcGVhcmFuY2Ugb2YgdGhlIHJlbW90ZSBzaGVsbAo1LiBCcmllZmx5IGV4cGxvcmUgcmVtb3RlIGZpbGVzCjYuIFVzZSBgZXhpdGAgdG8gbG9nIG9mZiwgcmV0dXJuIHRvIGxvY2FsIHNoZWxsCgo8YnI+Cjxicj4KPGJyPgoKYGBgCiMgRmFtaWxpYXJpemUgd2l0aCBsb2NhbCBzaGVsbCBhcHBlYXJhbmNlCiMgQnJpZWZseSBleHBsb3JlIHlvdXIgbG9jYWwgZmlsZXMKbHMgLWwKIyBMb2cgaW4gdG8gdGhlIGF3cyBpbnN0YW5jZSB2aWEgc3NoCnNzaCA8dXNlcm5hbWU+QGJmeC13b3Jrc2hvcDAxLm1lZC51bWljaC5lZHUKIyBGYW1pbGlhcml6ZSB5b3Vyc2VsZiB3aXRoIGRpZmZlcmVuY2VzIGJldHdlZW4gbG9jYWwgYW5kIHJlbW90ZSBzaGVsbAojIEJyaWVmbHkgZXhwbG9yZSByZW1vdGUgZmlsZXMKbHMgLWwKIyBMb2cgb2ZmLCByZXR1cm4gdG8gbG9jYWwgc2hlbGwKZXhpdApgYGAKCgo8YnI+Cjxicj4KPGJyPgoKPGRldGFpbHM+CjxzdW1tYXJ5PkNsaWNrIGhlcmUgZm9yIGRlbW9uc3RyYXRpb24gb2YgbG9jYWwgKGdpdC1iYXNoIG9uIFdpbmRvd3MpIHZzIHJlbW90ZSAoQVdTKTwvc3VtbWFyeT4KCjxpbWcgc3JjPSJpbWFnZXMvbG9jYWxfdl9yZW1vdGUuZ2lmIiB3aWR0aD0iODAwIiAvPgoKPC9kZXRhaWxzPgoKPGJyPgo8YnI+Cjxicj4KCiMjIE9yaWVudGF0aW9uIGV4ZXJjaXNlCgpOb3RlOiBXZSB3aWxsIHByb3ZpZGUgYWRkaXRpb25hbCB0aW1lIGR1cmluZyB0aGlzIGV4ZXJjaXNlIHRvIGVuc3VyZSB0aGF0IGV2ZXJ5b25lIGlzIHByZXBhcmVkIHRvIG1vdmUgZm9yd2FyZC4KCk9yaWVudGF0aW9uIGV4ZXJjaXNlOgoKMS4gTG9nIGluIChvciBjb25maXJtIGxvZ2dlZCBpbikgdG8gYXdzIGluc3RhbmNlCjIuIEVuc3VyZSBpbiBob21lIGRpcmVjdG9yeSB3aXRoIGBjZGAKNC4gVXNlIGBsc2AgdG8gdmlldyByZWZlcmVuY2VzCjUuIFVzZSBgbHNgIHRvIHZpZXcgaW5wdXQgZmFzdHEgZmlsZXMKNi4gVXNlIGBta2RpcmAgdG8gY3JlYXRlIGEgZm9sZGVyIGZvciBvdXIgYW5hbHlzaXMKCjxicj4KPGJyPgo8YnI+CgpgYGAKIyBMb2cgaW4gdG8gYXdzIHJlbW90ZQpzc2ggPHVzZXJuYW1lPkBiZngtd29ya3Nob3AwMS5tZWQudW1pY2guZWR1CiMgRW5zdXJlIHdlIGFyZSBpbiBob21lIGRpcmVjdG9yeQpjZAojIFZpZXcgb3VyIHJlZmVyZW5jZXMKbHMgfi9kYXRhL3JlZnMKIyBWaWV3IG91ciBpbnB1dCBmYXN0cSBmaWxlcwpscyB+L2RhdGEvcmVhZHMKIyBDcmVhdGUgYSBmb2xkZXIgZm9yIG91ciBhbmFseXNpcwpta2RpciB+L2FuYWx5c2lzCmBgYAoKCjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+CjxpbWcgc3JjPSJpbWFnZXMvYnVpbGRpbmctYmxvY2tzLWNoZWNrbWFyay5wbmciIHdpZHRoPSI4MDAiIC8+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cjxicj4KPGJyPgo8YnI+Cg==</div>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeSourceEmbed("Module01_Warming_Up.md");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
